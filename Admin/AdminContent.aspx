@@ -2,6 +2,14 @@
     CodeFile="AdminContent.aspx.cs" Inherits="Admin_AdminContent" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<style type="text/css">
+    .UserDetailHeader
+    {
+       width:150px;
+       float:left;    
+    }
+ 
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="mid-container" style="margin: 20px 0 0 205px;">
@@ -21,8 +29,8 @@
                     <tbody>
                         <tr>
                             <td class="UserDetailHeader" align="right">
-                      <span id="Span1" style="color: #FF0000">*</span> <span class="standardText" id="Span7">
-                                    Categorys:</span>
+                      <span style="color: #FF0000">*</span>
+                       <asp:Label ID="Label1" runat="server" Text="Category:"></asp:Label>
                             </td>
                             <td width="750" style="height: 19px">
 
@@ -33,8 +41,9 @@
                         </tr>
                         <tr>
                             <td class="UserDetailHeader" align="right">
-                                <span id="Span6" style="color: #FF0000">*</span> <span class="standardText" id="UploadFileTitle">
-                                    File Upload:</span>
+                                <span id="Span6" style="color: #FF0000">*</span> 
+                                 <asp:Label ID="Label2" runat="server" Text="File Upload:"></asp:Label>
+                                
                             </td>
                             <td>
                                 <asp:FileUpload ID="uplProduct" runat="server" Width="350px" />
