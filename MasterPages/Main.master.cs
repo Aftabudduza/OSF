@@ -14,6 +14,6 @@ public partial class MasterPages_Main : System.Web.UI.MasterPage
         {
             Response.Redirect("../Admin/Login.aspx");
         }
-        lblCopyright.Text = string.Format("Copyright &copy; OSFphila {0}.", DateTime.UtcNow.Year);
+        
     }
 }

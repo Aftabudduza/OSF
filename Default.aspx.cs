@@ -12,9 +12,16 @@ public partial class _Default : System.Web.UI.Page
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        lblCopyright.Text = string.Format("Copyright &copy; OSFphila {0}.", DateTime.UtcNow.Year);
-        _catID = (int)SectionTypeEnum.News;
-        GeneratePage(_catID, DateTime.MinValue, DateTime.MinValue);
+        if (Session["UserID"] != null)
+        {
+           
+            _catID = (int)SectionTypeEnum.News;
+            GeneratePage(_catID, DateTime.MinValue, DateTime.MinValue);
+        }
+        else
+        {
+            Response.Redirect("~/Admin/Login.aspx");
+        }
     }
     #endregion
 

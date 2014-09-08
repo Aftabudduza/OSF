@@ -1,0 +1,2 @@
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="Footer.ascx.cs" Inherits="Controls_Footer" %>
+<asp:Label style="width:100%;text-align:center;float:left;" ID="lblCopyright" runat="server" Text=""></asp:Label>
