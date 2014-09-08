@@ -1,0 +1,835 @@
+﻿    /*************Reset CSS Property******************/
+    html, body, div, span,   
+    h1, h2, h3, h4, h5, h6, p, blockquote, pre,  
+    a, abbr, acronym, address, big, cite, code,  
+    ins, kbd, q, s, samp,  
+    small, strike, strong,   
+    dl, dt, dd, ol, ul, li,  
+    fieldset, form, label, legend,  
+    caption{  
+    margin: 0;  
+    padding: 0;  
+    border: 0;  
+    outline: 0;  
+    font-size: 100%;  
+    vertical-align: baseline;  
+    background: transparent;  
+    }  
+    img
+    {
+        border:none;
+    }
+    
+    body {  
+    line-height: 1;
+    background-color:White;
+    width:100%;
+    height:100%;
+     
+    }  
+    ol, ul {  
+    list-style: none;  
+    }  
+    blockquote, q {  
+    quotes: none;  
+    }  
+    blockquote:before, blockquote:after,  
+    q:before, q:after {  
+    content: '';  
+    content: none;  
+    }  
+  
+    table {  
+    border-collapse: collapse;  
+    border-spacing: 0;  
+    }
+
+    /*End Of Reset css properties*/
+
+
+
+    #page 
+    {
+    float:left;
+    width:100%;
+    height:auto;
+    overflow: hidden;
+    }
+
+
+    .wrapper 
+    {
+    width:1306px;
+    margin:0 auto;
+    }
+
+    .header {
+    float:left;
+    width:1366px;
+    height:auto;
+    }
+
+    .header-top {
+    width:1366px;
+    height:192px;
+    margin:0 auto;
+    background:url(../images/banner.png) no-repeat;
+    }
+
+    .header-menu {
+    height: auto;
+    position: absolute;
+    right: 16%;
+    top: 175px;
+    width: 25%;
+    }
+
+    .header-menu ul {
+    margin:0;
+    padding:0;
+    }
+
+    .header-menu ul li {
+    color: #000;
+    float: left;
+    font-size: 10px;
+    list-style: none outside none;
+    padding: 0 3px;
+    }
+
+    .header-menu ul li a {
+    font-family:Verdana;
+    font-size:10px;
+    color:#000;
+    text-decoration:none;
+    }
+
+    .header-menu ul li a:hover {
+    color:#000;
+    }
+
+    /* Navigation */
+
+    #navigation {
+    float:left;
+    width:100%;
+    height:40px;
+    
+    background:#f3d6f4;
+    }
+
+    .nav {
+    float:left;
+    width:100%;
+    }
+
+    .nav ul {
+    margin:0;
+    padding:0;
+    }
+
+    .nav ul li {
+    color: #000;
+    float: left;
+    font-size: 10px;
+    list-style: none outside none;
+    padding: 0 6px;
+    line-height:39px;
+    }
+
+    .nav ul li:first-child {
+    padding-left:0;
+    }
+
+    .nav ul li a {
+    font-family:Verdana;
+    font-size:11px;
+    color:#000;
+    text-decoration:none;
+    }
+
+    .nav ul li a:hover {
+    color:#55AAFF;
+    }
+    .search-form {
+    border: 1px solid #000;
+    float: right;
+    margin-bottom: 0.7%;
+    margin-right: 32px;
+    margin-top: 0.7%;
+    width: 225px;
+    }
+
+    .search-form form {
+    float:right;
+    width:100%;
+    }
+
+    .search-form input[type="text"] {
+    background: none repeat scroll 0 0 #fff;
+    border: medium none;
+    color: black;
+    float: left;
+    font-weight: bold;
+    height: 20px;
+    line-height: 20px;
+    /* padding: 0 30px 0 9px;*/
+    width: 185px;
+    }
+
+    .search-form input[type="submit"] {
+    background: url("../images/SearchIcon1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+    cursor: pointer;
+    float: right;
+    height: 17px;
+    position: relative;
+    right: 10px;
+    top: 4px;
+    width: 17px;
+    }
+
+    /* End Navigation */
+
+    /* End Header */
+
+
+
+    /*Container*/
+
+    .container 
+    {
+    float:left;
+    width:100%;
+    height:auto;
+    margin:20px 0;
+    }
+
+    .left-sidebar,.right-sidebar
+    {
+    float:left;
+    width:180px;
+    height:auto;
+    }
+    .right-sidebar{float:right;}
+
+    .mid-container {
+    float: left;
+    width: 906px;
+    padding: 0 20px;
+    height:auto;
+    }
+
+    .colomn 
+    {
+    float:left;
+    clear:both;
+    width:100%;
+    height:auto;
+    margin-bottom:20px;
+    }
+
+    .colomn h3 
+    {
+    font-family:Arial;
+    font-size:13px;
+    font-weight:bold;
+    color:#000;
+    line-height:25px;
+    background:url(../images/colomn-bg2.png) no-repeat ;
+    padding-left:10px;
+    }
+
+    .check,
+    .illnesses,
+    .notices,
+    .link,
+    .alerts,
+    .events,
+    .prayer
+    {
+    float: left;
+    width: 99%;
+    height: auto;
+    border:1px solid #4fd2f1;
+    position:relative;
+    top:-1px
+    }
+
+
+    .check ul,
+    .illnesses ul,
+    .notices ul,
+    .link ul,
+    .alerts ul,
+    .events ul,
+    .prayer ul
+    {
+    float:left;
+    padding:0;
+    margin:0;
+    width:100%;
+    }
+
+    .check ul li ,
+    .illnesses ul li,
+    .notices ul li,
+    .link ul li,
+    .alerts ul li,
+    .events ul li,
+    .prayer ul li
+    {
+    display:block;
+    line-height:25px;
+    margin-left:10px;
+    margin-right: 5px;
+    }
+
+    .check ul li a ,
+    .illnesses ul li a,
+    .notices ul li a,
+    .link ul li a,
+    .alerts ul li a,
+    .events ul li a,
+    .prayer ul li a
+    {
+    font-family:Verdana;
+    font-size:13px;
+    color:#000;
+    line-height:13px;
+
+    }
+    .check ul li a:hover ,
+    .illnesses ul li a:hover,
+    .notices ul li a:hover,
+    .link ul li a:hover,
+    .alerts ul li a:hover,
+    .events ul li a:hover,
+    .prayer ul li a:hover
+    {
+    color:#4fd2f1;
+    }
+    .archive ,.listing
+    {
+    text-align:center;
+    line-height:35px !important;
+    border-top:1px solid #4fd2f1;
+    margin-left:0px !important;
+    margin-top: 10px;
+    }
+    .notices ul li span,
+    .alerts ul li span,
+    .events ul li span,
+    .prayer ul li span
+    {
+    font-family:Verdana;
+    font-size:13px;
+    font-weight:bold;
+    display:block;
+    float:left;
+    width:100%;
+    }
+
+    .community-news-link 
+    {
+    font-family:Verdana;
+    font-size:13px;
+    color:#4fd2f1;
+    }
+
+    .community-news-link:hover 
+    {
+    color:#000;
+    }
+
+
+    .mid-container h3 
+    {
+    font-family:Arial;
+    font-size:13px;
+    font-weight:bold;
+    color:#000;
+    line-height:25px;
+    background:url(../images/colomn-bg2.png) no-repeat ;
+    padding-left:10px;
+    width:95%;
+    }
+
+    .news-osf
+    {
+    float: left;
+    width: 99%;
+    height: auto;
+    border:1px solid #4fd2f1;
+    position:relative;
+    top:-1px
+    padding-bottom: 20px;
+
+    }
+    .recent-news
+    {
+    float:left;
+    width:97%;
+    height:auto;
+    margin:10px 10px 25px 15px;
+    }
+
+    .recent-news p 
+    {
+    font-family:Verdana;
+    font-size:13px;
+    line-height:25px;
+    color:#000;
+    }
+
+    .recent-news p strong { margin-right:10px; }
+    .recent-news p a
+    {
+    color:#308e5d;
+    }
+
+    .listing
+    {
+    width:100%;
+    display:block;
+    float:left;
+    color:#000;
+    font-family:Verdana;
+    font-size:13px;
+    }
+
+    /*End Container*/
+
+    /* Footer */
+
+    .footer {
+    float:left;
+    width:100%;
+    text-align:center;
+    font-family:Verdana;
+    font-size:13px;
+    color:#000;
+    height:40px;
+    line-height:40px;
+    background:#f3d6f4;
+    }
+
+
+    /*Added by sazzad 18 Aug */
+
+    /* Default CSS Stylesheet for a new Web Application project */
+    @media screen
+    {
+
+
+    .ContentBlock
+    {
+    background-color: #ffffff;
+    /*border-width: 1px;
+    border-style: solid;
+    border-color: #F3D6F4;*/
+	
+    }
+
+
+    .HeaderTD
+    {
+    vertical-align: top;
+    }
+
+    .HeaderButton
+    {
+    background-color: #000000;	
+    }
+
+    .HeaderText
+    {
+    color: #FFFFFF;
+    font-size: 7pt;
+    font-weight: bolder;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 1 5 3 5;
+    }
+
+    .HeaderTextBox
+    {
+    font-size: 7pt;
+    font-weight: bolder;
+    font-family: Verdana, Arial, Helvetica, sans-serif;	
+    }
+
+    A:link.SearchLink, A:visited.SearchLink, A:hover.SearchLink, A:active.SearchLink
+    {
+    text-decoration: none;
+    color: #FFFFFF;
+    font-size: 7pt;
+    font-weight: bolder;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+	
+    A:link.SystemLink, A:visited.SystemLink, A:hover.SystemLink, A:active.SystemLink
+    {
+    text-decoration: none;
+    color: White;
+    font-size: 7pt;
+    font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    }
+
+    A:link.HeaderLink, A:visited.HeaderLink
+    {
+    text-decoration: none;
+    background-color: #CCCC99;
+    color: #000000;
+    font-size: 7pt;
+    font-weight: bolder;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    padding: 1 5 3 5;
+    }
+
+    A:hover.HeaderLink
+    {
+    background-color: #FFFFCF;
+    padding: 1 4 3 4;
+    border-width: 1px;
+    border-color: Black;
+    border-style: solid;
+    }
+	
+    .standardButton
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    }
+    .standardTextbox
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    }
+    .textboxCaption
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    }
+    .tableHeader
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    }
+    .errorStatus 
+    { 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #ff0000; 
+    font-family: Verdana, Arial, Helvetica, sans-serif; 
+    } 
+    .goodStatus 
+    { 
+    font-weight: bold; 
+    font-size: 8pt; 
+    color: #006600; 
+    font-family: Verdana, Arial, Helvetica, sans-serif; 
+    }
+
+    TD
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    FONT-WEIGHT: normal;
+    }
+    .standardText
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    }
+    .standardTextBold
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    }
+
+    .UnderDevelopment
+    {
+    visibility: hidden;	
+    }
+
+    .TitleText
+    {
+    font-family: Arial;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: normal;
+    margin: 0 0 0 0;
+    vertical-align: text-top;
+    }
+	
+    .UserDetailHeader
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: right;
+    padding: 3px 15px;
+    }
+    .UserDetailLabel
+    {
+    FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    padding: 0 10px;
+    float:left;
+    font-weight: normal;
+    }
+	
+    .SearchResultsRow
+    {
+    border-bottom-width: thin;
+    border-bottom-style: solid;
+    border-bottom-color: #EFF0E0;
+    }
+	
+    .ForumTitle
+    {
+    font-size: 9pt;
+    font-weight: bold;
+    }
+    }
+
+    @media print
+    {
+
+    .NavButton
+    {
+    display:none;	
+    }
+	
+    }
+    .innerDivCat
+    {
+    margin: 10px 10px 10px 19px;
+    float:left ;
+    width:100%;   
+    }
+
+    .OSFTextBox
+    {
+    float:left;
+
+    color:#000;
+    width:200px;
+    height:25px;
+    border:none;
+    margin-top:2px;
+    outline:0px;
+    margin-bottom:6px;
+    border:1px solid #bababa;           
+    -webkit-border-radius:6px 6px 6px 6px;
+    -moz-border-radius:6px 6px 6px 6px;
+    border-radius:6px 6px 6px 6px;
+    behavior: url(../PIE.htc);
+    position:relative;
+
+    }
+
+    .OSFPopupTextBox
+    {
+    border: 1px solid #bababa;
+    border-radius:6px 6px 6px 6px;
+    color: #000;
+    float: left;
+    height: 20px;
+    margin: 4px 10px 3px;
+    outline: 0 none;
+    position: relative;
+    width: 200px; 
+    -webkit-border-radius:6px 6px 6px 6px;
+    -moz-border-radius:6px 6px 6px 6px;
+    behavior: url(../PIE.htc);
+
+    }
+
+    .Left-85P-container {
+    float: left;
+    width: 1086px;
+    padding: 0 20px;
+    height:auto;
+    }
+
+    .Left-85P-container h3 {
+    background: url("../images/colomn-bg2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #000;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 25px;
+    padding-left: 10px;
+    width: 99%;
+    }
+
+    .left-15p-sidebar,.right-15p-sidebar
+    {
+    float:left;
+    width:180px;
+    height:auto;
+    }
+
+    .OSFDateWiseSearchTextBox
+    {
+    float:left;
+
+    color:#000;
+    width:100px;
+    height:23px;
+    border:none;
+    margin-top:2px;
+    outline:0px;
+    margin-bottom:6px;
+    border:1px solid #bababa;           
+    -webkit-border-radius:6px 6px 6px 6px;
+    -moz-border-radius:6px 6px 6px 6px;
+    border-radius:6px 6px 6px 6px;
+    behavior: url(../PIE.htc);
+    position:relative;
+
+    }
+
+    .watermarked {
+    background-color: #f0f8ff;
+    border: 1px solid #bebebe;
+    color: gray;
+    height: 20px;
+    padding: 2px 0 0 2px;
+    width: 150px;
+    }
+
+
+    .clsPopUp
+    {
+    margin-bottom: 20px;
+    max-height: 500px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    width: 98%;
+    }
+    .clsPopUp h3 {
+    background: none repeat scroll 0 0 #fff;
+    color: #000;
+    font-family: Arial;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 25px;
+    padding-bottom: 10px;
+    padding-right: 0;
+    padding-top: 10px;
+    text-align: center;
+    width: 100%;
+    }
+
+    .OFSh3
+    {
+    background: url("../images/colomn-bg2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: #000;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 25px;
+    padding-left: 10px;
+    width: 99%;
+    }
+
+    .MYtable {  
+    border-collapse: collapse;  
+    border-spacing: 0;  
+    }
+
+    .ButtonOSF {
+    background: none repeat scroll 0 0 #d24d8a;
+    border: 0 none;
+    border-radius: 6px;
+    color: #fff;
+    cursor: pointer;
+    font-family: arial,helvetica,sans serif;
+    font-size: 14px;
+    font-weight: 700;
+    height: 24px;
+    line-height: 8px;
+    margin: 3px 10px 0 0;
+    padding: 6px;
+   
+    }
+
+    /*Added by sazzad 18 Aug */
+    .PopupMainBg
+    {
+    height: 100% !important;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width:100% !important;
+    z-index: 10000;
+    background:#000 !important;
+    opacity:0.5 !important;	
+    }
+    .popuptdspan
+    {
+    float: left;
+    font-size: 13px;
+    margin-left: 47%;
+    padding: 10px 0;	
+	
+    }
+    /********* Amin ******************/
+    .clsDiv1
+    {	
+            
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 12px;
+    float: left;
+    overflow: hidden;
+    position: absolute;
+    }
+    .clsDiv2
+    {
+    float: left;
+    max-height: 600px;
+    overflow-y: scroll;
+    margin: auto;
+    position: absolute;
+    top: 10px;
+    }
+        
+    #LocationList
+    {
+    width: 198px;
+    }
+    .bg
+    {
+    background: #FFF;
+    }
+    .pnlpopupclass
+    {
+	
+    left: 24% !important;
+    
+    top: 10% !important;
+   
+    }
+    
+    .form_header
+    {
+        font-size: Large;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        float: left;
+        margin-top: 15px;
+    }
+    
+    .form_label
+    {
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 11px;
+        padding: 0 12px;
+    }
