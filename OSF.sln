@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "OSF", ".", "{A971ED75-076E-4380-A160-8B48E36374B6}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "trunk", ".", "{A971ED75-076E-4380-A160-8B48E36374B6}"
 	ProjectSection(WebsiteProperties) = preProject
 		SccProjectName = "Svn"
 		SccAuxPath = "Svn"
@@ -9,20 +9,20 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "OSF", ".", "{A971ED75-076E-
 		SccProvider = "SubversionScc"
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/OSF"
-		Debug.AspNetCompiler.PhysicalPath = "..\Project\"
+		Debug.AspNetCompiler.PhysicalPath = "..\trunk\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\OSF\"
 		Debug.AspNetCompiler.Updateable = "true"
 		Debug.AspNetCompiler.ForceOverwrite = "true"
 		Debug.AspNetCompiler.FixedNames = "false"
 		Debug.AspNetCompiler.Debug = "True"
 		Release.AspNetCompiler.VirtualPath = "/OSF"
-		Release.AspNetCompiler.PhysicalPath = "..\Project\"
+		Release.AspNetCompiler.PhysicalPath = "..\trunk\"
 		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\OSF\"
 		Release.AspNetCompiler.Updateable = "true"
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "5446"
+		VWDPort = "3729"
 	EndProjectSection
 	ProjectSection(SvnOrigin) = preProject
 		@Keys = Enlist
