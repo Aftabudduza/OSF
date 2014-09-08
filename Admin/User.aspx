@@ -918,7 +918,7 @@
                                                     &nbsp;
                                                 </td>
                                             </tr>
-                                             <tr class="bg">
+                                            <tr class="bg">
                                                 <td align="center" colspan="9">
                                                     &nbsp;
                                                 </td>
@@ -981,10 +981,9 @@
                                                 </td>
                                             </tr>
                                             <tr class="bg">
-                                                 <td align="right" class="style1">
+                                                <td align="right" class="style1">
                                                     &nbsp;
                                                 </td>
-                                               
                                                 <td align="right" class="form_label">
                                                     Global Admin:
                                                 </td>
@@ -1009,7 +1008,6 @@
                                                 <td align="right" class="style1">
                                                     <%--  Global Forum Admin:--%>
                                                 </td>
-                                              
                                             </tr>
                                             <tr class="bg">
                                                 <td align="right" class="form_label">
@@ -1030,11 +1028,13 @@
                                             <tr class="bg">
                                                 <td align="center" colspan="9">
                                                     <%--<b>Area Chapter Permissions</b>--%>
-                                                    <b>Section Permissions</b></td>
+                                                    <b>Section Permissions</b>
+                                                </td>
                                             </tr>
                                             <tr class="bg">
                                                 <td align="center" colspan="9">
-                                                    <asp:CheckBoxList ID="chkHeaderList" runat="server" RepeatDirection="Horizontal" RepeatColumns="7">
+                                                    <asp:CheckBoxList ID="chkHeaderList" runat="server" RepeatDirection="Horizontal"
+                                                        RepeatColumns="7">
                                                     </asp:CheckBoxList>
                                                     &nbsp;
                                                 </td>
@@ -1066,21 +1066,21 @@
                                                     <b>Details Permissions</b>
                                                 </td>
                                             </tr>
-                                             <tr class="bg">
+                                            <tr class="bg">
                                                 <td align="center" colspan="9">
                                                     &nbsp;
                                                 </td>
                                             </tr>
                                             <tr class="bg">
                                                 <td align="right" colspan="3" style="vertical-align: top;">
-                                                    &nbsp;</td>
+                                                    &nbsp;
+                                                </td>
                                                 <td align="left" colspan="6">
                                                     <asp:TreeView ID="LinksTreeView" runat="server" EnableClientScript="true" Font-Name="Arial"
                                                         ForeColor="Black" OnTreeNodeCheckChanged="LinksTreeView_TreeNodeCheckChanged"
                                                         PopulateNodesFromClient="true">
                                                     </asp:TreeView>
                                                 </td>
-                                                                                            
                                             </tr>
                                             <tr class="bg">
                                                 <td align="center" colspan="9">
@@ -1118,7 +1118,7 @@
         <asp:Panel ID="pnlpopupViewUser" runat="server" CssClass="pnlpopupclass" BackColor="White"
             Style="display: none;">
             <div class="clsDiv1">
-                <h3  style="margin-bottom:10px;">
+                <h3 style="margin-bottom: 10px;">
                     User Details</h3>
                 <div class="clsPopUp">
                     <table width="700px" cellspacing="5" cellpadding="0" border="0">
@@ -1136,7 +1136,6 @@
                                 <td>
                                     <asp:Label ID="lblLastName" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                              
                             </tr>
                             <tr>
                                 <td colspan="4">
@@ -1215,7 +1214,7 @@
                                 </td>
                                 <td>
                                     <asp:Label ID="lblHomeStreet2" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
-                                </td>                               
+                                </td>
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1230,7 +1229,6 @@
                                 <td>
                                     <asp:Label ID="lblHomeState" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                              
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1245,7 +1243,6 @@
                                 <td>
                                     <asp:Label ID="lblHomeZip" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                               
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1260,7 +1257,6 @@
                                 <td>
                                     <asp:Label ID="lblHomeEmail" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                              
                             </tr>
                             <tr>
                                 <td colspan="4">
@@ -1285,7 +1281,7 @@
                                 <td>
                                     <asp:Label ID="lblMinistry1Classification" runat="server" CssClass="UserDetailLabel"
                                         Text=""></asp:Label>
-                                </td>                              
+                                </td>
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1309,7 +1305,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry1Stree2" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                                
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1324,7 +1319,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry1State" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                               
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1339,7 +1333,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry1Zip" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                               
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1354,7 +1347,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry1Fax" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                               
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1390,7 +1382,6 @@
                                     <asp:Label ID="lblMinistry2Classification2" runat="server" CssClass="UserDetailLabel"
                                         Text=""></asp:Label>
                                 </td>
-                              
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1414,7 +1405,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry2street2" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                              
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1429,7 +1419,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry2State" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                            
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1444,7 +1433,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry2Zip" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                            
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1459,7 +1447,6 @@
                                 <td>
                                     <asp:Label ID="lblMinistry2Fax" runat="server" CssClass="UserDetailLabel" Text=""></asp:Label>
                                 </td>
-                             
                             </tr>
                             <tr>
                                 <td class="UserDetailHeader">
@@ -1495,7 +1482,6 @@
                                 <td>
                                     &nbsp;
                                 </td>
-                             
                             </tr>
                             <tr>
                                 <td align="center" colspan="4">
@@ -1506,7 +1492,7 @@
                             <tr>
                                 <td colspan="4" style="height: 20px">
                                 </td>
-                            </tr>                           
+                            </tr>
                         </tbody>
                     </table>
                 </div>
