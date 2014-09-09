@@ -49,7 +49,7 @@ public partial class Admin_AdminChapterDirectivesTopic : System.Web.UI.Page
         try
         {
 
-            DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + catID + "' ");
+            DataTable objDataTable = objCategories.getRows("*", "CategoryTypeID = '" + catID + "' ");
 
 
             ddlCategoryListL1.AppendDataBoundItems = true;

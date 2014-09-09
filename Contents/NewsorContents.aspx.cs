@@ -99,7 +99,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
         if (Convert.ToInt32(Request["SectionTypeID"]) == (int)SectionTypeEnum.News)
         {
             cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
-            lblRcentTitle.Text = "Recent News at OSF";
+            lblRcentTitle.Text = "News at OSF";
         }
         else
         {
@@ -108,7 +108,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
             SectionTypeEnum enumDisplayStatus = ((SectionTypeEnum)catID);
             string stringValue = enumDisplayStatus.ToString();
 
-            lblRcentTitle.Text = string.Format("Recent {0}s at OSF",stringValue);
+            lblRcentTitle.Text = string.Format("Recent {0}s",stringValue);
             cObjs = contents.getRecordsWithPermission(catID, fromdate, todate, Convert.ToInt32(Session["UserID"]));
         }
 
