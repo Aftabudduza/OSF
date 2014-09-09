@@ -13,11 +13,11 @@
                 <tbody>
                     <tr>
                         <td class="standardText">
-                            <strong>Add content</strong>
+                           <span style=" ></span><strong>Add content</strong>
                         </td>
                         <td class="standardText">
                             <strong>List</strong>
-                        </td>
+                        </td>   
                         <td class="standardText">
                             <strong>Reports</strong>
                         </td>
