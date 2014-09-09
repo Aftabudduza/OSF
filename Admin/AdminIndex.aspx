@@ -48,7 +48,7 @@
                     </td>
                     <td class="standardText">
                                           <a href="ManageCategory.aspx?CategoryID=2&amp;ContentScope=1" id="A9">Category</a>
-                        <%--<a href="AdminEditIsps.aspx" id="ISPLink">Email Providers</a>--%>
+           
                     </td>
                     <td class="standardText">
                         <a href="AdminChapter2008Members.aspx" id="chapter2008">Chapter 2014</a>
@@ -56,9 +56,14 @@
                 </tr>
                 <tr>
                     <td class="standardText">
-   <%--                     <a href="AdminContent.aspx?CategoryID=3&amp;ContentScope=1" id="IllnessLink">Sisters'
-                            Illnesses</a>--%>
+                           <%
+                         if(Convert.ToBoolean(Session["IsGlobalContentAdmin"] ))
+                         { %> 
                             <a href="adminChapterDirectivesTopic.aspx?CategoryID=5&amp" id="CDLink">Chapter Directives</a>
+                                       <% 
+                         }
+                           
+                     %>
                     </td>
                     <td>
                         <a href="AdminLocations.aspx" id="LocationsLink">Locations List</a>
@@ -67,7 +72,7 @@
                         <a id="A6" href="Reports.aspx?Mode=Inactive">View InActive Users </a>
                     </td>
                     <td>
-               <%--         <a href="AdminSurveyIndex.aspx" id="SurveyLink">Surveys</a>--%>
+         
                            <a href="BasicData.aspx?CategoryID=2&amp;ContentScope=1" id="A10">Basic Data</a>
                     </td>
                     <td>
@@ -76,7 +81,12 @@
                 </tr>
                 <tr>
                     <td class="standardText">
+                                    <%
+                                        if (Convert.ToBoolean(Session["IsGlobalContentAdmin"]))
+                                        { %> 
                         <a href="adminBulletinBoard.aspx?CategoryID=6&amp" id="BBLink">Bulletin Board</a>
+                        <%
+                                        } %>
                     </td>
                     <td>
                         <a href="AdminDepartments.aspx" id="DepartmentsLink">Departments List</a>
@@ -85,7 +95,7 @@
                         <a id="A7" href="InActiveUsers.aspx">View Deleted Users </a>
                     </td>
                     <td>
-                        <%--<a href="AdminCommunityNewsImage.aspx" id="CommNewsIconLink">Community News Icon</a>--%>
+                      
                                                 <a id="A1" href="User.aspx?CategoryID=4&amp;ContentScope=1">Users</a>
                     </td>
                     <td>
@@ -94,8 +104,12 @@
                 </tr>
                 <tr>
                     <td class="standardtext">
+                                    <%
+                                        if (Convert.ToBoolean(Session["IsGlobalContentAdmin"]))
+                                        { %> 
                                             <a href="adminReferenceTopic.aspx?CategoryID=80&amp" id="Hyperlink5">Reference</a>
-                        <%--<a href="AdminContent.aspx?CategoryID=33&amp;ContentScope=1" id="HelpLink">Help/Faqs</a>--%>
+                  
+                  <%} %>
                     </td>
                     <td>
                     </td>
