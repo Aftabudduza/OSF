@@ -280,7 +280,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
     private void ControlsAppearence(Boolean show)
     {
         show = true;
-        lblEditCategory.Visible = show;
+        //lblEditCategory.Visible = show;
 
         txtTitleTitle.Visible = show;
 

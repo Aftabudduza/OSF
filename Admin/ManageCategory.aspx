@@ -4,6 +4,13 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script src="../Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <style type="text/css">
+        .UserDetailHeader
+        {
+            width: 160px;
+            float: left;
+        }
+    </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
@@ -169,49 +176,37 @@
     <div class="mid-container" style="margin: 20px 0 0 0; width: 95%;">
         <h3 class="OFSh3">
             Category</h3>
-        <div class="news-osf">
+        <div class="news-osf" style="width: 64%">
             <table cellspacing="0" cellpadding="0" border="0">
                 <tbody>
                     <tr>
                         <td>
-                            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-top: 20px;">
                                 <tbody>
-                                    <tr class="w">
-                                        <td style="font-size: 18px; width: 20%;" id="Td7">
-                                        </td>
-                                        <td style="font-size: 18px; width: 20%;" id="Td8">
-                                        </td>
-                                        <td style="font-size: 18px; width: 20%;" id="Td9">
-                                        </td>
-                                        <td style="font-size: 18px; width: 20%;" id="Td10">
-                                        </td>
-                                        <td style="font-size: 18px; width: 20%;" id="Td11">
-                                        </td>
-                                    </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span7" style="color: #FF0000">*</span> Category Type :
                                         </td>
-                                        <td colspan="1">
-                                            <asp:DropDownList CssClass="OSFTextBox" ID="ddlSectionType" Width="100%" runat="server"
-                                                AutoPostBack="true" OnSelectedIndexChanged="ddlSectionType_SelectedIndexChanged">
+                                        <td width="210px" style="float: left">
+                                            <asp:DropDownList CssClass="OSFTextBox" ID="ddlSectionType" runat="server" AutoPostBack="true"
+                                                OnSelectedIndexChanged="ddlSectionType_SelectedIndexChanged">
                                             </asp:DropDownList>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span6" style="color: #FF0000">*</span> Category Description :
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtCategoryName" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtCategoryName" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span5" style="color: #FF0000">*</span>Sort Order:
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtOrderSeq" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtOrderSeq" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
                                     <tr>
@@ -226,173 +221,140 @@
                                 </tbody>
                             </table>
                         </td>
+                    </tr>
+                    <tr>
                         <td>
                             <table width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <tbody>
                                     <tr>
-                                        <td colspan="1" style="width: 15%">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" style="width: 25%">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" style="width: 20%">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" style="width: 15%">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" style="width: 25%">
-                                            &nbsp;
-                                        </td>
-                                    </tr>
-                                    <tr class="w">
-                                        <td colspan="5" style="font-size: 18px;" id="Td1">
-                                            <asp:Label ID="lblEditCategory" runat="server" Text="Details"></asp:Label>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span2" style="color: #FF0000">*</span>
                                             <asp:Label ID="lblTitleTitle" runat="server" Text=" Title Title :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtTitleTitle" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtTitleTitle" runat="server"></asp:TextBox>
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span1" style="color: #FF0000">*</span>
                                             <asp:Label ID="lblAuthorTitle" runat="server" Text="Author Title :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtAuthorTitle" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtAuthorTitle" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span3" style="color: #FF0000">*</span>
                                             <asp:Label ID="lblDateTitle" runat="server" Text="Date Title :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDateTitle" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDateTitle" runat="server"></asp:TextBox>
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <span id="Span4" style="color: #FF0000">*</span>
                                             <asp:Label ID="lblContentTitle" runat="server" Text="Content Title :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtContentTitle" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtContentTitle" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1">
+                                        <td class="UserDetailHeader">
                                         </td>
-                                        <td colspan="1">
+                                        <td width="210px" style="float: left">
                                             <asp:CheckBox ID="CheckBoxShowTitle" runat="server" Text="ShowTitle" />
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
+                                        <td class="UserDetailHeader">
                                         </td>
-                                        <td colspan="1">
-                                        </td>
-                                        <td colspan="1">
+                                        <td width="210px" style="float: left">
                                             <asp:CheckBox ID="CheckBoxShowAuthor" runat="server" Text="ShowAuthor" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1">
+                                        <td class="UserDetailHeader">
                                         </td>
-                                        <td colspan="1">
+                                        <td width="210px" style="float: left">
                                             <asp:CheckBox ID="CheckBoxShowDate" runat="server" Text="ShowDate" />
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
+                                        <td class="UserDetailHeader">
                                         </td>
-                                        <td colspan="1">
-                                        </td>
-                                        <td colspan="1">
+                                        <td width="210px" style="float: left">
                                             <asp:CheckBox ID="CheckBoxShowContent" runat="server" Text="ShowContent" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <asp:Label ID="lblDefaultTitle" runat="server" Text="Default Title :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultTitle" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultTitle" runat="server"></asp:TextBox>
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <asp:Label ID="lblDefaultAuthor" runat="server" Text="Default Author :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultAuthor" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultAuthor" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <asp:Label ID="lblDefaultDate" runat="server" Text="Default Date :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <%--                                <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultDate" Width="100%" runat="server"></asp:TextBox>
-                                <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="DataTypeCheck"
-                                    Type="Date" ControlToValidate="txtDefaultDate" ErrorMessage="Date for mat MM/dd/yyyy" />--%>
-                                            <asp:TextBox runat="server" ID="txtDefaultDate" CssClass="OSFTextBox" Text=""></asp:TextBox><img
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox runat="server" ID="txtDefaultDate" CssClass="OSFTextBox" Width="175" Text=""></asp:TextBox><img
                                                 style="margin-left: 5px; margin-top: 0;" id="test" src="../App_Themes/images/calender.jpg"
                                                 width="25px" height="30px" />
                                             <asp:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="test"
                                                 TargetControlID="txtDefaultDate">
                                             </asp:CalendarExtender>
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <asp:Label ID="lblDefaultContent" runat="server" Text="Default Content :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultContent" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtDefaultContent" runat="server"></asp:TextBox>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td colspan="1">
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                    <%--                               <tr>
+                                        <td width="210px" style="float: left">
                                             <asp:CheckBox ID="CheckBoxIsQuickLaunch" runat="server" Text="IsQuickLaunch" />
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
-                                        </td>
-                                        <td colspan="1" class="UserDetailHeader">
+                                        <td class="UserDetailHeader">
                                             <asp:Label ID="lblItemsPerPage" runat="server" Text="Items Per Page :"></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            <asp:TextBox CssClass="OSFTextBox" ID="txtItemsPerPage" Width="100%" runat="server"></asp:TextBox>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtItemsPerPage" runat="server"></asp:TextBox>
+                                            <asp:CompareValidator ID="CompareValidator1" runat="server" Operator="DataTypeCheck"
+                                                Type="Integer" ControlToValidate="txtItemsPerPage" ErrorMessage="Value must be an Integer" />
+                                        </td>
+                                    </tr>--%>
+                                    <tr>
+                                        <td class="UserDetailHeader">
+                                        </td>
+                                        <td width="210px" style="float: left">
+                                            <asp:CheckBox ID="CheckBoxIsQuickLaunch" runat="server" Text="IsQuickLaunch" />
+                                        </td>
+                                        <td class="UserDetailHeader">
+                                            <asp:Label ID="lblItemsPerPage" runat="server" Text="Items Per Page :"></asp:Label>
+                                        </td>
+                                        <td width="210px" style="float: left">
+                                            <asp:TextBox CssClass="OSFTextBox" ID="txtItemsPerPage" runat="server"></asp:TextBox>
                                             <asp:CompareValidator ID="CompareValidator1" runat="server" Operator="DataTypeCheck"
                                                 Type="Integer" ControlToValidate="txtItemsPerPage" ErrorMessage="Value must be an Integer" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td colspan="1">
-                                        </td>
-                                        <td colspan="1">
+                                        <td align="center" colspan="2">
                                             <asp:Button CssClass="ButtonOSF" ID="btnSave" runat="server" Text="Save" OnClick="btnSave_Click" />
-                                        </td>
-                                        <td colspan="2">
-                                            &nbsp;
                                             <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
                                         </td>
-                                        <td colspan="1">
-                                            &nbsp;
+                                    </tr>
+                                                   <tr>
+                                        <td align="center" colspan="2">
+                        &nbsp;
                                         </td>
                                     </tr>
+                                </tbody>
                             </table>
                         </td>
                     </tr>

@@ -41,6 +41,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
 
     protected void lbtnEdit_Click(object sender, System.EventArgs e)
     {
+        lblUserNamePermission.Text = "Edit Basic Data";
         btnSave.Text = "Edit";
         txtUserDiefinedID.Enabled = false;
         GridViewRow row = ((LinkButton)sender).Parent.Parent as GridViewRow;
@@ -75,6 +76,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         if (objBasicData.insert())
         {
             DisplayAlert("Basic Data Type Saved Successfully");
+            lblUserNamePermission.Text = "New Basic Data";
         }
         else
         {
