@@ -13,16 +13,16 @@
                 <tbody>
                     <tr>
                         <td class="standardText">
-                          <strong>Add content</strong>
+                           <span class="InternetAdministration_headerspan"><strong>Add content</strong></span>
                         </td>
                         <td class="standardText">
-                            <strong>List</strong>
+                           <span class="InternetAdministration_headerspan"> <strong>List</strong></span>
                         </td>   
                         <td class="standardText">
-                            <strong>Reports</strong>
+                           <span class="InternetAdministration_headerspan"> <strong>Reports</strong></span>
                         </td>
                         <td class="standardText">
-                            <strong>Manage</strong>
+                          <span class="InternetAdministration_headerspan"> <strong>Manage</strong></span>
                         </td>
                     </tr>
                     <tr>
