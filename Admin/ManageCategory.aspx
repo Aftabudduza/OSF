@@ -1,5 +1,5 @@
-﻿<%@ Page Title="OSF::Category Manage" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
-    CodeFile="ManageCategory.aspx.cs" Inherits="Admin_ManageCategory" %>
+﻿<%@ Page Title="OSF::Category Manage" Language="C#" MasterPageFile="~/MasterPages/Main.master"
+    AutoEventWireup="true" CodeFile="ManageCategory.aspx.cs" Inherits="Admin_ManageCategory" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -165,7 +165,7 @@
                             </div>
                         </EmptyDataTemplate>
                         <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
-                        <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" CssClass="headerstyle" />
+                        <HeaderStyle BackColor="#D24D8A" Font-Bold="True" ForeColor="White" CssClass="headerstyle" />
                         <EditRowStyle BackColor="#999999" />
                         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                     </asp:GridView>
@@ -301,9 +301,9 @@
                                             <asp:Label ID="lblDefaultDate" runat="server" Text="Default Date :"></asp:Label>
                                         </td>
                                         <td width="210px" style="float: left">
-                                            <asp:TextBox runat="server" ID="txtDefaultDate" CssClass="OSFTextBox" Width="175" Text=""></asp:TextBox><img
-                                                style="margin-left: 5px; margin-top: 0;" id="test" src="../App_Themes/images/calender.jpg"
-                                                width="25px" height="30px" />
+                                            <asp:TextBox runat="server" ID="txtDefaultDate" CssClass="OSFTextBox" Width="175"
+                                                Text=""></asp:TextBox><img style="margin-left: 5px; margin-top: 0;" id="test" src="../App_Themes/images/calender.jpg"
+                                                    width="25px" height="30px" />
                                             <asp:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="test"
                                                 TargetControlID="txtDefaultDate">
                                             </asp:CalendarExtender>
@@ -349,9 +349,9 @@
                                             <asp:Label ID="lblMessage" runat="server" Text=""></asp:Label>
                                         </td>
                                     </tr>
-                                                   <tr>
+                                    <tr>
                                         <td align="center" colspan="2">
-                        &nbsp;
+                                            &nbsp;
                                         </td>
                                     </tr>
                                 </tbody>
