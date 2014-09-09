@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Contents" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="NewsorContents.aspx.cs" Inherits="Contents_NewsorContents" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>

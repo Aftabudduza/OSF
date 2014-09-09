@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Category" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="Category.aspx.cs" Inherits="Admin_Category" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

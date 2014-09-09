@@ -124,7 +124,7 @@
                                 if (Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
-                            <li><a href="#">Commetee</a></li>
+                            <li><a href="#">Committee</a></li>
                             <%
 } %>
                             <%

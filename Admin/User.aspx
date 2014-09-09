@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF:User" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="User.aspx.cs" Inherits="Admin_User" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Category Manage" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="ManageCategory.aspx.cs" Inherits="Admin_ManageCategory" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>

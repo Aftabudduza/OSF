@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Home Page" Language="C#" CodeFile="Default.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Title="OSF::Home" Language="C#" CodeFile="Default.aspx.cs" Inherits="_Default" %>
 <%@ Register Src="~/Controls/Header.ascx" TagPrefix="OSF" TagName="Header" %>
 <%@ Register Src="~/Controls/Footer.ascx" TagPrefix="OSF" TagName="Footer" %>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Reference" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="AdminReferenceTopic.aspx.cs" Inherits="Admin_AdminReferenceTopic" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

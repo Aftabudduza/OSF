@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Basic Data" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="BasicData.aspx.cs" Inherits="Admin_BasicData" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">

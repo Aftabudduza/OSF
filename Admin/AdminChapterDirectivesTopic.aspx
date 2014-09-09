@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
+﻿<%@ Page Title="OSF::Chapter Directive" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
     CodeFile="AdminChapterDirectivesTopic.aspx.cs" Inherits="Admin_AdminChapterDirectivesTopic" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
