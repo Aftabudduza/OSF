@@ -676,8 +676,8 @@ public partial class Admin_User : System.Web.UI.Page
         if (dt.Rows[0]["ProfessionalYear"] != null)
             txtProfessionalYear.Text = dt.Rows[0]["ProfessionalYear"].ToString();
 
-        if (dt.Rows[0]["CompanionType"] != null)
-            txtMI.Text = dt.Rows[0]["CompanionType"].ToString();
+        if (dt.Rows[0]["MI"] != null)
+            txtMI.Text = dt.Rows[0]["MI"].ToString();
 
         if (dt.Rows[0]["HomeStreet1"] != null)
             txtHomeStreet1.Text = dt.Rows[0]["HomeStreet1"].ToString();
@@ -754,7 +754,7 @@ public partial class Admin_User : System.Web.UI.Page
         if (dt.Rows[0]["Ministry2Phone"] != null)
             txtMinistry2Phone.Text = dt.Rows[0]["Ministry2Phone"].ToString();
 
-        if (dt.Rows[0]["CompanionType"] != null)
+        if (dt.Rows[0]["Ministry2Fax"] != null)
             txtMinistry2Fax.Text = dt.Rows[0]["Ministry2Fax"].ToString();
         if (dt.Rows[0]["Ministry2Email"] != null)
             txtMinistry2Email.Text = dt.Rows[0]["Ministry2Email"].ToString();
@@ -1189,7 +1189,7 @@ public partial class Admin_User : System.Web.UI.Page
                             TreeNode ParentNode = new TreeNode();
                             ParentNode.Text = row["Description"].ToString();
                             ParentNode.Value = row["SectionTypeID"].ToString();
-                            ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
+                           // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
                             ParentNode.ShowCheckBox = true;
                             LinksTreeView.Nodes.Add(ParentNode);
 
@@ -1198,8 +1198,8 @@ public partial class Admin_User : System.Web.UI.Page
                             foreach (ListItem li in chkHeaderList.Items)
                             {
                                 if (li.Value == ParentNode.Value)
-                                { 
-                                   li.Selected =  ParentNode.Checked;
+                                {
+                                    li.Selected = Convert.ToBoolean(row["HasPermission"]);
                                 }
 
                             }
