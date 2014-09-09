@@ -11,7 +11,27 @@ public partial class Admin_adminBulletinBoard : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        LoadComboCategoryList();
+        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        {
+            Response.Redirect("Login.aspx");
+        }
+        else
+        {
+            Users objUser = (Users)Session["User"];
+            UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+            if (!dtUP.IsGlobalContentAdmin)
+            {
+                Response.Redirect("../Default.aspx");
+            }
+
+
+        }
+
+        if (!IsPostBack)
+        {
+            LoadComboCategoryList();
+        }
     }
     protected void btnSubmit_Click(object sender, EventArgs e)
     {

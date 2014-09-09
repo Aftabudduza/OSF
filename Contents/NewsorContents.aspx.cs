@@ -4,14 +4,37 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 
 public partial class Contents_NewsorContents : System.Web.UI.Page
 {
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        int catID = Convert.ToInt32(Request["SectionTypeID"]);
-        GeneratePage(catID,DateTime.MinValue,DateTime.MinValue);
+        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        {
+            Response.Redirect("Login.aspx");
+        }
+        else
+        {
+            //   Users objUser = (Users)Session["User"];
+            //UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+            int catID = Convert.ToInt32(Request["SectionTypeID"]);
+
+            string query = string.Format("SectionID={0} AND IsSection=1", catID);
+            DataRow dr = dtUSP.Select(query).FirstOrDefault();
+            if (!Convert.ToBoolean(dr["HasPermission"]))
+            {
+                Response.Redirect("../Default.aspx");
+            }
+
+        }
+        if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
+        {
+            int catID = Convert.ToInt32(Request["SectionTypeID"]);
+            GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
+        }
     }
     #endregion
 

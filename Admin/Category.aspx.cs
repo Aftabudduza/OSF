@@ -10,6 +10,12 @@ public partial class Admin_Category : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+         
+        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        {
+            Response.Redirect("Login.aspx");
+        }
+
         if (!IsPostBack)
         {
             this.LoadComboCategoryList();

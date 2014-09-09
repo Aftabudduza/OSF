@@ -15,7 +15,11 @@ public partial class Admin_User : System.Web.UI.Page
     bool _isEdit = false;
     protected void Page_Load(object sender, EventArgs e)
     {
-        //LinksTreeView.Attributes.Add("onclick", "postBackByObject()");
+
+        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        {
+            Response.Redirect("Login.aspx");
+        }
       
         if (!IsPostBack)
         {
