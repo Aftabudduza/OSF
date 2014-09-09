@@ -13,7 +13,7 @@
                 <tbody>
                     <tr>
                         <td class="standardText">
-                           <span style=" ></span><strong>Add content</strong>
+                          <strong>Add content</strong>
                         </td>
                         <td class="standardText">
                             <strong>List</strong>
