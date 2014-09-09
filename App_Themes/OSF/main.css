@@ -358,12 +358,11 @@
     .news-osf
     {
     float: left;
-    width: 99%;
+    width: 85%;
     height: auto;
     border:1px solid #4fd2f1;
     position:relative;
-    top:-1px
-    padding-bottom: 20px;
+    top:-1px;
 
     }
     .recent-news
@@ -736,7 +735,7 @@
     font-weight: bold;
     line-height: 25px;
     padding-left: 10px;
-    width: 99%;
+    width: 80%;
     }
 
     .MYtable {  
