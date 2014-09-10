@@ -399,8 +399,6 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
 
         cat.SectionTypeID = Convert.ToInt32(ddlSectionType.SelectedValue.ToString());
-
-
         cat.Description = txtCategoryName.Text;
         cat.IsLeaf = false;
         cat.SortOrder = Convert.ToInt32(txtOrderSeq.Text);

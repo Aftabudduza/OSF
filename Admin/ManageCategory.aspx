@@ -282,6 +282,19 @@
                                             <asp:CheckBox ID="CheckBoxShowContent" runat="server" Text="ShowContent" />
                                         </td>
                                     </tr>
+                                                               <tr>
+                                        <td class="UserDetailHeader">
+                                        &nbsp;
+                                        </td>
+                                        <td width="210px" style="float: left">
+                                            
+                                        </td>
+                                        <td class="UserDetailHeader">
+                                        </td>
+                                        <td width="210px" style="float: left">
+
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td class="UserDetailHeader">
                                             <asp:Label ID="lblDefaultTitle" runat="server" Text="Default Title :"></asp:Label>

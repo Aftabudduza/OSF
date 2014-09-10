@@ -44,7 +44,7 @@
                                     <td class="standardText">
                                         <%--                     <a href="AdminContent.aspx?CategoryID=3&amp;ContentScope=1" id="IllnessLink">Sisters'
                             Illnesses</a>--%>
-                                        <a href="adminChapterDirectivesTopic.aspx?CategoryID=5&amp" id="CDLink">Chapter Directives</a>
+                                        <a href="adminChapterDirectivesTopic.aspx?CategoryID=4&amp" id="CDLink">Chapter Directives</a>
                                     </td>
                                 </tr>
                                 <tr>
@@ -93,7 +93,7 @@
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A7" href="IUnderDev.aspx">View Deleted Users </a>
+                                        <a id="A7" href="UnderDev.aspx">View Deleted Users </a>
                                     </td>
                                 </tr>
                             </table>

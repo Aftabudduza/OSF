@@ -29,10 +29,7 @@ public partial class Admin_Login : System.Web.UI.Page
             try
             {
                 DataTable objUserDataTable = cmscon.getRows(string.Format("SELECT * FROM (SELECT * FROM Users  WHERE Username = '{0}' AND Password='{1}' ) U LEFT Join UserPermissions Up on U.UserID = up.UserID", txtUserName.Text.ToString().Trim(), txtPassword.Text.ToString()));
-
-
-              
-
+                
                 if ((objUserDataTable != null) && objUserDataTable.Rows.Count > 0)
                 {
                     if ((objUserDataTable.Rows[0]["UserID"].ToString() != null) && Convert.ToInt32(objUserDataTable.Rows[0]["UserID"].ToString()) > 0)

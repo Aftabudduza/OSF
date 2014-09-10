@@ -244,13 +244,22 @@
     .illnesses,
     .notices,
     .link,
-    .alerts,
     .events,
     .prayer
     {
     float: left;
     width: 99%;
     height: auto;
+    border:1px solid #4fd2f1;
+    position:relative;
+    top:-1px
+    }
+    
+   .alerts
+    {
+    float: left;
+    width: 99%;
+    min-height:206px; 
     border:1px solid #4fd2f1;
     position:relative;
     top:-1px

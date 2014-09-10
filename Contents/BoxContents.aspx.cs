@@ -31,8 +31,8 @@ public partial class Contents_BoxContents : System.Web.UI.Page
         //}
         //if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
         //{
-        //int catID = Convert.ToInt32(Request["SectionTypeID"]);
-        GeneratePage(0, DateTime.MinValue, DateTime.MinValue);
+        int catID = Convert.ToInt32(Request["SectionTypeID"]);
+        GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
         //}
     }
     #endregion
@@ -42,69 +42,110 @@ public partial class Contents_BoxContents : System.Web.UI.Page
 
     #endregion
 
-    #region Method
+
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
+        List<Categories> cObjs = new List<Categories>();
+        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        
+        CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
 
-         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
 
-            for(int I=0; I<10; I++)
+        //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
+        DataTable dt = cmscon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryTypeID));
+        
+        System.Text.StringBuilder tbl = new System.Text.StringBuilder();
+        int I = -1;
+            foreach(DataRow dr  in dt.Rows)
             {
-                tbl.Append(string.Format(@"<table width='200' cellspacing='0' cellpadding='0' border='0'>
-	                                        <tbody><tr>
-		                                        <td width='17'><img style='border-width:0px;' src='../Images/TitleBar/TitleLeft.gif' id='OneTitle_Image1'></td>
-		                                        <td width='' background='../Images/TitleBar/TitleLeftMiddleSpacer.gif'><span class='TitleText'>AC Planning Time Line</span></td>
-		                                        <td width='17'><img style='border-width:0px;' src='../Images/TitleBar/TitleMiddle.gif' id='OneTitle_Image2'></td>
-		                                        <td width='0px' background='../Images/TitleBar/TitleMiddleSpacer.gif'><span class='TitleText'>&nbsp;</span></td>
-		                                        <td width='1'><img style='border-width:0px;' src='../Images/TitleBar/TitleRight.gif' id='OneTitle_Image3'></td>
-	                                        </tr>
-                                        </tbody></table>"));
+                
+                int itemPerPage = 5;
+                if (!(DBNull.Value == dr["ItemsPerPage"]) && Convert.ToInt32(dr["ItemsPerPage"]) > 0)
+                {
+                    itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);
+                }
+                
+                I++;
+                tbl.Append(string.Format(@"
+                                          <div class='right-15p-sidebar' style='margin: 10px 10px 0;'>
+                                            <div class='colomn'>
+                                                <h3>
+                                                    {1}</h3>
+                                                <div class='alerts'>
+                                                    <table id='tablepaging{0}' width='100%' cellspacing='0' cellpadding='0' border='0'>
+                                                       
+                                                        <tr>
+                                                            <td>
+                                                            ", I, dr["Description"].ToString()) 
+                                                             
+                                                             + this.GenerateBoxData(Convert.ToInt32(dr["CategoryTypeID"])) +
+                                                             
+                                        string.Format(@"
+                                                        </td>
+                                                        </tr>
+                                                    </table>
+                                                   
+                                                </div>
+                                                    <div id='pageNavPosition{0}' style='padding-top: 0' align='center'>
+                                                    </div>
+                                                    <script type='text/javascript'><!--
+                                                            var pager{0} = new Pager('tablepaging{0}', {2});
+                                                            pager{0}.init();
+                                                            pager{0}.showPageNav('pager{0}', 'pageNavPosition{0}');
+                                                            pager{0}.showPage(1);
+                                                    </script>
+                                            </div>
+                                        </div>                  
+                        ", I, dr["Description"].ToString(), itemPerPage ));
             }
 
 
             dynamicDiv.InnerHtml = tbl.ToString();
-
-
-
-        //List<ContentObj> cObjs = new List<ContentObj>();
-        //ContentObj contents = new ContentObj(cmscon.CONNECTIONSTRING);
-
-        //if (Convert.ToInt32(Request["SectionTypeID"]) == (int)SectionTypeEnum.News)
-        //{
-        //    //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
-        //    //lblRcentTitle.Text = "News at OSF";
-        //}
-        //else
-        //{
-        //    int catID = Convert.ToInt32(Request["SectionTypeID"]);
-
-        //    SectionTypeEnum enumDisplayStatus = ((SectionTypeEnum)catID);
-        //    string stringValue = enumDisplayStatus.ToString();
-
-        //    lblRcentTitle.Text = string.Format("Recent {0}s", stringValue);
-        //    cObjs = contents.getRecordsWithPermission(catID, fromdate, todate, Convert.ToInt32(Session["UserID"]));
-        //}
-
-
-        //if ((cObjs != null) & cObjs.Count > 0)
-        //{
-
-        //    System.Text.StringBuilder tbl = new System.Text.StringBuilder();
-
-        //    tbl.Append(" <div class='news-osf'>");
-        //    foreach (ContentObj cO in cObjs)
-        //    {
-        //        tbl.Append(string.Format("<div class='recent-news'> <p> <strong>Date:</strong>{0}</p> <p> <strong>Title:</strong><a href='#'>{1}</a></p> <p> <strong>From:</strong>{2}</p> <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content));
-        //    }
-
-        //    tbl.Append("</div>");
-        //    dynamicDiv.InnerHtml = tbl.ToString();
-
-       // }
-
-
     }
 
-    #endregion
+ private string GenerateBoxData(int catTypeID)
+    {
+
+        List<ContentObj> contents = new List<ContentObj>();
+        ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
+        contents = cObj.getRecords(catTypeID);
+
+
+        System.Text.StringBuilder tbl = new System.Text.StringBuilder();
+        int j = 0;
+        foreach(ContentObj c in contents)
+        {
+            j++;
+            string oddOrEven = "even";
+            if (j % 2 != 0)
+                oddOrEven = "odd";
+            tbl.Append(string.Format(@"
+                                            <tr class='{0}'>
+                                                <td >
+                                                    <table cellspacing='0' border='0' style='border-collapse: collapse;' id='CMList'>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <span class='standardtextbold' id='CMList_ctl00_Label2'>{2}</span><br>
+                                                                    <a href='#'>
+                                                                       {3} </a>
+                                                                    <br>
+                                                                    &nbsp;
+                                                                </td>
+                                                            </tr>                                                         
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                            </tr>               
+                                         ", oddOrEven, j, c.Date.ToString("dd/MM/yyyy"), c.Title));
+
+        }
+        return tbl.ToString();
+                                          
+    
+    }
+
+
+
 
 }
