@@ -358,11 +358,12 @@
     .news-osf
     {
     float: left;
-    width: 85%;
+    width: 99%;
     height: auto;
     border:1px solid #4fd2f1;
     position:relative;
-    top:-1px;
+    top:-1px
+    padding-bottom: 20px;
 
     }
     .recent-news
@@ -541,7 +542,7 @@
     .standardText
     {
     FONT-FAMILY: Verdana, Arial, Helvetica, sans-serif;
-    font-size: 13px;
+    font-size: 11px;
     }
     .standardTextBold
     {
@@ -735,7 +736,7 @@
     font-weight: bold;
     line-height: 25px;
     padding-left: 10px;
-    width: 80%;
+    width: 99%;
     }
 
     .MYtable {  
@@ -831,9 +832,4 @@
         font-family: Verdana,Arial,Helvetica,sans-serif;
         font-size: 11px;
         padding: 0 12px;
-    }
-    .InternetAdministration_headerspan
-    {
-		float:left;
-		margin-left:5px;	
     }

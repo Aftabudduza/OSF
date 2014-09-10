@@ -1,5 +1,5 @@
-﻿<%@ Page Title="OSF::Contents" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
-    CodeFile="NewsorContents.aspx.cs" Inherits="Contents_NewsorContents" %>
+﻿<%@ Page Title="OSF::Contents" Language="C#" MasterPageFile="~/MasterPages/Main.master"
+    AutoEventWireup="true" CodeFile="NewsorContents.aspx.cs" Inherits="Contents_NewsorContents" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -7,11 +7,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <%--<asp:TextBoxWatermarkExtender TextBtoxWatermarkExtender ID="TBWE2" runat="server"    TargetControlID="txtFromDate"    WatermarkText="MM/dd/yyyy"    WatermarkCssClass="watermarked" />--%>
     <div class="container">
-            <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
+        <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
         </asp:ToolkitScriptManager>
         <div class="Left-85P-container">
             <h3>
-               <asp:Label ID="lblRcentTitle" runat="server" Text="Label"></asp:Label></h3>
+                <asp:Label ID="lblRcentTitle" runat="server" Text="Label"></asp:Label></h3>
             <div id="dynamicDiv" runat="server">
             </div>
         </div>
@@ -55,11 +55,11 @@
                             <tr>
                                 <td>
                                     <asp:TextBox CssClass="OSFDateWiseSearchTextBox" ID="txtToDate" runat="server"></asp:TextBox>
-                                         <img style="margin-left: 5px; margin-top: 0;" id="FromDateC2" src="../App_Themes/images/calender.jpg"
+                                    <img style="margin-left: 5px; margin-top: 0;" id="FromDateC2" src="../App_Themes/images/calender.jpg"
                                         width="25px" height="30px" />
                                     <asp:CalendarExtender ID="CalendarExtender2" runat="server" PopupButtonID="FromDateC2"
                                         TargetControlID="txtToDate">
-                                         </asp:CalendarExtender>
+                                    </asp:CalendarExtender>
                                 </td>
                             </tr>
                             <tr>

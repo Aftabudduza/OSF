@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     
-    <div class="innerDivCat" style="margin: 20px 0 10px 118px;">
+    <div class="innerDivCat" style="margin: 20px 0 10px 118px;width:80%;">
         <h3 class="OFSh3">
             Intranet Administration</h3>
         <div class="news-osf">
@@ -64,17 +64,17 @@
                             <table cellspacing="10" cellpadding="5" border="0">
                                 <tr>
                                     <td class="standardText">
-                                        <a href="AdminJobs.aspx" id="JobsLink">Jobs List</a>
+                                        <a href="UnderDev.aspx" id="JobsLink">Jobs List</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="AdminLocations.aspx" id="LocationsLink">Locations List</a>
+                                        <a href="UnderDev.aspx" id="LocationsLink">Locations List</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="AdminDepartments.aspx" id="DepartmentsLink">Departments List</a>
+                                        <a href="UnderDev.aspx" id="DepartmentsLink">Departments List</a>
                                     </td>
                                 </tr>
                             </table>
@@ -83,17 +83,17 @@
                             <table cellspacing="10" cellpadding="5" border="0">
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A5" href="Reports.aspx?Mode=Active">View Active Users </a>
+                                        <a id="A5" href="UnderDev.aspx">View Active Users </a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A6" href="Reports.aspx?Mode=Inactive">View InActive Users </a>
+                                        <a id="A6" href="UnderDev.aspx">View InActive Users </a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A7" href="InActiveUsers.aspx">View Deleted Users </a>
+                                        <a id="A7" href="IUnderDev.aspx">View Deleted Users </a>
                                     </td>
                                 </tr>
                             </table>
@@ -120,22 +120,22 @@
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a href="AdminChapter2008Members.aspx" id="chapter2008">Chapter 2014</a>
+                                        <a href="UnderDev.aspx" id="chapter2008">Chapter 2014</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="AdminACCommonMembers.aspx" id="Hyperlink2">AC Common</a>
+                                        <a href="UnderDev.aspx" id="Hyperlink2">AC Common</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="AdminResetPassword.aspx" id="Hyperlink3">Reset Password</a>
+                                        <a href="UnderDev.aspx" id="Hyperlink3">Reset Password</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="AdminEditAreaChapterHotLinks.aspx" id="Hyperlink4">Manage AC Hotlinks</a>
+                                        <a href="UnderDev.aspx" id="Hyperlink4">Manage AC Hotlinks</a>
                                     </td>
                                 </tr>
                             </table>
