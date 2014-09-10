@@ -16,24 +16,24 @@ public partial class Contents_BoxContents : System.Web.UI.Page
         {
             Response.Redirect("Login.aspx");
         }
-        //else
-        //{
-           
-        //    System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
-        //    int catID = Convert.ToInt32(Request["SectionTypeID"]);
-        //    string query = string.Format("SectionID={0} AND IsSection=1", catID);
-        //    DataRow dr = dtUSP.Select(query).FirstOrDefault();
-        //    if (!Convert.ToBoolean(dr["HasPermission"]))
-        //    {
-        //        Response.Redirect("../Default.aspx");
-        //    }
+        else
+        {
 
-        //}
-        //if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
-        //{
-        int catID = Convert.ToInt32(Request["SectionTypeID"]);
-        GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
-        //}
+            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+            int catID = Convert.ToInt32(Request["SectionTypeID"]);
+            string query = string.Format("SectionID={0} AND IsSection=1", catID);
+            DataRow dr = dtUSP.Select(query).FirstOrDefault();
+            if (!Convert.ToBoolean(dr["HasPermission"]))
+            {
+                Response.Redirect("../Default.aspx");
+            }
+
+        }
+        if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
+        {
+            int catID = Convert.ToInt32(Request["SectionTypeID"]);
+            GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
+        }
     }
     #endregion
 
@@ -48,7 +48,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
         List<Categories> cObjs = new List<Categories>();
         Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
         
-        CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
+     //   CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
 
 
         //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);

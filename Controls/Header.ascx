@@ -106,7 +106,7 @@
                                 if (Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
-                            <li><a href="#">A.C. Common</a></li>
+                            <li><a href="../Contents/BoxContents.aspx?SectionTypeID=8">AC Common</a></li>
                             <%
 } %>
                             <%
@@ -124,7 +124,7 @@
                                 if (Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
-                            <li><a href="#">Committee</a></li>
+                          <li><a href="../Contents/BoxContents.aspx?SectionTypeID=2">Committee</a></li>
                             <%
 } %>
                             <%
@@ -151,7 +151,7 @@
                                 if (Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
-                            <li><a href="#">Private</a></li>
+                          <li><a href="../Contents/BoxContents.aspx?SectionTypeID=10">Private</a></li>
                             <%
 } %>
                             <%

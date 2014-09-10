@@ -1109,7 +1109,7 @@ public partial class Admin_User : System.Web.UI.Page
         LinksTreeView.Nodes.Clear();
         try
         {
-            string sql = "Select * FROM SectionType ";
+            string sql = "Select * FROM SectionType WHERE IsCategory=1";
             DataTable ResultSet = cmscon.getRows(sql);
             chkHeaderList.Items.Clear();
             chkHeaderList.RepeatDirection = RepeatDirection.Horizontal;
@@ -1124,7 +1124,7 @@ public partial class Admin_User : System.Web.UI.Page
                         ParentNode.Text = row["Description"].ToString();
                         ParentNode.Value = row["SectionTypeID"].ToString();
                         //ParentNode.SelectAction = TreeNodeSelectAction.Select;
-                        ParentNode.ShowCheckBox = true;
+                        ParentNode.ShowCheckBox = false;
                         LinksTreeView.Nodes.Add(ParentNode);
                         chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
                         // Add Child Node 
@@ -1194,7 +1194,7 @@ public partial class Admin_User : System.Web.UI.Page
                             ParentNode.Text = row["Description"].ToString();
                             ParentNode.Value = row["SectionTypeID"].ToString();
                            // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
-                            ParentNode.ShowCheckBox = true;
+                            ParentNode.ShowCheckBox = false;
                             LinksTreeView.Nodes.Add(ParentNode);
 
                             chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
