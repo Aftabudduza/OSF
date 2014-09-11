@@ -12,29 +12,40 @@ public partial class Contents_BoxContents : System.Web.UI.Page
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "GetServerDate")
         {
-            Response.Redirect("Login.aspx");
+            int a = Convert.ToInt32(Request.QueryString["ID"]);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            GetServerDPopupHTML(a);
         }
         else
         {
-
-            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
-            string query = string.Format("SectionID={0} AND IsSection=1", catID);
-            DataRow dr = dtUSP.Select(query).FirstOrDefault();
-            if (!Convert.ToBoolean(dr["HasPermission"]))
+            if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
             {
-                Response.Redirect("../Default.aspx");
+                Response.Redirect("Login.aspx");
+            }
+            else
+            {
+
+                System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+                int catID = Convert.ToInt32(Request["SectionTypeID"]);
+                string query = string.Format("SectionID={0} AND IsSection=1", catID);
+                DataRow dr = dtUSP.Select(query).FirstOrDefault();
+                if (!Convert.ToBoolean(dr["HasPermission"]))
+                {
+                    Response.Redirect("../Default.aspx");
+                }
+
+            }
+            if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
+            {
+                int catID = Convert.ToInt32(Request["SectionTypeID"]);
+                GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
             }
 
         }
-        if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
-        {
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
-            GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
-        }
     }
+
     #endregion
 
 
@@ -42,7 +53,12 @@ public partial class Contents_BoxContents : System.Web.UI.Page
 
     #endregion
 
-
+    private void GetServerDPopupHTML(int a)
+    {
+        Response.Clear();
+        Response.Write(Utility.GeneratePopupContentFromContentID(a));
+        Response.End();
+    }
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<Categories> cObjs = new List<Categories>();
@@ -127,8 +143,13 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                             <tr>
                                                                 <td>
                                                                     <span class='standardtextbold' id='CMList_ctl00_Label2'>{2}</span><br>
-                                                                    <a href='#'>
-                                                                       {3} </a>
+
+
+                                                            <input type='url' value='{3}' onclick='GetServerDate({4})' class='clsPopupLink' />
+
+
+
+
                                                                     <br>
                                                                     &nbsp;
                                                                 </td>
@@ -137,7 +158,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                     </table>
                                                 </td>
                                             </tr>               
-                                         ", oddOrEven, j, c.Date.ToString("dd/MM/yyyy"), c.Title));
+                                         ", oddOrEven, j, c.Date.ToString("dd/MM/yyyy"), c.Title.Length >= 20 ? c.Title.Substring(0, 20) + "..." : c.Title + "...", c.ContentID));
 
         }
         return tbl.ToString();

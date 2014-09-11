@@ -41,7 +41,7 @@
                             <%
                                 string query = string.Format("SectionID={0}", (int)SectionTypeEnum.News);
                                 System.Data.DataRow dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 {
                                   
                             %>
@@ -52,7 +52,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Calender);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 {
                                   
                             %>
@@ -63,7 +63,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Directory);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 {
                                   
                             %>
@@ -74,7 +74,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.BulletinBoard);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 {
                                   
                             %>
@@ -85,7 +85,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Email);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="#">Email</a></li>
@@ -94,7 +94,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Discusstion);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="#">Discussion</a></li>
@@ -103,7 +103,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.ACCommon);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="../Contents/BoxContents.aspx?SectionTypeID=8">AC Common</a></li>
@@ -112,7 +112,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.AreaChapter);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="../Contents/BoxContents.aspx?SectionTypeID=12">Area Chapter</a></li>
@@ -121,7 +121,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Committee);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                           <li><a href="../Contents/BoxContents.aspx?SectionTypeID=2">Committee</a></li>
@@ -130,7 +130,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.ChapterDirectives);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="#">Chapter Directive</a></li>
@@ -139,7 +139,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Reference);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="#">Reference</a></li>
@@ -148,7 +148,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Private);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                           <li><a href="../Contents/BoxContents.aspx?SectionTypeID=10">Private</a></li>
@@ -157,7 +157,7 @@
                             <%
                                 query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Chapter2008);
                                 dr = dtUSP.Select(query).FirstOrDefault();
-                                if (Convert.ToBoolean(dr["HasPermission"]))
+                                if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
                             <li><a href="#">Chapter2014</a></li>
