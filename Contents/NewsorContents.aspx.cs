@@ -106,7 +106,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
     private void GetServerDPopupHTML(int a)
     {
         Response.Clear();
-        Response.Write(Utility.GeneratePopupContentFromContentID(a));
+        Response.Write(Utility.GeneratePopupContentFromContentIDR(a));
         Response.End();
     }
 

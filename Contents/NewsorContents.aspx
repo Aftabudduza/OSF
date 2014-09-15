@@ -3,6 +3,39 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<style type="text/css">
+        #element_to_pop_up2
+        {
+            background-color: #fff;
+            border-radius: 15px;
+            color: #000;
+            display: none;
+            padding: 20px;
+            min-width: 400px;
+            min-height: 180px;
+        }
+               .b-close
+        {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+</style>
+    <script type="text/javascript" >
+        function EditContentRow(xs1) {
+            var xmlhttpNewsCon;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttpNewsCon = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttpNewsCon = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var urlNewsCon = "../Admin/AdminContent.aspx?Method=EditContent&ID=" + xs1;
+            window.location.href = urlNewsCon;
+        }
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <%--<asp:TextBoxWatermarkExtender TextBtoxWatermarkExtender ID="TBWE2" runat="server"    TargetControlID="txtFromDate"    WatermarkText="MM/dd/yyyy"    WatermarkCssClass="watermarked" />--%>

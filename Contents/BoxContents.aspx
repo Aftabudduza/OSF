@@ -26,8 +26,8 @@
 //                }
 //            }
 
-//            xmlhttp1.open("Get", url1, true);
-//            xmlhttp1.send();
+            xmlhttp1.open("Get", url1, true);
+            xmlhttp1.send();
 
         }
 
