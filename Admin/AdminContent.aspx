@@ -2,7 +2,7 @@
     CodeFile="AdminContent.aspx.cs" Inherits="Admin_AdminContent" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-<style type="text/css">
+    <style type="text/css">
     .UserDetailHeader
     {
        width:150px;
@@ -42,11 +42,13 @@
                         <tr>
                             <td class="UserDetailHeader" align="right">
                                 <span id="Span6" style="color: #FF0000">*</span> 
+  
                                  <asp:Label ID="Label2" runat="server" Text="File Upload:"></asp:Label>
                                 
                             </td>
                             <td>
                                 <asp:FileUpload ID="uplProduct" runat="server" Width="350px" />
+                                <asp:Label ID="lblURLofFile" runat="server" Text=""></asp:Label>
                             </td>
                         </tr>
                         <tr>

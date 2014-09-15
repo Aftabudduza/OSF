@@ -12,29 +12,41 @@ public partial class Admin_AdminContent : System.Web.UI.Page
     #region Global Variable & PageLoad
 
     int _categoryID = 0; string _message = "";
+    //EditContent
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+
+        if (!IsPostBack && Request.QueryString["Method"] != null && Request.QueryString["Method"] == "EditContent")
         {
-            Response.Redirect("Login.aspx");
+            CheckAdminPermission();
+            LoadComboCategoryList();
+            ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
+
+            if (Request.QueryString["ID"] != null)
+            {
+                int contentid = Convert.ToInt32(Request.QueryString["ID"]);
+                cObj = cObj.getRecordFromID(contentid);
+                DesignLabeslAndOthers(cObj.CategoryID);
+                SetDataOnEdit(cObj);
+                ddlCategoryList.SelectedValue =  cObj.CategoryID.ToString();
+            }
         }
         else
         {
-            Users objUser = (Users)Session["User"];
-            UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
-            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
-            if (!dtUP.IsGlobalContentAdmin)
+            if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
             {
-                Response.Redirect("../Default.aspx");
+                Response.Redirect("Login.aspx");
             }
-        
-        
-        }
-        if (!IsPostBack)
-        {
-            Session["FileName"] = null;
-            LoadComboCategoryList();
-            
+            else
+            {
+                CheckAdminPermission();
+            }
+            if (!IsPostBack)
+            {
+                Session["FileName"] = null;
+                LoadComboCategoryList();
+
+            }
         }
     }
     #endregion
@@ -48,56 +60,136 @@ public partial class Admin_AdminContent : System.Web.UI.Page
             _message = "";
             if (this.ValidateObject().Length <= 0)
             {
-                if (!string.IsNullOrEmpty(this.uplProduct.FileName))
+                bool isEdit = false;
+                if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "EditContent")
                 {
-                    //read the file in
-                    string filePath = Path.Combine(Request.PhysicalApplicationPath, "Content\\");
+                    isEdit = true;
+                }
 
-                    if (!Directory.Exists(filePath))
+                if (!isEdit)
+                {
+                    ////////////////
+                    if (!string.IsNullOrEmpty(this.uplProduct.FileName))
                     {
-                        Directory.CreateDirectory(filePath);
-                    }
+                        //read the file in
+                        string filePath = Path.Combine(Request.PhysicalApplicationPath, "Images\\Content\\");
 
-                    string nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
-                    Session["FileName"] = nFile;
-                    try
-                    {
-                        if (System.IO.File.Exists(nFile))
+                        if (!Directory.Exists(filePath))
                         {
-                            System.IO.File.Delete(nFile);
+                            Directory.CreateDirectory(filePath);
                         }
 
-                    }
-                    catch (Exception ex)
-                    {
-                    }
-                    uplProduct.SaveAs(nFile);
+                        string nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
+                        Session["FileName"] = nFile;
+                        try
+                        {
+                            if (System.IO.File.Exists(nFile))
+                            {
+                                System.IO.File.Delete(nFile);
+                            }
 
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        uplProduct.SaveAs(nFile);
+
+                        ContentObj objContent = new ContentObj(cmscon.CONNECTIONSTRING);
+                        this.SetData(objContent);
+                        if (ddlCategoryList.SelectedValue != "-1")
+                        {
+                            objContent.CategoryID = Convert.ToInt32(ddlCategoryList.SelectedValue.ToString());
+
+                        }
+
+                        if (objContent.insert())
+                        {
+                            Session["FileName"] = null;
+                            DisplayAlert("Content Saved Successfully");
+                            txtAuthor.Text = "";
+                            txtDate.Text = "";
+                            txtTitle.Text = "";
+                            txtContent.Text = "";
+                        }
+                        else
+                        {
+                            DisplayAlert("Error");
+                        }
+                    }
+                    else
+                    {
+                        DisplayAlert("You Must Select file To Import.");
+                    }
+
+
+                    /////////////
+                }
+                else //is eidt
+                {
+                    string nFile = "";
+                    if (string.IsNullOrEmpty(this.uplProduct.FileName))
+                    {
+                        Session["FileName"] = nFile = lblURLofFile.Text;
+                    }
+                    //read the file in
+                    else
+                    {
+                        string filePath = Path.Combine(Request.PhysicalApplicationPath, "Images\\Content\\");
+
+                        if (!Directory.Exists(filePath))
+                        {
+                            Directory.CreateDirectory(filePath);
+                        }
+
+                        nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
+                        Session["FileName"] = nFile;
+                        try
+                        {
+                            if (System.IO.File.Exists(nFile))
+                            {
+                                System.IO.File.Delete(nFile);
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        uplProduct.SaveAs(nFile);
+                    }
                     ContentObj objContent = new ContentObj(cmscon.CONNECTIONSTRING);
+
                     this.SetData(objContent);
+                    objContent.ModifiedBy = Convert.ToInt32(Session["UserID"]);
+                    objContent.ModifiedOn = DateTime.UtcNow;
+
+
+
                     if (ddlCategoryList.SelectedValue != "-1")
                     {
                         objContent.CategoryID = Convert.ToInt32(ddlCategoryList.SelectedValue.ToString());
 
                     }
+                    DataTable dt = cmscon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", objContent.CategoryID));
 
-                    if (objContent.insert())
+
+                    int secID = Convert.ToInt32(dt.Rows[0][0]);
+                    objContent.ContentID = Convert.ToInt32(Request.QueryString["ID"]);
+                    if (objContent.update())
                     {
                         Session["FileName"] = null;
                         DisplayAlert("Content Saved Successfully");
-                        txtAuthor.Text = "";
-                        txtDate.Text = "";
-                        txtTitle.Text = "";
-                        txtContent.Text = "";
+                        if (secID == (int)SectionTypeEnum.News || secID == (int)SectionTypeEnum.Calender || secID == (int)SectionTypeEnum.BulletinBoard)
+                            Response.Redirect(string.Format("../Contents/NewsorContents.aspx?SectionTypeID={0}", secID));
+                        else
+                            Response.Redirect(string.Format("../Contents/BoxContents.aspx?SectionTypeID={0}", secID));
+
                     }
                     else
                     {
                         DisplayAlert("Error");
                     }
-                }
-                else
-                {
-                    DisplayAlert("You Must Select file To Import.");
+
+
                 }
             }
             else
@@ -129,6 +221,16 @@ public partial class Admin_AdminContent : System.Web.UI.Page
     #endregion
 
     #region Method
+    private void CheckAdminPermission()
+    {
+        Users objUser = (Users)Session["User"];
+        UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+        System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+        if (!dtUP.IsGlobalContentAdmin)
+        {
+            Response.Redirect("../Default.aspx");
+        }
+    }
 
     private void DisplayAlert(string msg)
     {
@@ -211,10 +313,15 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         
         }
     }
+
     private void DesignLabeslAndOthers(int categoryID)
     {
         _categoryID = categoryID;
- 
+        bool isNeedtoShowDefaultContent = true;
+        if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "EditContent")
+        {
+            isNeedtoShowDefaultContent = false;
+        }
         //Get Category Details to Load control categorywise
         CategoryDetails objCategoryDetail = new CategoryDetails(cmscon.CONNECTIONSTRING);
         try
@@ -246,7 +353,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
 
                 if (objDataTable.Rows[0]["DefaultTitle"] != null)
                 {
-                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowTitle"]))
+                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowTitle"]) && isNeedtoShowDefaultContent)
                         txtTitle.Text = objDataTable.Rows[0]["DefaultTitle"].ToString();
                 }
 
@@ -260,7 +367,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
 
                 if (objDataTable.Rows[0]["DefaultAuthor"] != null)
                 {
-                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowAuthor"]))
+                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowAuthor"]) && isNeedtoShowDefaultContent)
                         txtAuthor.Text = objDataTable.Rows[0]["DefaultAuthor"].ToString();
                 }
 
@@ -274,8 +381,8 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                 txtDate.Visible = showTitle;
                 if (Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]) != null)
                 {
-                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowDate"]))
-                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("MM/dd/yyyy");
+                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowDate"]) && isNeedtoShowDefaultContent)
+                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("dd/MM/yyyy");
                 }
 
             }
@@ -287,7 +394,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                 txtContent.Visible = showTitle;
                 if (objDataTable.Rows[0]["DefaultContent"] != null)
                 {
-                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowContent"]))
+                    if (Convert.ToBoolean(objDataTable.Rows[0]["ShowContent"]) && isNeedtoShowDefaultContent)
                         txtContent.Text = objDataTable.Rows[0]["DefaultContent"].ToString();
                 }
 
@@ -305,6 +412,28 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         }
 
     }
+
+    private void SetDataOnEdit(ContentObj objContent)
+    {
+        try
+        {
+            txtAuthor.Text = objContent.Author;
+
+            txtDate.Text = objContent.Date.ToString("dd/MM/yyyy");
+            txtTitle.Text = objContent.Title;
+            txtContent.Text =objContent.Content;
+            _categoryID = objContent.CategoryID; 
+            //objContent.ContentTypeID = 1;//Will change
+            lblURLofFile.Text = objContent.URL;          
+
+        }
+        catch (Exception ex)
+        {
+
+
+        }
+    }
+
     #endregion
 
 }

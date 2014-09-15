@@ -57,14 +57,14 @@ public static class Utility
 				<tr>
 				
 					<td colspan='2'>
-						
+						        <input type='url' value='Edit' onclick='EditContent({4})' class='clsPopupLink' />
 					</td>
 
 				</tr>
 
 
 
-			</tbody></table>      ",c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author,c0.Content);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author,c0.Content,c0.ContentID);
         }
         else
             htmlData = "No Data Found";

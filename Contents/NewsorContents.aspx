@@ -14,6 +14,7 @@
                 <asp:Label ID="lblRcentTitle" runat="server" Text="Label"></asp:Label></h3>
             <div id="dynamicDiv" runat="server">
             </div>
+      
         </div>
         <div class="right-15p-sidebar">
             <div class="colomn">
@@ -94,4 +95,6 @@
             </div>
         </div>
     </div>
+          <div id="element_to_pop_up2" class="right-15p-sidebar">
+            </div>
 </asp:Content>

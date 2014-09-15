@@ -345,6 +345,20 @@ public class ContentObj
         return contentsList;
     }
 
+    public ContentObj getRecordFromID(int ContentID)
+    {
+        ContentObj content = new ContentObj();
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Content WHERE ContentID= {0}", ContentID));
+        if (dt != null)
+            foreach (DataRow dr in dt.Rows)
+            {
+                content = this.MakeRowToObject(dr);
+            }
+        return content;
+    }
+
+
+
     public List<ContentObj> getRecords(int categoryTypeID,  DateTime fromdate, DateTime todate)
     {
         if (fromdate == null || todate == null || fromdate == DateTime.MinValue || todate == DateTime.MinValue)
@@ -699,13 +713,13 @@ public class ContentObj
         try
             {
             connect();
-            cmd = new SqlCommand("UPDATE \"Content\" SET Author = @Author, Date = @Date, Title = @Title, Content = @Content, BlobContent = @BlobContent, Extension = @Extension, URL = @URL, CategoryID = @CategoryID, ContentTypeID = @ContentTypeID, ModifiedBy=@ModifiedBy, ModifiedOn=@ModifiedOn WHERE ContentID = @ContentID", conn);
+            cmd = new SqlCommand("UPDATE \"Content\" SET Author = @Author, Date = @Date, Title = @Title, Content = @Content, Extension = @Extension, URL = @URL, CategoryID = @CategoryID, ContentTypeID = @ContentTypeID, ModifiedBy=@ModifiedBy, ModifiedOn=@ModifiedOn WHERE ContentID = @ContentID", conn);
             cmd.Parameters.AddWithValue("@ContentID", ContentID);
             cmd.Parameters.AddWithValue("@Author", Author);
             cmd.Parameters.AddWithValue("@Date", Date);
             cmd.Parameters.AddWithValue("@Title", Title);
             cmd.Parameters.AddWithValue("@Content", Content);
-            cmd.Parameters.AddWithValue("@BlobContent", BlobContent);
+
             cmd.Parameters.AddWithValue("@Extension", Extension);
             cmd.Parameters.AddWithValue("@URL", URL);
             cmd.Parameters.AddWithValue("@CategoryID", CategoryID);

@@ -11,29 +11,39 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "GetPopupContent")
         {
-            Response.Redirect("Login.aspx");
+            int a = Convert.ToInt32(Request.QueryString["ID"]);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            GetServerDPopupHTML(a);
         }
         else
         {
-            //   Users objUser = (Users)Session["User"];
-            //UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
-            System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
 
-            string query = string.Format("SectionID={0} AND IsSection=1", catID);
-            DataRow dr = dtUSP.Select(query).FirstOrDefault();
-            if (!Convert.ToBoolean(dr["HasPermission"]))
+            if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
             {
-                Response.Redirect("../Default.aspx");
+                Response.Redirect("Login.aspx");
             }
+            else
+            {
+                //   Users objUser = (Users)Session["User"];
+                //UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+                System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+                int catID = Convert.ToInt32(Request["SectionTypeID"]);
 
-        }
-        if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
-        {
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
-            GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
+                string query = string.Format("SectionID={0} AND IsSection=1", catID);
+                DataRow dr = dtUSP.Select(query).FirstOrDefault();
+                if (!Convert.ToBoolean(dr["HasPermission"]))
+                {
+                    Response.Redirect("../Default.aspx");
+                }
+
+            }
+            if (Request["SectionTypeID"] != null || Convert.ToInt32(Request["SectionTypeID"]) > 0)
+            {
+                int catID = Convert.ToInt32(Request["SectionTypeID"]);
+                GeneratePage(catID, DateTime.MinValue, DateTime.MinValue);
+            }
         }
     }
     #endregion
@@ -91,6 +101,15 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
         }
         return _message;
     }
+
+
+    private void GetServerDPopupHTML(int a)
+    {
+        Response.Clear();
+        Response.Write(Utility.GeneratePopupContentFromContentID(a));
+        Response.End();
+    }
+
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<ContentObj> cObjs = new List<ContentObj>();
@@ -121,7 +140,12 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
             tbl.Append(" <div class='news-osf'>");
             foreach (ContentObj cO in cObjs)
             { 
-                tbl.Append(string.Format(  "<div class='recent-news'> <p> <strong>Date:</strong>{0}</p> <p> <strong>Title:</strong><a href='#'>{1}</a></p> <p> <strong>From:</strong>{2}</p> <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> </div>",cO.Date.ToString("MM/dd/yyyy"),cO.Title, cO.Author, cO.Content));
+                tbl.Append(string.Format(@"<div class='recent-news'>
+                                                <p> <strong>Date:</strong>{0}</p> 
+                                              <p> <strong>   <input type='url' value='{1}' onclick='GetPopupContentForBox({4})' class='clsPopupLink' /> </strong>{0}</p> 
+                                                <p> <strong>From:</strong>{2}</p> 
+                                                <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> 
+                                          </div>", cO.Date.ToString("MM/dd/yyyy"),cO.Title, cO.Author, cO.Content,cO.ContentID));
             }
 
             tbl.Append("</div>");

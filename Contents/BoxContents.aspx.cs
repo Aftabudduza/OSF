@@ -12,7 +12,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "GetServerDate")
+        if (Request.QueryString["Method"] != null && Request.QueryString["Method"] == "GetPopupContent")
         {
             int a = Convert.ToInt32(Request.QueryString["ID"]);
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -63,26 +63,26 @@ public partial class Contents_BoxContents : System.Web.UI.Page
     {
         List<Categories> cObjs = new List<Categories>();
         Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
-        
-     //   CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
+
+        //   CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
 
 
         //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
         DataTable dt = cmscon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryTypeID));
-        
+
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
         int I = -1;
-            foreach(DataRow dr  in dt.Rows)
+        foreach (DataRow dr in dt.Rows)
+        {
+
+            int itemPerPage = 5;
+            if (!(DBNull.Value == dr["ItemsPerPage"]) && Convert.ToInt32(dr["ItemsPerPage"]) > 0)
             {
-                
-                int itemPerPage = 5;
-                if (!(DBNull.Value == dr["ItemsPerPage"]) && Convert.ToInt32(dr["ItemsPerPage"]) > 0)
-                {
-                    itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);
-                }
-                
-                I++;
-                tbl.Append(string.Format(@"
+                itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);
+            }
+
+            I++;
+            tbl.Append(string.Format(@"
                                           <div class='right-15p-sidebar' style='margin: 10px 10px 0;'>
                                             <div class='colomn'>
                                                 <h3>
@@ -92,11 +92,11 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                        
                                                         <tr>
                                                             <td>
-                                                            ", I, dr["Description"].ToString()) 
-                                                             
-                                                             + this.GenerateBoxData(Convert.ToInt32(dr["CategoryTypeID"])) +
-                                                             
-                                        string.Format(@"
+                                                            ", I, dr["Description"].ToString())
+
+                                                         + this.GenerateBoxData(Convert.ToInt32(dr["CategoryTypeID"])) +
+
+                                    string.Format(@"
                                                         </td>
                                                         </tr>
                                                     </table>
@@ -112,14 +112,14 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                     </script>
                                             </div>
                                         </div>                  
-                        ", I, dr["Description"].ToString(), itemPerPage ));
-            }
+                        ", I, dr["Description"].ToString(), itemPerPage));
+        }
 
 
-            dynamicDiv.InnerHtml = tbl.ToString();
+        dynamicDiv.InnerHtml = tbl.ToString();
     }
 
- private string GenerateBoxData(int catTypeID)
+    private string GenerateBoxData(int catTypeID)
     {
 
         List<ContentObj> contents = new List<ContentObj>();
@@ -129,7 +129,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
         int j = 0;
-        foreach(ContentObj c in contents)
+        foreach (ContentObj c in contents)
         {
             j++;
             string oddOrEven = "even";
@@ -145,7 +145,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                                     <span class='standardtextbold' id='CMList_ctl00_Label2'>{2}</span><br>
 
 
-                                                            <input type='url' value='{3}' onclick='GetServerDate({4})' class='clsPopupLink' />
+                                                            <input type='url' value='{3}' onclick='GetPopupContent({4})' class='clsPopupLink' />
 
 
 
@@ -162,8 +162,8 @@ public partial class Contents_BoxContents : System.Web.UI.Page
 
         }
         return tbl.ToString();
-                                          
-    
+
+
     }
 
 
