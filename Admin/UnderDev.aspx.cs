@@ -91,7 +91,7 @@ public partial class Admin_UnderDev : System.Web.UI.Page
 
         List<ContentObj> contents = new List<ContentObj>();
         ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
-        contents = cObj.getRecords(catTypeID);
+        contents = cObj.getRecordsbyCategoryTypeID(catTypeID);
 
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();

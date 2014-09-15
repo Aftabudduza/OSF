@@ -31,6 +31,20 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                 ddlCategoryList.SelectedValue =  cObj.CategoryID.ToString();
             }
         }
+        else if (!IsPostBack && Request.QueryString["Method"] != null && Request.QueryString["Method"] == "DeleteContent")
+        {
+            UserSectionPermission usp = new UserSectionPermission(cmscon.CONNECTIONSTRING);
+            usp.QueryExecute(string.Format("UPDATE Content SET IsActive = 0 WHERE ContentID= {0}", Convert.ToInt32(Request.QueryString["ID"])));
+
+            DataTable dt = cmscon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", Convert.ToInt32(Request.QueryString["CatID"])));
+            int secID = Convert.ToInt32(dt.Rows[0][0]);
+            DisplayAlert("Content deleted Successfully");
+            if (secID == (int)SectionTypeEnum.News || secID == (int)SectionTypeEnum.Calender || secID == (int)SectionTypeEnum.BulletinBoard)
+                Response.Redirect(string.Format("../Contents/NewsorContents.aspx?SectionTypeID={0}", secID));
+            else
+                Response.Redirect(string.Format("../Contents/BoxContents.aspx?SectionTypeID={0}", secID));
+
+        }
         else
         {
             if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)

@@ -56,7 +56,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
     private void GetServerDPopupHTML(int a)
     {
         Response.Clear();
-        Response.Write(Utility.GeneratePopupContentFromContentID(a));
+        Response.Write(Utility.GeneratePopupContentFromContentID(a, true));
         Response.End();
     }
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
@@ -124,7 +124,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
 
         List<ContentObj> contents = new List<ContentObj>();
         ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
-        contents = cObj.getRecords(catTypeID);
+        contents = cObj.getRecordsbyCategoryTypeID(catTypeID);
 
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();

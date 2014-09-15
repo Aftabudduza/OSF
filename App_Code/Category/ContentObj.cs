@@ -333,10 +333,10 @@ public class ContentObj
         }
         return cObj;
     }
-    public List<ContentObj> getRecords(int categoryTypeID)
+    public List<ContentObj> getRecordsbyCategoryTypeID(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0}", categoryTypeID));
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
         if(dt != null)
         foreach(DataRow dr in dt.Rows)
         {
@@ -363,7 +363,7 @@ public class ContentObj
     {
         if (fromdate == null || todate == null || fromdate == DateTime.MinValue || todate == DateTime.MinValue)
         {
-            return this.getRecords(categoryTypeID);
+            return this.getRecordsbyCategoryTypeID(categoryTypeID);
         }
         else
         {

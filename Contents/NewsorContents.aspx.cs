@@ -106,7 +106,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
     private void GetServerDPopupHTML(int a)
     {
         Response.Clear();
-        Response.Write(Utility.GeneratePopupContentFromContentIDR(a));
+        Response.Write(Utility.GeneratePopupContentFromContentID(a,false));
         Response.End();
     }
 
@@ -142,7 +142,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
             { 
                 tbl.Append(string.Format(@"<div class='recent-news'>
                                                 <p> <strong>Date:</strong>{0}</p> 
-                                              <p> <strong>   <input type='url' value='{1}' onclick='GetPopupContentForBox({4})' class='clsPopupLink' /> </strong>{0}</p> 
+                                              <p> <strong>   <input type='url' value='{1}' onclick='GetPopupContent({4})' class='clsPopupLink' /> </strong>{0}</p> 
                                                 <p> <strong>From:</strong>{2}</p> 
                                                 <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> 
                                           </div>", cO.Date.ToString("MM/dd/yyyy"),cO.Title, cO.Author, cO.Content,cO.ContentID));

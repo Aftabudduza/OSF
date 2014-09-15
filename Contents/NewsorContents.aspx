@@ -3,7 +3,7 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
-<style type="text/css">
+    <style type="text/css">
         #element_to_pop_up2
         {
             background-color: #fff;
@@ -14,26 +14,26 @@
             min-width: 400px;
             min-height: 180px;
         }
-               .b-close
+        .b-close
         {
             cursor: pointer;
             position: absolute;
             right: 10px;
             top: 5px;
         }
-</style>
-    <script type="text/javascript" >
-        function EditContentRow(xs1) {
-            var xmlhttpNewsCon;
-            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                xmlhttpNewsCon = new XMLHttpRequest();
-            }
-            else {// code for IE6, IE5
-                xmlhttpNewsCon = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            var urlNewsCon = "../Admin/AdminContent.aspx?Method=EditContent&ID=" + xs1;
-            window.location.href = urlNewsCon;
-        }
+    </style>
+    <script type="text/javascript">
+        //        function EditContentRow(xs1) {
+        //            var xmlhttpNewsCon;
+        //            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        //                xmlhttpNewsCon = new XMLHttpRequest();
+        //            }
+        //            else {// code for IE6, IE5
+        //                xmlhttpNewsCon = new ActiveXObject("Microsoft.XMLHTTP");
+        //            }
+        //            var urlNewsCon = "../Admin/AdminContent.aspx?Method=EditContent&ID=" + xs1;
+        //            window.location.href = urlNewsCon;
+        //        }
 
     </script>
 </asp:Content>
@@ -47,7 +47,6 @@
                 <asp:Label ID="lblRcentTitle" runat="server" Text="Label"></asp:Label></h3>
             <div id="dynamicDiv" runat="server">
             </div>
-      
         </div>
         <div class="right-15p-sidebar">
             <div class="colomn">
@@ -128,6 +127,6 @@
             </div>
         </div>
     </div>
-          <div id="element_to_pop_up2" class="right-15p-sidebar">
-            </div>
+    <%--          <div id="element_to_pop_up2" class="right-15p-sidebar">
+            </div>--%>
 </asp:Content>

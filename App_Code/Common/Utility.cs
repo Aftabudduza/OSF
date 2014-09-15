@@ -17,7 +17,7 @@ public static class Utility
         return isdate;
     }
 
-    public static string GeneratePopupContentFromContentID(int contentID)
+    public static string GeneratePopupContentFromContentIDR(int contentID)
     {
         string htmlData = "";
         ContentObj c0 = new ContentObj();
@@ -34,21 +34,25 @@ public static class Utility
                 <tr>
 					<td>
 						<span class='standardTextBold' id='TitleTitle'></span>
-						<span id='Title'>{0}</span>
+						<strong>Title: </strong><span id='Title'>{0}</span>
 					</td>
 				
 				</tr>
 				<tr>
 					<td colspan='2'>
 						<span class='standardTextBold' id='PostDateTitle'></span>
-						<span id='PostDate'>{1}</span>
+						<strong>Date: </strong><span id='PostDate'>{1}</span>
 					</td>
 				</tr>
 				<tr>
 					<td colspan='2'>
 						<span class='standardTextBold' id='AuthorTitle'></span>
-						<span id='Author'>{2}</span>
+						<strong>Author: </strong><span id='Author'>{2}</span>
 					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<strong>Content: </strong>
 				</tr>
 				<tr>
 					<td colspan='2'>
@@ -74,7 +78,7 @@ public static class Utility
     }
 
     //EditContentRow
-    public static string GeneratePopupContentFromContentIDR(int contentID)
+    public static string GeneratePopupContentFromContentID(int contentID, bool isBox)
     {
         string htmlData = "";
         ContentObj c0 = new ContentObj();
@@ -91,21 +95,25 @@ public static class Utility
                 <tr>
 					<td>
 						<span class='standardTextBold' id='TitleTitle'></span>
-						<span id='Title'>{0}</span>
+						<strong>Title: </strong><span id='Title'>{0}</span>
 					</td>
 				
 				</tr>
 				<tr>
 					<td colspan='2'>
 						<span class='standardTextBold' id='PostDateTitle'></span>
-						<span id='PostDate'>{1}</span>
+						<strong>Date: </strong><span id='PostDate'>{1}</span>
 					</td>
 				</tr>
 				<tr>
 					<td colspan='2'>
 						<span class='standardTextBold' id='AuthorTitle'></span>
-						<span id='Author'>{2}</span>
+						<strong>Author: </strong><span id='Author'>{2}</span>
 					</td>
+				</tr>
+				<tr>
+					<td colspan='2'>
+						<strong>Content: </strong>
 				</tr>
 				<tr>
 					<td colspan='2'>
@@ -114,14 +122,21 @@ public static class Utility
 				<tr>
 				
 					<td colspan='2'>
-						        <input type='url' value='Edit' onclick='EditContentRow({4})' class='clsPopupLink' />
+						        <input type='url' value='Edit' onclick='EditContent({4},{5})' class='clsPopupLink' />
 					</td>
 
 				</tr>
 
 
+				<tr>
+				
+					<td colspan='2'>
+						        <input type='url' value='Delete' onclick='DeleteContent({4},{6})' class='clsPopupLink' />
+					</td>
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID);
+				</tr>
+
+			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1:0, c0.CategoryID);
         }
         else
             htmlData = "No Data Found";

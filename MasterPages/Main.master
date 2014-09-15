@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Main.master.cs" Inherits="MasterPages_Main" %>
+
 <%@ Register Src="~/Controls/Header.ascx" TagPrefix="OSF" TagName="Header" %>
 <%@ Register Src="~/Controls/Footer.ascx" TagPrefix="OSF" TagName="Footer" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
@@ -7,181 +8,214 @@
 <head runat="server">
     <script src="../Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
     <script src="../Scripts/popup.js" type="text/javascript"></script>
-     <script type="text/javascript">
+    <script type="text/javascript">
 
-         function GetPopupContent(xs) {
-             var xmlhttp;
-             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                 xmlhttp = new XMLHttpRequest();
-             }
-             else {// code for IE6, IE5
-                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-             }
-             var url = "BoxContents.aspx?Method=GetPopupContent&ID=" + xs;
-             xmlhttp.onreadystatechange = function () {
-                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                     document.getElementById("element_to_pop_up").innerHTML = xmlhttp.responseText;
-                     
-                     $('#element_to_pop_up').bPopup({
-                         speed: 650,
-                         transition: 'slideIn',
-                         transitionClose: 'slideBack'
-                     });
+        function EditContent(cid, isBox) {
 
-                 }
-             }
-             xmlhttp.open("Get", url, true);
-             xmlhttp.send();
-         }
+            var url1 = "../Admin/AdminContent.aspx?Method=EditContent&isBx=0&ID=" + cid;
+            if (isBox == 1) {
+                url1 = "../Admin/AdminContent.aspx?Method=EditContent&isBx=1&ID=" + cid;
+            }
+            window.location.href = url1;
+        }
 
-         function GetPopupContentForBox(xs) {
-             var xmlhttp;
-             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
-                 xmlhttp = new XMLHttpRequest();
-             }
-             else {// code for IE6, IE5
-                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-             }
-             var url = "NewsorContents.aspx?Method=GetPopupContent&ID=" + xs;
-             xmlhttp.onreadystatechange = function () {
-                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                     document.getElementById("element_to_pop_up2").innerHTML = xmlhttp.responseText;
+        //DeleteContent
 
-                     $('#element_to_pop_up2').bPopup({
-                         speed: 650,
-                         transition: 'slideIn',
-                         transitionClose: 'slideBack'
-                     });
+        function DeleteContent(cid,catID) {
 
-                 }
-             }
-             xmlhttp.open("Get", url, true);
-             xmlhttp.send();
-         }
+            var url1 = "../Admin/AdminContent.aspx?Method=DeleteContent&ID=" + cid + "&CatID="+catID;
+            window.location.href = url1;
+        }
 
+        function GetPopupContent(xs) {
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var url = "BoxContents.aspx?Method=GetPopupContent&ID=" + xs;
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("element_to_pop_up").innerHTML = xmlhttp.responseText;
 
-         function Pager(tableName, itemsPerPage) {
+                    $('#element_to_pop_up').bPopup({
+                        speed: 650,
+                        transition: 'slideIn',
+                        transitionClose: 'slideBack'
+                    });
 
-             this.tableName = tableName;
+                }
+            }
+            xmlhttp.open("Get", url, true);
+            xmlhttp.send();
+        }
 
-             this.itemsPerPage = itemsPerPage;
+        //         function GetPopupContentForBox(xs) {
+        //             var xmlhttp;
+        //             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+        //                 xmlhttp = new XMLHttpRequest();
+        //             }
+        //             else {// code for IE6, IE5
+        //                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        //             }
+        //             var url = "NewsorContents.aspx?Method=GetPopupContent&ID=" + xs;
+        //             xmlhttp.onreadystatechange = function () {
+        //                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+        //                     document.getElementById("element_to_pop_up2").innerHTML = xmlhttp.responseText;
 
-             this.currentPage = 1;
+        //                     $('#element_to_pop_up2').bPopup({
+        //                         speed: 650,
+        //                         transition: 'slideIn',
+        //                         transitionClose: 'slideBack'
+        //                     });
 
-             this.pages = 0;
+        //                 }
+        //             }
+        //             xmlhttp.open("Get", url, true);
+        //             xmlhttp.send();
+        //         }
 
-             this.inited = false;
 
-             this.showRecords = function (from, to) {
+        function Pager(tableName, itemsPerPage) {
 
-                 var rows = document.getElementById(tableName).rows;
+            this.tableName = tableName;
 
-                 // i starts from 1 to skip table header row
+            this.itemsPerPage = itemsPerPage;
 
-                 for (var i = 1; i < rows.length; i++) {
+            this.currentPage = 1;
 
-                     if (i < from || i > to)
+            this.pages = 0;
 
-                         rows[i].style.display = 'none';
+            this.inited = false;
 
-                     else
+            this.showRecords = function (from, to) {
 
-                         rows[i].style.display = '';
+                var rows = document.getElementById(tableName).rows;
 
-                 }
+                // i starts from 1 to skip table header row
 
-             }
+                for (var i = 1; i < rows.length; i++) {
 
-             this.showPage = function (pageNumber) {
+                    if (i < from || i > to)
 
-                 if (!this.inited) {
+                        rows[i].style.display = 'none';
 
-                     alert("not inited");
+                    else
 
-                     return;
+                        rows[i].style.display = '';
 
-                 }
+                }
 
-                 var oldPageAnchor = document.getElementById('pg' + this.currentPage);
+            }
 
-                 oldPageAnchor.className = 'pg-normal';
+            this.showPage = function (pageNumber) {
 
-                 this.currentPage = pageNumber;
+                if (!this.inited) {
 
-                 var newPageAnchor = document.getElementById('pg' + this.currentPage);
+                    alert("not inited");
 
-                 newPageAnchor.className = 'pg-selected';
+                    return;
 
-                 var from = (pageNumber - 1) * itemsPerPage + 1;
+                }
 
-                 var to = from + itemsPerPage - 1;
+                var oldPageAnchor = document.getElementById('pg' + this.currentPage);
 
-                 this.showRecords(from, to);
+                oldPageAnchor.className = 'pg-normal';
 
-             }
+                this.currentPage = pageNumber;
 
-             this.prev = function () {
+                var newPageAnchor = document.getElementById('pg' + this.currentPage);
 
-                 if (this.currentPage > 1)
+                newPageAnchor.className = 'pg-selected';
 
-                     this.showPage(this.currentPage - 1);
+                var from = (pageNumber - 1) * itemsPerPage + 1;
 
-             }
+                var to = from + itemsPerPage - 1;
 
-             this.next = function () {
+                this.showRecords(from, to);
 
-                 if (this.currentPage < this.pages) {
+            }
 
-                     this.showPage(this.currentPage + 1);
+            this.prev = function () {
 
-                 }
+                if (this.currentPage > 1)
 
-             }
+                    this.showPage(this.currentPage - 1);
 
-             this.init = function () {
+            }
 
-                 var rows = document.getElementById(tableName).rows;
+            this.next = function () {
 
-                 var records = (rows.length - 1);
+                if (this.currentPage < this.pages) {
 
-                 this.pages = Math.ceil(records / itemsPerPage);
+                    this.showPage(this.currentPage + 1);
 
-                 this.inited = true;
+                }
 
-             }
+            }
 
-             this.showPageNav = function (pagerName, positionId) {
+            this.init = function () {
 
-                 if (!this.inited) {
+                var rows = document.getElementById(tableName).rows;
 
-                     alert("not inited");
+                var records = (rows.length - 1);
 
-                     return;
+                this.pages = Math.ceil(records / itemsPerPage);
 
-                 }
+                this.inited = true;
 
-                 var element = document.getElementById(positionId);
+            }
 
-                 var pagerHtml = '<span onclick="' + pagerName + '.prev();" class="pg-normal"> « Prev </span> ';
+            this.showPageNav = function (pagerName, positionId) {
 
-                 for (var page = 1; page <= this.pages; page++)
+                if (!this.inited) {
 
-                     pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
+                    alert("not inited");
 
-                 pagerHtml += '<span onclick="' + pagerName + '.next();" class="pg-normal"> Next »</span>';
+                    return;
 
-                 element.innerHTML = pagerHtml;
+                }
 
-             }
+                var element = document.getElementById(positionId);
 
-         }
+                var pagerHtml = '<span onclick="' + pagerName + '.prev();" class="pg-normal"> « Prev </span> ';
+
+                for (var page = 1; page <= this.pages; page++)
+
+                    pagerHtml += '<span id="pg' + page + '" class="pg-normal" onclick="' + pagerName + '.showPage(' + page + ');">' + page + '</span> ';
+
+                pagerHtml += '<span onclick="' + pagerName + '.next();" class="pg-normal"> Next »</span>';
+
+                element.innerHTML = pagerHtml;
+
+            }
+
+        }
 
     </script>
-
-        
+    <style type="text/css">
+        #element_to_pop_up
+        {
+            background-color: #fff;
+            border-radius: 15px;
+            color: #000;
+            display: none;
+            padding: 20px;
+            min-width: 400px;
+            min-height: 180px;
+        }
+        .b-close
+        {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+    </style>
     <meta charset="utf-8" />
     <title>OFS Connect</title>
-   
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
 </head>
@@ -190,7 +224,7 @@
     <div>
         <div id="page">
             <!-- Header -->
-                 <OSF:Header runat="server" ID="Header" />
+            <OSF:Header runat="server" ID="Header" />
             <!-- End Header -->
             <!--Container-->
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
@@ -198,10 +232,12 @@
             <!--End container-->
             <!-- Footer -->
             <div class="footer">
-                  <OSF:Footer runat="server" ID="Footer" />
+                <OSF:Footer runat="server" ID="Footer" />
             </div>
             <!-- End Footer -->
         </div>
+    </div>
+    <div id="element_to_pop_up" class="right-15p-sidebar">
     </div>
     </form>
 </body>
