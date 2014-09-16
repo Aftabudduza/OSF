@@ -94,7 +94,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                             <td>
                                                             ", I, dr["Description"].ToString())
 
-                                                         + this.GenerateBoxData(Convert.ToInt32(dr["CategoryTypeID"])) +
+                                                         + this.GenerateBoxData(Convert.ToInt32(dr["CategoryID"])) +
 
                                     string.Format(@"
                                                         </td>
@@ -119,12 +119,12 @@ public partial class Contents_BoxContents : System.Web.UI.Page
         dynamicDiv.InnerHtml = tbl.ToString();
     }
 
-    private string GenerateBoxData(int catTypeID)
+    private string GenerateBoxData(int catID)
     {
 
         List<ContentObj> contents = new List<ContentObj>();
         ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
-        contents = cObj.getRecordsbyCategoryTypeID(catTypeID);
+        contents = cObj.getRecordsbyCategoryID(catID);
 
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
