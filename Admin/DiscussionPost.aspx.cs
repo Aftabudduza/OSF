@@ -144,7 +144,7 @@ public partial class Admin_DiscussionPost : System.Web.UI.Page
         {
             if (Convert.ToInt32(Session["CategoryID"].ToString()) != null && Session["Title"].ToString() != null)
             {
-                Response.Redirect("DiscussionDetails.aspx?ContentId=" + Convert.ToInt32(Session["CategoryID"].ToString()) + "&Title=" + Session["Title"].ToString());
+                Response.Redirect("DiscussionDetails.aspx?ContentIdDiscussion=" + Convert.ToInt32(Session["CategoryID"].ToString()) + "&Title=" + Session["Title"].ToString());
             }
             Session["CategoryID"] = null;
         }
