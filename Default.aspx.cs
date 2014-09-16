@@ -61,7 +61,13 @@ public partial class _Default : System.Web.UI.Page
             tbl.Append(" <div class='news-osf'>");
             foreach (ContentObj cO in cObjs)
             {
-                tbl.Append(string.Format("<div class='recent-news'> <p> <strong>Date:</strong>{0}</p> <p> <strong>Title:</strong><a href='#'>{1}</a></p> <p> <strong>From:</strong>{2}</p> <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content));
+                tbl.Append(string.Format(@"<div class='recent-news'> 
+                        <p> <strong>Date:</strong>{0}</p>
+                        <p> <strong><input type='button' style='width:100%;' value='{1}' onclick='GetPopupContentDefaultPage({4})' class='clsPopupLink' /> </strong></p> 
+                        <p> <strong>From:</strong>{2}</p> 
+                        <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p>
+
+                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content,cO.ContentID));
             }
 
             tbl.Append("</div>");

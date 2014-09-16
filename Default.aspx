@@ -6,7 +6,59 @@
     <meta charset="utf-8" />
     <title>OFS Connect</title>
     <!--Main CSS-->
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/popup.js" type="text/javascript"></script>
     <link rel="stylesheet" type="text/css" href="../css/main.css" />
+    <script type="text/jscript">
+
+
+        function GetPopupContentDefaultPage(xs) {
+
+            var xmlhttp;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            var url = "../Contents/BoxContents.aspx?Method=GetPopupContent&ID=" + xs;
+
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    document.getElementById("element_to_pop_up2").innerHTML = xmlhttp.responseText;
+
+                    $('#element_to_pop_up2').bPopup({
+                        speed: 650,
+                        transition: 'slideIn',
+                        transitionClose: 'slideBack'
+                    });
+
+                }
+            }
+            xmlhttp.open("Get", url, true);
+            xmlhttp.send();
+        }
+    </script>
+     <style type="text/css">
+        #element_to_pop_up2
+        {
+            background-color: #eff0e0;
+            border-radius: 15px;
+            color: #000;
+            display: none;
+            padding: 20px;
+            min-width: 400px;
+            min-height: 180px;
+        }
+        .b-close
+        {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 5px;
+        }
+    </style>
+
 </head>
 <body>
     <div id="page">
@@ -129,6 +181,8 @@
                 </div>
             </div>
         </div>
+            <div id="element_to_pop_up2" class="right-15p-sidebar">
+    </div>
         <!--End container-->
         <!-- Footer -->
         <div class="footer">

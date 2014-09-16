@@ -21,14 +21,36 @@ public partial class Admin_BasicData : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadComboCategoryList();
-            FillGrid(0);
-            //txtType.Visible = false;
-            //btnSaveType.Visible = false;
+            FillGrid(0);    
+            if (Request.QueryString["BType"] != null)
+            {
+                string bType = Request.QueryString["BType"].ToString();
+                if (bType == "Job")
+                    ddlSectionType.SelectedIndex = 1;
+                if (bType == "Location")
+                    ddlSectionType.SelectedIndex = 3;
+                if (bType == "Department")
+                    ddlSectionType.SelectedIndex = 2;
+
+                //txtBasicDataName.Visible = false;
+                //txtDate.Visible = false;
+                //txtUserDiefinedID.Visible = false;
+
+                //lblAuthorTitle.Visible = false;
+                //lblDateTtile.Visible = false;
+                //lblUserNamePermission.Visible = false;
+                //lblName.Visible = false;
+                //btnSave.Visible = false;
+
+                this.FillGrid(Convert.ToInt32(ddlSectionType.SelectedValue.ToString()));
+                ddlSectionType.Enabled = false;
+            }
+          
+             
         }
     }
 
     #endregion
-
 
     #region Events
 
@@ -73,6 +95,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         //txtType.Visible = true;
         //btnSaveType.Visible = true;
     }
+
     protected void btnSaveType_Click(object sender, EventArgs e)
     {
         BasicData objBasicData = new BasicData(cmscon.CONNECTIONSTRING);
@@ -96,6 +119,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         this.LoadComboCategoryList();
 
     }
+
     protected void btnSave_Click(object sender, EventArgs e)
     {
         BasicData objBasicData = new BasicData(cmscon.CONNECTIONSTRING);
@@ -155,6 +179,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
 
 
     }
+
     #endregion
 
     #region Method
@@ -173,9 +198,6 @@ public partial class Admin_BasicData : System.Web.UI.Page
   
       
     }
-
-
-
 
     private void LoadComboCategoryList()
     {
@@ -241,8 +263,6 @@ public partial class Admin_BasicData : System.Web.UI.Page
     }
 
 
-    #endregion
-
-  
+    #endregion  
 
 }

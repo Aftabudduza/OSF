@@ -28,19 +28,19 @@
                 <tbody>
                     <tr>
                         <td class="UserDetailHeader" align="right">
-                            <span style="color: #FF0000">*</span>
-                            <asp:Label ID="Label1" runat="server" Text="Basic Data Type:"></asp:Label>
+                        
+                            <asp:Label ID="Label1" runat="server" Text="* Basic Data Type:"></asp:Label>
                         </td>
                         <td width="750" style="height: 19px">
-                            <asp:DropDownList CssClass="OSFTextBox" ID="ddlSectionType" runat="server" AutoPostBack="true"
+                            <asp:DropDownList CssClass="OSFTextBox" Height="29px" Width="205px" ID="ddlSectionType" runat="server" AutoPostBack="true"
                                 OnSelectedIndexChanged="ddlSectionType_SelectedIndexChanged">
                             </asp:DropDownList>
                         </td>
                     </tr>
                     <tr>
                         <td class="UserDetailHeader" align="right">
-                            <span id="Span6" style="color: #FF0000">*</span>
-                            <asp:Label ID="Label2" runat="server" Text="Name:"></asp:Label>
+                          
+                            <asp:Label ID="lblName" runat="server" Text="* Name:"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="OSFTextBox" ID="txtBasicDataName" runat="server"></asp:TextBox>
@@ -48,8 +48,8 @@
                     </tr>
                     <tr>
                         <td class="UserDetailHeader" align="right">
-                            <span id="Span2" style="color: #FF0000">*</span>
-                            <asp:Label ID="lblAuthorTitle" runat="server" Text="User Defined ID:"></asp:Label>
+                          
+                            <asp:Label ID="lblAuthorTitle" runat="server" Text="* User Defined ID:"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="OSFTextBox" ID="txtUserDiefinedID" runat="server"></asp:TextBox>
@@ -59,8 +59,8 @@
                     </tr>
                     <tr>
                         <td class="UserDetailHeader" align="right">
-                            <span id="Span3" style="color: #FF0000">*</span>
-                            <asp:Label ID="lblDateTtile" runat="server" Text="Date:"></asp:Label>
+                     
+                            <asp:Label ID="lblDateTtile" runat="server" Text="* Date:"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox CssClass="OSFTextBox" ID="txtDate" runat="server"></asp:TextBox>

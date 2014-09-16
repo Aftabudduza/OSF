@@ -64,17 +64,17 @@
                             <table cellspacing="10" cellpadding="5" border="0">
                                 <tr>
                                     <td class="standardText">
-                                        <a href="UnderDev.aspx" id="JobsLink">Jobs List</a>
+                                        <a href="BasicData.aspx?BType=Job&amp" id="JobsLink">Jobs List</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="UnderDev.aspx" id="LocationsLink">Locations List</a>
+                                        <a href="BasicData.aspx?BType=Location&amp" id="LocationsLink">Locations List</a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="UnderDev.aspx" id="DepartmentsLink">Departments List</a>
+                                        <a href="BasicData.aspx?BType=Department&amp" id="DepartmentsLink">Departments List</a>
                                     </td>
                                 </tr>
                             </table>
