@@ -335,7 +335,7 @@
             CancelControlID="btnCancel">
         </asp:ModalPopupExtender>
         <asp:Panel ID="pnlpopup" runat="server" CssClass="pnlpopupclass" BackColor="White"
-            Style="display: none;">
+            Style="display: block;">
             <div class="clsDiv1">
                 <h3>
                     User Details</h3>
@@ -825,7 +825,7 @@
             CancelControlID="btnCancel">
         </asp:ModalPopupExtender>
         <asp:Panel ID="pnlpopupPermission" CssClass="pnlpopupclass" runat="server" BackColor="White"
-            Style="display: block;">
+            Style="display: none;">
             <div class="clsDiv1">
                 <asp:Label ID="lblUserNamePermission" runat="server" CssClass="form_header" Text=""></asp:Label>
                 <div class="clsPopUp">

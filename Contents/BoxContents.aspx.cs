@@ -135,6 +135,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
             string oddOrEven = "even";
             if (j % 2 != 0)
                 oddOrEven = "odd";
+      
             tbl.Append(string.Format(@"
                                             <tr class='{0}'>
                                                 <td >

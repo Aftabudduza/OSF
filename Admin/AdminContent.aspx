@@ -34,7 +34,7 @@
                             </td>
                             <td width="750" style="height: 19px">
 
-                                <asp:DropDownList CssClass="OSFTextBox" ID="ddlCategoryList" Width="207" AutoPostBack="true"
+                                <asp:DropDownList CssClass="OSFTextBox" Height="28px" Width="205px" ID="ddlCategoryList" AutoPostBack="true"
                                     runat="server" OnSelectedIndexChanged="ddlCategoryList_SelectedIndexChanged">
                                 </asp:DropDownList>
                             </td>
@@ -47,7 +47,7 @@
                                 
                             </td>
                             <td>
-                                <asp:FileUpload ID="uplProduct" runat="server" Width="350px" />
+                                <asp:FileUpload ID="uplProduct" runat="server" Width="218px" />
                                 <asp:Label ID="lblURLofFile" runat="server" Text=""></asp:Label>
                             </td>
                         </tr>

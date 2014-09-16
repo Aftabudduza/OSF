@@ -344,6 +344,17 @@ public class ContentObj
         }
         return contentsList;
     }
+    public List<ContentObj> getRecordsbyCategoryID(int categoryID)
+    {
+        List<ContentObj> contentsList = new List<ContentObj>();
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
+        if (dt != null)
+            foreach (DataRow dr in dt.Rows)
+            {
+                contentsList.Add(this.MakeRowToObject(dr));
+            }
+        return contentsList;
+    }
 
     public ContentObj getRecordFromID(int ContentID)
     {

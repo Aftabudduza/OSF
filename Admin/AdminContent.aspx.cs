@@ -93,8 +93,9 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                             Directory.CreateDirectory(filePath);
                         }
 
-                        string nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
-                        Session["FileName"] = nFile;
+                        string fileName = DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName;
+                        string nFile = Path.Combine(filePath, fileName);
+                        Session["FileName"] = fileName;
                         try
                         {
                             if (System.IO.File.Exists(nFile))
@@ -154,9 +155,10 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                         {
                             Directory.CreateDirectory(filePath);
                         }
-
-                        nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
-                        Session["FileName"] = nFile;
+                        string fileName = DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName;
+                         nFile = Path.Combine(filePath,  fileName);
+                       // nFile = Path.Combine(filePath, "ContentFile_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName);
+                         Session["FileName"] = fileName;
                         try
                         {
                             if (System.IO.File.Exists(nFile))

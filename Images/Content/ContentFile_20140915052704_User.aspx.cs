@@ -15,11 +15,7 @@ public partial class Admin_User : System.Web.UI.Page
     bool _isEdit = false;
     protected void Page_Load(object sender, EventArgs e)
     {
-
-        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
-        {
-            Response.Redirect("Login.aspx");
-        }
+        //LinksTreeView.Attributes.Add("onclick", "postBackByObject()");
       
         if (!IsPostBack)
         {
@@ -28,11 +24,9 @@ public partial class Admin_User : System.Web.UI.Page
             LoadComboLocation();
             Session["UserIDEdit"] = "";
             this.FillGrid(0);
-            if (Session["UserPermission"] != null)
-            {
-                UserPermissions up = (UserPermissions)Session["UserPermission"];
-                btnAddUser.Visible = up.IsDirectoryAdmin;
-            }
+            UserPermissions up = (UserPermissions)Session["UserPermission"];
+            btnAddUser.Visible= up.IsDirectoryAdmin;
+          
         }
 
     }
@@ -253,7 +247,8 @@ public partial class Admin_User : System.Web.UI.Page
         {
             if (userSectionPermissionData == null || userSectionPermissionData.Rows.Count <= 0)
             {
-                GenerateTreeView();           
+                GenerateTreeView();
+                //FillSectionPermissionControls(DataTable dt);
             }
             else
             {
@@ -330,10 +325,10 @@ public partial class Admin_User : System.Web.UI.Page
             if (usp.CategoryID > 0)
             {
                 usp.insert();
-                //if (usp.HasPermission)
-                //{
-                //    usp.QueryExecute(string.Format("UPDATE UserSectionPermission SET HasPermission=1 WHERE SectionID={0} AND IsSection=1 AND UserID={1}",usp.SectionID,usp.UserID));
-                //}
+                if (usp.HasPermission)
+                {
+                    usp.QueryExecute(string.Format("UPDATE UserSectionPermission SET HasPermission=1 WHERE SectionID={0} AND IsSection=1 AND UserID={1}",usp.SectionID,usp.UserID));
+                }
             }
             else
                 usp.insertNoCategory();
@@ -346,80 +341,6 @@ public partial class Admin_User : System.Web.UI.Page
 
     }
 
-
-    protected void lbtnView_Click(object sender, System.EventArgs e)
-    {
-        _isEdit = true;
-        GridViewRow row = ((LinkButton)sender).Parent.Parent as GridViewRow;
-        HiddenField vId = (HiddenField)gvUser.Rows[row.RowIndex].FindControl("hdId");
-        Session["UserIDEdit"] = vId.Value;
-        int nId = vId.Value == "" ? 0 : Convert.ToInt32(vId.Value);
-        if (nId > 0)
-        {
-            ImageButton btndetails = sender as ImageButton;
-            Users uObj = new Users(cmscon.CONNECTIONSTRING);
-            DataTable dt = cmscon.getRows(string.Format("SELECT u.*, Job = (SELECT Name From BasicData WHERE BasicDataID=u.JobID), Department = (SELECT Name From BasicData WHERE BasicDataID=u.DepartmentID), Location = (SELECT Name From BasicData WHERE BasicDataID=u.LocationID) FROM users u WHERE u.UserID={0}", Convert.ToInt32(vId.Value)));
-            if (dt != null)
-            {
-                this.FillControlsView(dt);
-                this.ModalPopupExtender3.Show();
-            }
-            else
-            {
-                DisplayAlert("No Details Data Fount");
-            }
-
-        }
-
-
-    }
-
-
-
-
-    protected void LinksTreeView_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
-    {
-        //TreeNodeCollection ts = null;
-        //if (e.Node.Parent == null)
-        //{
-        //    ts = ((TreeView)sender).Nodes;
-        //}
-        //else
-        //{
-        //    ts = e.Node.Parent.ChildNodes;
-        //}
-        //foreach (TreeNode node in ts)
-        //{
-        //    if (node.Value != e.Node.Value)
-        //    {
-        //        node.Collapse();
-        //    }
-        //}
-    }
-
-    protected void gvUser_RowCreated(object sender, GridViewRowEventArgs e)
-    {
-        if (Session["UserPermission"] != null)
-        {
-            UserPermissions up = (UserPermissions)Session["UserPermission"];
-            if (!up.IsDirectoryAdmin)
-            {
-                ((DataControlField)gvUser.Columns
-                    .Cast<DataControlField>()
-                    .Where(fld => fld.HeaderText == "Edit")
-                    .SingleOrDefault()).Visible = false;
-
-                ((DataControlField)gvUser.Columns
-                .Cast<DataControlField>()
-                .Where(fld => fld.HeaderText == "Permission")
-                .SingleOrDefault()).Visible = false;
-            }
-        }
-    }
-    protected void btnUserViewExit_Click(object sender, EventArgs e)
-    {
-
-    }
     #endregion
 
     #region Method
@@ -432,6 +353,7 @@ public partial class Admin_User : System.Web.UI.Page
         uObj.IsHidden = chkIsHidden.Checked;
         uObj.IsLayPerson = chkIsCommitteMember.Checked;//Lay Person
         uObj.IsGlobalAdmin = chkIsGlobalAdmin.Checked;
+        //uObj.IsGlobalForumAdmin =  chkIsGlobalForumAdmin.Checked;
         uObj.IsGlobalContentAdmin = chkIsGlobalContentAdmin.Checked;
         //uObj.IsChapterContentAdmin = chkIsACContentAdmin.Checked;
         //uObj.IsChapterForumAdmin = chkISACForumAdmin.Checked;
@@ -445,30 +367,19 @@ public partial class Admin_User : System.Web.UI.Page
 
     private void MakeSectionPermissionObject(List<UserSectionPermission> uObj)
     {
-
-        foreach (ListItem li in chkHeaderList.Items)
-        {
-            UserSectionPermission up = new UserSectionPermission();
-            up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
-            up.CategoryID = 0;
-            up.SectionID = Convert.ToInt32(li.Value);
-            up.HasPermission = li.Selected;
-            up.IsSection = true;
-            uObj.Add(up);
-        }
-
+        
         foreach (TreeNode node in LinksTreeView.Nodes)
         {
             UserSectionPermission up = new UserSectionPermission();
 
             if (node.Parent == null) //its parent Node
             {
-                //up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
-                //up.CategoryID = 0;
-                //up.SectionID =Convert.ToInt32(node.Value);
-                //up.HasPermission = node.Checked;
-                //up.IsSection = true;
-                //uObj.Add(up);
+                up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
+                up.CategoryID = 0;
+                up.SectionID =Convert.ToInt32(node.Value);
+                up.HasPermission = node.Checked;
+                up.IsSection = true;
+                uObj.Add(up);
 
                 if (node.ChildNodes != null && node.ChildNodes.Count > 0)
                 {
@@ -477,15 +388,32 @@ public partial class Admin_User : System.Web.UI.Page
                         up = new UserSectionPermission();
                         up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
                         up.CategoryID = Convert.ToInt32(cnode.Value);
-                        up.SectionID = Convert.ToInt32(node.Value);
+                        up.SectionID =Convert.ToInt32( node.Value);
                         up.HasPermission = cnode.Checked;
                         uObj.Add(up);
                     }
                 }
+         
             }
+   
         }
 
-
+        //uObj.CanLogIn = chkCanLogin.Checked;
+        //uObj.IsSister = chkIsSister.Checked;
+        //uObj.IsStaff = chkIsStuff.Checked;
+        //uObj.IsCompanion = chkIsCompanion.Checked;
+        //uObj.IsHidden = chkIsHidden.Checked;
+        //uObj.IsLayPerson = chkIsCommitteMember.Checked;//Lay Person
+        //uObj.IsGlobalAdmin = chkIsGlobalAdmin.Checked;
+        //uObj.IsGlobalForumAdmin = chkIsGlobalForumAdmin.Checked;
+        //uObj.IsGlobalContentAdmin = chkIsGlobalContentAdmin.Checked;
+        //uObj.IsChapterContentAdmin = chkIsACContentAdmin.Checked;
+        //uObj.IsChapterForumAdmin = chkISACForumAdmin.Checked;
+        //uObj.IsChapterDirectoryAdmin = chkIsACDirectoryAdmin.Checked;
+        //uObj.IsDirectoryAdmin = chkIsGlobalDirectoryAdmin.Checked;
+        //uObj.IsChapterDirectivesAdmin = isChapterDirectiveAdmin.Checked;
+        //uObj.IsCompanionAdmin = chkIsCompanionAdmin.Checked;
+        //uObj.IsDelete = chkCanLogin.Checked;
 
     }
 
@@ -591,8 +519,7 @@ public partial class Admin_User : System.Web.UI.Page
                 Directory.CreateDirectory(filePath);
             }
 
-            string fileName = "Users_" + DateTime.Now.ToString("yyyyMMddhhmmss") + "_" + this.uplProduct.FileName;
-            string nFile = Path.Combine(filePath, fileName);
+            string nFile = Path.Combine(filePath, "Users_" + DateTime.Now.ToString("yyyyMMddhhmmss") +"_" + this.uplProduct.FileName);
 
             try
             {
@@ -606,293 +533,91 @@ public partial class Admin_User : System.Web.UI.Page
             {
             }
             uplProduct.SaveAs(nFile);
-            uObj.Picture = fileName;
+            uObj.Picture = nFile;
         }
     }
-    
+
     private void FillControls(DataTable dt)
     {
-        if (dt.Rows[0]["FirstName"] != null)
-            txtFirstName.Text = dt.Rows[0]["FirstName"].ToString();
-
-        if (dt.Rows[0]["LastName"] != null)
-            txtLastName.Text = dt.Rows[0]["LastName"].ToString();
+        txtFirstName.Text = dt.Rows[0]["FirstName"].ToString();
+        txtLastName.Text = dt.Rows[0]["LastName"].ToString();
         //txtD.Text = dt.Rows[0]["DEPT***"].ToString();
         //txtHomePhone.Text = dt.Rows[0]["POS****"].ToString();
-        if (dt.Rows[0]["Chapter"] != null)
-            txtChapter.Text = dt.Rows[0]["Chapter"].ToString();
-
-        if (dt.Rows[0]["CompanionType"] != null)
-            txtCompanionType.Text = dt.Rows[0]["CompanionType"].ToString();
-
-        if (dt.Rows[0]["ProfessionalYear"] != null)
-            txtProfessionalYear.Text = dt.Rows[0]["ProfessionalYear"].ToString();
-
-        if (dt.Rows[0]["MI"] != null)
-            txtMI.Text = dt.Rows[0]["MI"].ToString();
-
-        if (dt.Rows[0]["HomeStreet1"] != null)
-            txtHomeStreet1.Text = dt.Rows[0]["HomeStreet1"].ToString();
-        if (dt.Rows[0]["HomeStreet2"] != null)
-            txtHomeStreet1.Text = dt.Rows[0]["HomeStreet2"].ToString();
-        if (dt.Rows[0]["HomeCity"] != null)
-            txtHomeCity.Text = dt.Rows[0]["HomeCity"].ToString();
-        if (dt.Rows[0]["HomeState"] != null)
-            txtHomeState.Text = dt.Rows[0]["HomeState"].ToString();
-
-        if (dt.Rows[0]["HomeZip"] != null)
-            txtHomeZip.Text = dt.Rows[0]["HomeZip"].ToString();
-
-        if (dt.Rows[0]["HomeEmail"] != null)
-            txtHomeEmail.Text = dt.Rows[0]["HomeEmail"].ToString();
-
-        if (dt.Rows[0]["HomePhone"] != null)
-            txtHomePhone.Text = dt.Rows[0]["HomePhone"].ToString();
-
-        if (dt.Rows[0]["MinistryClassification"] != null)
-            txtMinistryClassification.Text = dt.Rows[0]["MinistryClassification"].ToString();
-
-        if (dt.Rows[0]["MinistryLocation"] != null)
-            txtMinistryLocation.Text = dt.Rows[0]["MinistryLocation"].ToString();
-
-        if (dt.Rows[0]["MinistryStreet1"] != null)
-            txtMinistryStreet1.Text = dt.Rows[0]["MinistryStreet1"].ToString();
-
-        if (dt.Rows[0]["MinistryStreet2"] != null)
-            txtMinistryStreet2.Text = dt.Rows[0]["MinistryStreet2"].ToString();
-
-        if (dt.Rows[0]["MinistryCity"] != null)
-            txtMinistryCity.Text = dt.Rows[0]["MinistryCity"].ToString();
-
-        if (dt.Rows[0]["MinistryCountry"] != null)
-            txtMinistryCountry.Text = dt.Rows[0]["MinistryCountry"].ToString();
-
-        if (dt.Rows[0]["MinistryZip"] != null)
-            txtMinistryZip.Text = dt.Rows[0]["MinistryZip"].ToString();
-
-        if (dt.Rows[0]["MinistryPhone"] != null)
-            txtMinistryPhone.Text = dt.Rows[0]["MinistryPhone"].ToString();
-
-        if (dt.Rows[0]["MinistryFax"] != null)
-            txtMinistryFax.Text = dt.Rows[0]["MinistryFax"].ToString();
-
-        if (dt.Rows[0]["MinistryEmail"] != null)
-            txtMinistryEmail.Text = dt.Rows[0]["MinistryEmail"].ToString();
-
-        if (dt.Rows[0]["Ministry2Title"] != null)
-            txtMinistry2Title.Text = dt.Rows[0]["Ministry2Title"].ToString();
-
-        if (dt.Rows[0]["Ministry2Classification"] != null)
-            txtMinistry2Classification.Text = dt.Rows[0]["Ministry2Classification"].ToString();
-
-        if (dt.Rows[0]["Ministry2Location"] != null)
-            txtMinistry2Location.Text = dt.Rows[0]["Ministry2Location"].ToString();
-
-        if (dt.Rows[0]["Ministry2Street1"] != null)
-            txtMinistry2Street1.Text = dt.Rows[0]["Ministry2Street1"].ToString();
-
-        if (dt.Rows[0]["Ministry2Street2"] != null)
-            txtMinistry2Street2.Text = dt.Rows[0]["Ministry2Street2"].ToString();
-
-        if (dt.Rows[0]["Ministry2City"] != null)
-            txtMinistry2City.Text = dt.Rows[0]["Ministry2City"].ToString();
-
-        if (dt.Rows[0]["Ministry2Country"] != null)
-            txtMinistry2Country.Text = dt.Rows[0]["Ministry2Country"].ToString();
-
-        if (dt.Rows[0]["Ministry2Zip"] != null)
-            txtMinistry2Zip.Text = dt.Rows[0]["Ministry2Zip"].ToString();
-
-        if (dt.Rows[0]["Ministry2Phone"] != null)
-            txtMinistry2Phone.Text = dt.Rows[0]["Ministry2Phone"].ToString();
-
-        if (dt.Rows[0]["Ministry2Fax"] != null)
-            txtMinistry2Fax.Text = dt.Rows[0]["Ministry2Fax"].ToString();
-        if (dt.Rows[0]["Ministry2Email"] != null)
-            txtMinistry2Email.Text = dt.Rows[0]["Ministry2Email"].ToString();
-
-        if (dt.Rows[0]["DepartmentID"] != null)
-            ddlDepartment.SelectedValue = dt.Rows[0]["DepartmentID"].ToString();
-
-        if (dt.Rows[0]["JobID"] != null)
-            ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
-
-        if (dt.Rows[0]["LocationID"] != null)
-            ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
-
-        if (dt.Rows[0]["DepartmentID"] != null)
-            ddlDepartment.SelectedValue = dt.Rows[0]["DepartmentID"].ToString();
-
-        if (dt.Rows[0]["JobID"] != null)
-            ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
-
-        if (dt.Rows[0]["LocationID"] != null)
-            ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
-
-
-        if (dt.Rows[0]["Picture"] != null && dt.Rows[0]["Picture"].ToString() != string.Empty)
-        {
-            string filePath = Path.Combine(Request.PhysicalApplicationPath, "Images\\Users\\");
-            imgUserView.Attributes["src"] = filePath + dt.Rows[0]["Picture"].ToString();
-            Session["UserImage"] = dt.Rows[0]["Picture"].ToString();
-
-        }
-
-    }
-
-    private void FillControlsView(DataTable dt)
-    {
-        if (dt.Rows[0]["FirstName"] != null)
-            lblFirstName.Text = dt.Rows[0]["FirstName"].ToString();
-
-        if (dt.Rows[0]["LastName"] != null)
-            lblLastName.Text = dt.Rows[0]["LastName"].ToString();
-        //lblD.Text = dt.Rows[0]["DEPT***"].ToString();
-        //lblHomePhone.Text = dt.Rows[0]["POS****"].ToString();
-        if (dt.Rows[0]["Chapter"] != null)
-            lblAreaChapter.Text = dt.Rows[0]["Chapter"].ToString();
-
-        if (dt.Rows[0]["CompanionType"] != null)
-            lblCompanionType.Text = dt.Rows[0]["CompanionType"].ToString();
-
-        if (dt.Rows[0]["ProfessionalYear"] != null)
-            lblProfessionYear.Text = dt.Rows[0]["ProfessionalYear"].ToString();
-
-        if (dt.Rows[0]["CompanionType"] != null)
-            lblMI.Text = dt.Rows[0]["CompanionType"].ToString();
-
-        if (dt.Rows[0]["HomeStreet1"] != null)
-            lblHomeStreet1.Text = dt.Rows[0]["HomeStreet1"].ToString();
-        if (dt.Rows[0]["HomeStreet2"] != null)
-            lblHomeStreet1.Text = dt.Rows[0]["HomeStreet2"].ToString();
-        if (dt.Rows[0]["HomeCity"] != null)
-            lblHomeCity.Text = dt.Rows[0]["HomeCity"].ToString();
-        if (dt.Rows[0]["HomeState"] != null)
-            lblHomeState.Text = dt.Rows[0]["HomeState"].ToString();
-
-        if (dt.Rows[0]["HomeZip"] != null)
-            lblHomeZip.Text = dt.Rows[0]["HomeZip"].ToString();
-
-        if (dt.Rows[0]["HomeEmail"] != null)
-            lblHomeEmail.Text = dt.Rows[0]["HomeEmail"].ToString();
-
-        if (dt.Rows[0]["HomePhone"] != null)
-            lblHomePhone.Text = dt.Rows[0]["HomePhone"].ToString();
-
-        if (dt.Rows[0]["MinistryClassification"] != null)
-            lblMinistry1Classification.Text = dt.Rows[0]["MinistryClassification"].ToString();
-
-        if (dt.Rows[0]["MinistryLocation"] != null)
-            lblMinistry1PlaceofEmployment.Text = dt.Rows[0]["MinistryLocation"].ToString();
-
-        if (dt.Rows[0]["MinistryStreet1"] != null)
-            lblMinistry1Street1.Text = dt.Rows[0]["MinistryStreet1"].ToString();
-
-        if (dt.Rows[0]["MinistryStreet2"] != null)
-            lblMinistry1Street1.Text = dt.Rows[0]["MinistryStreet2"].ToString();
-
-        if (dt.Rows[0]["MinistryCity"] != null)
-            lblMinistry1City.Text = dt.Rows[0]["MinistryCity"].ToString();
-
-        if (dt.Rows[0]["MinistryCountry"] != null)
-            lblMinistry1Country.Text = dt.Rows[0]["MinistryCountry"].ToString();
-
-        if (dt.Rows[0]["MinistryZip"] != null)
-            lblMinistry1Zip.Text = dt.Rows[0]["MinistryZip"].ToString();
-
-        if (dt.Rows[0]["MinistryPhone"] != null)
-            lblMinistry1Phone.Text = dt.Rows[0]["MinistryPhone"].ToString();
-
-        if (dt.Rows[0]["MinistryFax"] != null)
-            lblMinistry1Fax.Text = dt.Rows[0]["MinistryFax"].ToString();
-
-        if (dt.Rows[0]["MinistryEmail"] != null)
-            lblMinistry1Email.Text = dt.Rows[0]["MinistryEmail"].ToString();
-
-        if (dt.Rows[0]["Ministry2Title"] != null)
-            lblMinistry2Title.Text = dt.Rows[0]["Ministry2Title"].ToString();
-
-        if (dt.Rows[0]["Ministry2Classification"] != null)
-            lblMinistry2Classification2.Text = dt.Rows[0]["Ministry2Classification"].ToString();
-
-        if (dt.Rows[0]["Ministry2Location"] != null)
-            lblMinistry2PlaceofEmp.Text = dt.Rows[0]["Ministry2Location"].ToString();
-
-        if (dt.Rows[0]["Ministry2Street1"] != null)
-            lblMinistry2Street1.Text = dt.Rows[0]["Ministry2Street1"].ToString();
-
-        if (dt.Rows[0]["Ministry2Street2"] != null)
-            lblMinistry2street2.Text = dt.Rows[0]["Ministry2Street2"].ToString();
-
-        if (dt.Rows[0]["Ministry2City"] != null)
-            lblMinistry2City.Text = dt.Rows[0]["Ministry2City"].ToString();
-
-        if (dt.Rows[0]["Ministry2Country"] != null)
-            lblMinistry2Country.Text = dt.Rows[0]["Ministry2Country"].ToString();
-
-        if (dt.Rows[0]["Ministry2Zip"] != null)
-            lblMinistry2Zip.Text = dt.Rows[0]["Ministry2Zip"].ToString();
-
-        if (dt.Rows[0]["Ministry2Phone"] != null)
-            lblMinistry2Phone.Text = dt.Rows[0]["Ministry2Phone"].ToString();
-
-        if (dt.Rows[0]["CompanionType"] != null)
-            lblMinistry2Fax.Text = dt.Rows[0]["Ministry2Fax"].ToString();
-
-        if (dt.Rows[0]["Ministry2Email"] != null)
-            lblMinistry2Email.Text = dt.Rows[0]["Ministry2Email"].ToString();
-
-        if (dt.Rows[0]["Job"] != null)
-            lblPosition.Text = dt.Rows[0]["Job"].ToString();
-
-        if (dt.Rows[0]["Department"] != null)
-            lblDepartment.Text = dt.Rows[0]["Department"].ToString();
-
-        if (dt.Rows[0]["Location"] != null)
-            lblHomeLocation.Text = dt.Rows[0]["Location"].ToString();
-
-        //ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
-
-        if (dt.Rows[0]["Picture"] != null && dt.Rows[0]["Picture"].ToString() != string.Empty)
-        {
-            string filePath = Path.Combine(Request.PhysicalApplicationPath, "Images\\Users\\");
-
-            imgUserView.Attributes["src"] = "../Images/Users/" + dt.Rows[0]["Picture"].ToString();
-        }
-
+        txtChapter.Text = dt.Rows[0]["Chapter"].ToString();
+        txtCompanionType.Text = dt.Rows[0]["CompanionType"].ToString();
+        txtProfessionalYear.Text = dt.Rows[0]["ProfessionalYear"].ToString();
+        txtMI.Text = dt.Rows[0]["MI"].ToString();
+        //txtMI.Text = dt.Rows[0]["Loc"].ToString();
+
+        txtHomeStreet1.Text = dt.Rows[0]["HomeStreet1"].ToString();
+        txtHomeStreet1.Text = dt.Rows[0]["HomeStreet2"].ToString();
+        txtHomeCity.Text = dt.Rows[0]["HomeCity"].ToString();
+        txtHomeState.Text = dt.Rows[0]["HomeState"].ToString();
+        txtHomeZip.Text = dt.Rows[0]["HomeZip"].ToString();
+        txtHomeEmail.Text = dt.Rows[0]["HomeEmail"].ToString();
+        txtHomePhone.Text = dt.Rows[0]["HomePhone"].ToString();
+
+        //txtMinistryTitle.Text = dt.Rows[0]["MinistryTitle"].ToString();
+        txtMinistryClassification.Text = dt.Rows[0]["MinistryClassification"].ToString();
+        txtMinistryLocation.Text = dt.Rows[0]["MinistryLocation"].ToString();
+        txtMinistryStreet1.Text = dt.Rows[0]["MinistryStreet1"].ToString();
+        txtMinistryStreet2.Text = dt.Rows[0]["MinistryStreet2"].ToString();
+        txtMinistryCity.Text = dt.Rows[0]["MinistryCity"].ToString();
+        txtMinistryCountry.Text = dt.Rows[0]["MinistryCountry"].ToString();
+        txtMinistryZip.Text = dt.Rows[0]["MinistryZip"].ToString();
+        txtMinistryPhone.Text = dt.Rows[0]["MinistryPhone"].ToString();
+        txtMinistryFax.Text = dt.Rows[0]["MinistryFax"].ToString();
+        txtMinistryEmail.Text = dt.Rows[0]["MinistryEmail"].ToString();
+
+        txtMinistry2Title.Text = dt.Rows[0]["Ministry2Title"].ToString();
+        txtMinistry2Classification.Text = dt.Rows[0]["Ministry2Classification"].ToString();
+        txtMinistry2Location.Text = dt.Rows[0]["Ministry2Location"].ToString();
+        txtMinistry2Street1.Text = dt.Rows[0]["Ministry2Street1"].ToString();
+        txtMinistry2Street2.Text = dt.Rows[0]["Ministry2Street2"].ToString();
+        txtMinistry2City.Text = dt.Rows[0]["Ministry2City"].ToString();
+        txtMinistry2Country.Text = dt.Rows[0]["Ministry2Country"].ToString();
+        txtMinistry2Zip.Text = dt.Rows[0]["Ministry2Zip"].ToString();
+        txtMinistry2Phone.Text = dt.Rows[0]["Ministry2Phone"].ToString();
+        txtMinistry2Fax.Text = dt.Rows[0]["Ministry2Fax"].ToString();
+        txtMinistry2Email.Text = dt.Rows[0]["Ministry2Email"].ToString();
+
+
+        ddlDepartment.SelectedValue =  dt.Rows[0]["DepartmentID"].ToString();
+        ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
+        ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
+        //uplProduct.v = dt.Rows[0]["Picture"].ToString();
+ 
     }
 
     private void FillPermissionControls(DataTable dt)
     {
-        if (dt.Rows[0]["CanLogIn"] != null)
-            chkCanLogin.Checked = Convert.ToBoolean(dt.Rows[0]["CanLogIn"]);
+        //txtFirstName.Text = Convert.ToBoolean(dt.Rows[0]["FirstName"]);
 
-        if (dt.Rows[0]["IsSister"] != null)
-            chkIsSister.Checked = Convert.ToBoolean(dt.Rows[0]["IsSister"]);
+        chkCanLogin.Checked = Convert.ToBoolean(dt.Rows[0]["CanLogIn"]);
+        chkIsSister.Checked = Convert.ToBoolean(dt.Rows[0]["IsSister"]);
+        chkIsStuff.Checked = Convert.ToBoolean(dt.Rows[0]["IsStaff"]);
+        chkIsCompanion.Checked = Convert.ToBoolean(dt.Rows[0]["IsCompanion"]);
+        chkIsHidden.Checked = Convert.ToBoolean(dt.Rows[0]["IsHidden"]);
+        chkIsCommitteMember.Checked = Convert.ToBoolean(dt.Rows[0]["IsLayPerson"]);
+        chkIsGlobalAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsGlobalAdmin"]);
 
-        if (dt.Rows[0]["IsStaff"] != null)
-            chkIsStuff.Checked = Convert.ToBoolean(dt.Rows[0]["IsStaff"]);
+        //chkIsGlobalForumAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsGlobalForumAdmin"]);
 
-        if (dt.Rows[0]["IsCompanion"] != null)
-            chkIsCompanion.Checked = Convert.ToBoolean(dt.Rows[0]["IsCompanion"]);
+        chkIsGlobalContentAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsGlobalContentAdmin"]);
 
-        if (dt.Rows[0]["IsHidden"] != null)
-            chkIsHidden.Checked = Convert.ToBoolean(dt.Rows[0]["IsHidden"]);
+        //chkIsACContentAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsChapterContentAdmin"]);
 
-        if (dt.Rows[0]["IsLayPerson"] != null)
-            chkIsCommitteMember.Checked = Convert.ToBoolean(dt.Rows[0]["IsLayPerson"]);
+        //chkISACForumAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsChapterForumAdmin"]);
 
-        if (dt.Rows[0]["IsGlobalAdmin"] != null)
-            chkIsGlobalAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsGlobalAdmin"]);
+        //chkIsACDirectoryAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsChapterDirectoryAdmin"]);
 
-        if (dt.Rows[0]["IsGlobalContentAdmin"] != null)
-            chkIsGlobalContentAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsGlobalContentAdmin"]);
+        chkIsGlobalDirectoryAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsDirectoryAdmin"]);
 
-        if (dt.Rows[0]["IsDirectoryAdmin"] != null)
-            chkIsGlobalDirectoryAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsDirectoryAdmin"]);
+        //isChapterDirectiveAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsChapterDirectivesAdmin"]);
 
-        if (dt.Rows[0]["IsDelete"] != null)
-            chkIsDelete.Checked = Convert.ToBoolean(dt.Rows[0]["IsDelete"]);
+        //chkIsCompanionAdmin.Checked = Convert.ToBoolean(dt.Rows[0]["IsCompanionAdmin"]);
+
+        chkCanLogin.Checked = Convert.ToBoolean(dt.Rows[0]["IsDelete"]);
 
 
     }
@@ -1050,21 +775,12 @@ public partial class Admin_User : System.Web.UI.Page
 
     private void GenerateTreeView()
     {
-
-        //chkHeaderList.Items.Add(new ListItem("Hello1", "1" ));
-        //chkHeaderList.Items.Add(new ListItem("Hello2", "2"));
-        //chkHeaderList.Items.Add(new ListItem("Hello3", "3"));
-        //chkHeaderList.Items.Add(new ListItem("Hello4", "4"));
-        //chkHeaderList.Items.Add(new ListItem("Hello5", "5"));
-
-        //chkHeaderList.RepeatDirection = RepeatDirection.Horizontal;
         LinksTreeView.Nodes.Clear();
         try
         {
-            string sql = "Select * FROM SectionType WHERE IsCategory=1";
+            string sql = "Select * FROM SectionType ";
             DataTable ResultSet = cmscon.getRows(sql);
-            chkHeaderList.Items.Clear();
-            chkHeaderList.RepeatDirection = RepeatDirection.Horizontal;
+
             // Create the second-level nodes
             if (ResultSet != null)
             {
@@ -1076,9 +792,9 @@ public partial class Admin_User : System.Web.UI.Page
                         ParentNode.Text = row["Description"].ToString();
                         ParentNode.Value = row["SectionTypeID"].ToString();
                         //ParentNode.SelectAction = TreeNodeSelectAction.Select;
-                        ParentNode.ShowCheckBox = false;
+                        ParentNode.ShowCheckBox = true;
                         LinksTreeView.Nodes.Add(ParentNode);
-                        chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
+
                         // Add Child Node 
                         if (Convert.ToBoolean(row["IsCategory"]))
                         {
@@ -1136,8 +852,6 @@ public partial class Admin_User : System.Web.UI.Page
             {
                 if (ResultSet.Rows.Count > 0)
                 {
-                    chkHeaderList.Items.Clear();
-                    chkHeaderList.RepeatDirection = RepeatDirection.Horizontal;
 
                     foreach (DataRow row in ResultSet.Rows)
                     {
@@ -1145,20 +859,10 @@ public partial class Admin_User : System.Web.UI.Page
                             TreeNode ParentNode = new TreeNode();
                             ParentNode.Text = row["Description"].ToString();
                             ParentNode.Value = row["SectionTypeID"].ToString();
-                           // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
-                            ParentNode.ShowCheckBox = false;
+                            ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
+                            ParentNode.ShowCheckBox = true;
                             LinksTreeView.Nodes.Add(ParentNode);
 
-                            chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
-
-                            foreach (ListItem li in chkHeaderList.Items)
-                            {
-                                if (li.Value == ParentNode.Value)
-                                {
-                                    li.Selected = Convert.ToBoolean(row["HasPermission"]);
-                                }
-
-                            }
                             // Add Child Node 
                             if (Convert.ToBoolean(row["IsCategory"]))
                             {
@@ -1178,7 +882,7 @@ public partial class Admin_User : System.Web.UI.Page
                                         //childNode.Text = "<a style='text-decoration:none; color:#000;' href='PageContent.aspx?page_id=" + newrow["CategoryID"].ToString() + "'>" + newrow["Description"].ToString() + "</a>";
                                         childNode.Text = newrow["Description"].ToString();
                                         childNode.Value = newrow["CategoryID"].ToString();
-                                        childNode.Checked = Convert.ToBoolean(newrow["HasPermission"]);
+                                        childNode.Checked = Convert.ToBoolean(row["HasPermission"]);
                                         childNode.ShowCheckBox = true;
 
                                         ParentNode.ChildNodes.Add(childNode);
@@ -1226,4 +930,41 @@ public partial class Admin_User : System.Web.UI.Page
 
 
 
+
+    protected void LinksTreeView_TreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
+    {
+        //TreeNodeCollection ts = null;
+        //if (e.Node.Parent == null)
+        //{
+        //    ts = ((TreeView)sender).Nodes;
+        //}
+        //else
+        //{
+        //    ts = e.Node.Parent.ChildNodes;
+        //}
+        //foreach (TreeNode node in ts)
+        //{
+        //    if (node.Value != e.Node.Value)
+        //    {
+        //        node.Collapse();
+        //    }
+        //}
+    }
+
+    protected void gvUser_RowCreated(object sender, GridViewRowEventArgs e)
+    {
+        UserPermissions up = (UserPermissions)Session["UserPermission"];
+        if (!up.IsDirectoryAdmin)
+        {
+            ((DataControlField)gvUser.Columns
+                .Cast<DataControlField>()
+                .Where(fld => fld.HeaderText == "Edit")
+                .SingleOrDefault()).Visible = false;
+
+            ((DataControlField)gvUser.Columns
+            .Cast<DataControlField>()
+            .Where(fld => fld.HeaderText == "Permission")
+            .SingleOrDefault()).Visible = false;
+        }
+    }
 }
