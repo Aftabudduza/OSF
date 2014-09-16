@@ -97,7 +97,7 @@
                                 if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                                 { %>
                             <li>|</li>
-                            <li><a href="#">Discussion</a></li>
+                            <li><a href="../Admin/Discussion.aspx">Discussion</a></li>
                             <%
 } %>
                             <%

@@ -37,6 +37,7 @@ public class ContentObj
     public int Chapter2008CategoryID;
     public int ACCommonCategoryID;
     public int Election2008CategoryID;
+    public int RootThreadID;
 
     public int CreatedBy;
     public DateTime CreatedOn;
@@ -105,7 +106,7 @@ public class ContentObj
         colInfo.Add(new ColumnInfo("Chapter2008CategoryID", "int", 11, true, true));
         colInfo.Add(new ColumnInfo("ACCommonCategoryID", "int", 11, true, true));
         colInfo.Add(new ColumnInfo("Election2008CategoryID", "int", 11, true, true));
-
+        colInfo.Add(new ColumnInfo("RootThreadID", "int", 11, true, true));
         colInfo.Add(new ColumnInfo("CreatedBy", "int", 11, true, true));
         colInfo.Add(new ColumnInfo("CreatedOn", "DateTime", 19, true, true));
         colInfo.Add(new ColumnInfo("ModifiedBy", "int", 11, true, true));
@@ -174,6 +175,7 @@ public class ContentObj
         CreatedOn = new DateTime(0);
         ModifiedBy = 0;
         ModifiedOn = new DateTime(0);
+        RootThreadID = 0;
 
 
         valid = false;
@@ -285,6 +287,7 @@ public class ContentObj
             Chapter2008CategoryID = (dr["Chapter2008CategoryID"] == DBNull.Value ? (int)0 : (int)dr["Chapter2008CategoryID"]);
             ACCommonCategoryID = (dr["ACCommonCategoryID"] == DBNull.Value ? (int)0 : (int)dr["ACCommonCategoryID"]);
             Election2008CategoryID = (dr["Election2008CategoryID"] == DBNull.Value ? (int)0 : (int)dr["Election2008CategoryID"]);
+            RootThreadID = (dr["RootThreadID"] == DBNull.Value ? (int)0 : (int)dr["RootThreadID"]);
 
             CreatedBy = (dr["CreatedBy"] == DBNull.Value ? (int)0 : (int)dr["CreatedBy"]);
             CreatedOn = (dr["CreatedOn"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedOn"]);
@@ -323,6 +326,7 @@ public class ContentObj
             cObj.Chapter2008CategoryID = (dr["Chapter2008CategoryID"] == DBNull.Value ? (int)0 : (int)dr["Chapter2008CategoryID"]);
             cObj.ACCommonCategoryID = (dr["ACCommonCategoryID"] == DBNull.Value ? (int)0 : (int)dr["ACCommonCategoryID"]);
             cObj.Election2008CategoryID = (dr["Election2008CategoryID"] == DBNull.Value ? (int)0 : (int)dr["Election2008CategoryID"]);
+            cObj.RootThreadID = (dr["RootThreadID"] == DBNull.Value ? (int)0 : (int)dr["RootThreadID"]);
 
             cObj.CreatedBy = (dr["CreatedBy"] == DBNull.Value ? (int)0 : (int)dr["CreatedBy"]);
             cObj.CreatedOn = (dr["CreatedOn"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedOn"]);
@@ -333,10 +337,10 @@ public class ContentObj
         }
         return cObj;
     }
-    public List<ContentObj> getRecordsbyCategoryTypeID(int categoryTypeID)
+    public List<ContentObj> getRecords(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0}", categoryTypeID));
         if(dt != null)
         foreach(DataRow dr in dt.Rows)
         {
@@ -344,37 +348,12 @@ public class ContentObj
         }
         return contentsList;
     }
-    public List<ContentObj> getRecordsbyCategoryID(int categoryID)
-    {
-        List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
-        if (dt != null)
-            foreach (DataRow dr in dt.Rows)
-            {
-                contentsList.Add(this.MakeRowToObject(dr));
-            }
-        return contentsList;
-    }
-
-    public ContentObj getRecordFromID(int ContentID)
-    {
-        ContentObj content = new ContentObj();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Content WHERE ContentID= {0}", ContentID));
-        if (dt != null)
-            foreach (DataRow dr in dt.Rows)
-            {
-                content = this.MakeRowToObject(dr);
-            }
-        return content;
-    }
-
-
 
     public List<ContentObj> getRecords(int categoryTypeID,  DateTime fromdate, DateTime todate)
     {
         if (fromdate == null || todate == null || fromdate == DateTime.MinValue || todate == DateTime.MinValue)
         {
-            return this.getRecordsbyCategoryTypeID(categoryTypeID);
+            return this.getRecords(categoryTypeID);
         }
         else
         {
@@ -427,6 +406,41 @@ public class ContentObj
             }
         return contentsList;
 
+    }
+
+    public List<ContentObj> getRecordsbyCategoryTypeID(int categoryTypeID)
+    {
+        List<ContentObj> contentsList = new List<ContentObj>();
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
+        if (dt != null)
+            foreach (DataRow dr in dt.Rows)
+            {
+                contentsList.Add(this.MakeRowToObject(dr));
+            }
+        return contentsList;
+    }
+
+    public List<ContentObj> getRecordsbyCategoryID(int categoryID)
+    {
+        List<ContentObj> contentsList = new List<ContentObj>();
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
+        if (dt != null && dt.Rows.Count > 0)
+            foreach (DataRow dr in dt.Rows)
+            {
+                contentsList.Add(this.MakeRowToObject(dr));
+            }
+        return contentsList;
+    }
+    public ContentObj getRecordFromID(int ContentID)
+    {
+        ContentObj content = new ContentObj();
+        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Content WHERE ContentID= {0}", ContentID));
+        if (dt != null)
+            foreach (DataRow dr in dt.Rows)
+            {
+                content = this.MakeRowToObject(dr);
+            }
+        return content;
     }
 
 
@@ -619,7 +633,7 @@ public class ContentObj
         try
             {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"Content\" (Author, Date, Title, Content,  Extension, URL, CategoryID, ContentTypeID,  CreatedBy, CreatedOn) VALUES (@Author, @Date, @Title, @Content, @Extension, @URL, @CategoryID, @ContentTypeID, @CreatedBy, @CreatedOn)", conn);
+            cmd = new SqlCommand("INSERT INTO \"Content\" (Author, Date, Title, Content,  Extension, URL, CategoryID, ContentTypeID,  CreatedBy, CreatedOn,RootThreadID) VALUES (@Author, @Date, @Title, @Content, @Extension, @URL, @CategoryID, @ContentTypeID, @CreatedBy, @CreatedOn, @RootThreadID)", conn);
             cmd.Parameters.AddWithValue("@Author", Author);
             cmd.Parameters.AddWithValue("@Date", Date);
             cmd.Parameters.AddWithValue("@Title", Title);
@@ -631,6 +645,7 @@ public class ContentObj
             cmd.Parameters.AddWithValue("@ContentTypeID", ContentTypeID);
             cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
             cmd.Parameters.AddWithValue("@CreatedOn", CreatedOn);
+            cmd.Parameters.AddWithValue("@RootThreadID", RootThreadID);
             cmd.ExecuteScalar();
             cmd.Dispose();
 
@@ -651,6 +666,52 @@ public class ContentObj
             }
         return true;
         }
+
+
+    public int insert_Content()
+    {
+        SqlCommand cmd;
+        int checkInsert = 0;
+        try
+        {
+            connect();
+            cmd = new SqlCommand("INSERT INTO \"Content\" (Author, Date, Title, Content,  Extension, URL, CategoryID, ContentTypeID,  CreatedBy, CreatedOn,RootThreadID) VALUES (@Author, @Date, @Title, @Content, @Extension, @URL, @CategoryID, @ContentTypeID, @CreatedBy, @CreatedOn, @RootThreadID)", conn);
+            cmd.Parameters.AddWithValue("@Author", Author);
+            cmd.Parameters.AddWithValue("@Date", Date);
+            cmd.Parameters.AddWithValue("@Title", Title);
+            cmd.Parameters.AddWithValue("@Content", Content);
+            //cmd.Parameters.AddWithValue("@BlobContent", BlobContent);
+            cmd.Parameters.AddWithValue("@Extension", Extension);
+            cmd.Parameters.AddWithValue("@URL", URL);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+            cmd.Parameters.AddWithValue("@ContentTypeID", ContentTypeID);
+            cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
+            cmd.Parameters.AddWithValue("@CreatedOn", CreatedOn);
+            cmd.Parameters.AddWithValue("@RootThreadID", RootThreadID);
+            cmd.ExecuteNonQuery();
+            cmd.Parameters.Clear();
+            cmd.CommandText = "Select @@Identity";
+            checkInsert = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+            cmd.Dispose();
+
+
+            disconnect();
+        }
+        catch (SqlException ex)
+        {
+            lastError = translateException(ex);
+            disconnect();
+            return 0;
+        }
+        catch (Exception ex)
+        {
+            lastError = ex.Message;
+            disconnect();
+            return 0;
+        }
+        return checkInsert;
+    }
+
 
     /// <summary>Insert a record in the Content table from a DataRow</summary>
     /// <param name="Row">The DataRow to be inserted in the Content table</param>
@@ -724,7 +785,7 @@ public class ContentObj
         try
             {
             connect();
-            cmd = new SqlCommand("UPDATE \"Content\" SET Author = @Author, Date = @Date, Title = @Title, Content = @Content, Extension = @Extension, URL = @URL, CategoryID = @CategoryID, ContentTypeID = @ContentTypeID, ModifiedBy=@ModifiedBy, ModifiedOn=@ModifiedOn WHERE ContentID = @ContentID", conn);
+            cmd = new SqlCommand("UPDATE \"Content\" SET Author = @Author, Date = @Date, Title = @Title, Content = @Content, Extension = @Extension, URL = @URL, CategoryID = @CategoryID, ContentTypeID = @ContentTypeID, ModifiedBy=@ModifiedBy, ModifiedOn=@ModifiedOn, RootThreadID=@RootThreadID  WHERE ContentID = @ContentID", conn);
             cmd.Parameters.AddWithValue("@ContentID", ContentID);
             cmd.Parameters.AddWithValue("@Author", Author);
             cmd.Parameters.AddWithValue("@Date", Date);
@@ -735,7 +796,7 @@ public class ContentObj
             cmd.Parameters.AddWithValue("@URL", URL);
             cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
             cmd.Parameters.AddWithValue("@ContentTypeID", ContentTypeID);
-
+            cmd.Parameters.AddWithValue("@RootThreadID", RootThreadID);
 
             cmd.Parameters.AddWithValue("@ModifiedBy", ModifiedBy);
             cmd.Parameters.AddWithValue("@ModifiedOn", ModifiedOn);
@@ -814,6 +875,7 @@ public class ContentObj
         p += URL + ", ";
         p += Convert.ToString(CategoryID) + ", ";
         p += Convert.ToString(ContentTypeID) + ", ";
+        p += Convert.ToString(RootThreadID) + ", ";
         p += Convert.ToString(Chapter) + ", ";
         p += Convert.ToString(CommitteeID) + ", ";
         p += Convert.ToString(UpdatedByID) + ", ";

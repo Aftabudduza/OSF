@@ -844,13 +844,149 @@
     }
     
 /*11/09/2014 */
-.clsPopupLink
-{
+.clsPopupLink {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
     color: blue;
     cursor: pointer;
     float: left;
     font-size: 12px;
     margin-top: 2px;
-    
+    padding: 0;
+    text-align: left;
 }
+
+ /********* Amin ******************/
+    .clsDiv1
+    {	
+            
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 12px;
+    float: left;
+    overflow: hidden;
+    position: absolute;
+    }
+    .clsDiv2
+    {
+    float: left;
+    max-height: 600px;
+    overflow-y: scroll;
+    margin: auto;
+    position: absolute;
+    top: 10px;
+    }
+        
+    #LocationList
+    {
+    width: 198px;
+    }
+    .bg
+    {
+    background: #FFF;
+    }
+    .pnlpopupclass
+    {
+	
+    left: 24% !important;
+    
+    top: 10% !important;
+   
+    }
+    
+    .form_header
+    {
+        font-size: Large;
+        font-weight: bold;
+        text-align: center;
+        width: 100%;
+        float: left;
+        margin-top: 15px;
+    }
+    
+    .form_label
+    {
+        font-family: Verdana,Arial,Helvetica,sans-serif;
+        font-size: 11px;
+        padding: 0 12px;
+    }
+    .InternetAdministration_headerspan
+    {
+		float:left;
+		margin-left:5px;	
+    }
+    .discussionPopupCss
+    {
+		border: 1px solid #4fd2f1;
+		border-radius: 0 0 12px 12px;
+		float: left;
+		height: auto;
+		position: relative;
+		top: -1px;
+		width: 795px;
+		 padding-top: 18px;
+    }
+    .DiscussionMessageBox
+    {
+	border: 1px solid #bababa;
+    border-radius: 6px;
+    color: #000;
+    float: left;
+    margin: 4px 10px 3px;
+    outline: 0 none;
+    position: relative;	
+    }
+    .h3class
+    {
+    background: none repeat scroll 0 0 #7abb99;
+    border-radius: 8px 0 0;
+    color: #000;
+    font-family: Arial;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 24px;
+    padding-left: 10px;
+    width: auto;
+    float:left;
+    padding-right: 8px;
+    }
+    .pnlpopupclass_Dis
+    {
+	
+    left: 21% !important;
+    
+    top: 6% !important;
+   
+    }
+    .DisMainDiv
+    {
+		float: left; 
+		margin: 10px 0 25px 245px;
+		 width: 68%;	
+    }
+    .disTable
+    {
+		margin-bottom: 10px; 
+		margin-left: 100px; 
+		margin-top: 23px;	
+    }
+    .DisDetailsMainDiv
+    {
+		float: left;
+		 margin: 10px 0 25px 245px;
+		  width: 68%;	
+    }
+    .PostContainerDiv
+    {
+		float:left;
+		max-height:408px;
+		overflow-y:scroll;
+		oberflow-x:none;
+		width:100%;	
+    }
+    .PostTable
+    {
+		margin-left: 10px; 
+		margin-top: 10px;
+		 margin-bottom: 10px;	
+    }
+/********* Amin ******************/

@@ -146,7 +146,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                                     <span class='standardtextbold' id='CMList_ctl00_Label2'>{2}</span><br>
 
 
-                                                            <input type='url' value='{3}' onclick='GetPopupContent({4})' class='clsPopupLink' />
+                                                            <input type='button' value='{3}' onclick='GetPopupContent({4})' class='clsPopupLink' />
 
 
 

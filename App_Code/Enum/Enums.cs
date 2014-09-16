@@ -28,7 +28,4 @@ public enum SectionTypeEnum
     Discusstion = 22,
     Reference = 23
 
-
-
-
 };

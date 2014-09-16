@@ -10,6 +10,10 @@
     <script src="../Scripts/popup.js" type="text/javascript"></script>
     <script type="text/javascript">
 
+        function TestT() {
+            alert(23232);
+        }
+
         function EditContent(cid, isBox) {
 
             var url1 = "../Admin/AdminContent.aspx?Method=EditContent&isBx=0&ID=" + cid;
@@ -28,6 +32,7 @@
         }
 
         function GetPopupContent(xs) {
+      
             var xmlhttp;
             if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
                 xmlhttp = new XMLHttpRequest();
@@ -35,7 +40,8 @@
             else {// code for IE6, IE5
                 xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            var url = "BoxContents.aspx?Method=GetPopupContent&ID=" + xs;
+            var url = "../Contents/BoxContents.aspx?Method=GetPopupContent&ID=" + xs;
+   
             xmlhttp.onreadystatechange = function () {
                 if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                     document.getElementById("element_to_pop_up").innerHTML = xmlhttp.responseText;
