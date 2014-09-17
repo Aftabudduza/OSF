@@ -133,7 +133,7 @@
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
                 <li>|</li>
-                <li><a href="#">Chapter Directive</a></li>
+                <li><a href="../Contents/MultilayerBoxContents.aspx?SectionTypeID=4">Chapter Directive</a></li>
                 <%
 } %>
                 <%

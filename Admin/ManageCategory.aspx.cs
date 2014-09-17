@@ -380,13 +380,13 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         }
 
 
-        if (txtDefaultDate.Text.ToString().Trim().Length == 0)
-        {
-            _message += "Please enter date" + Environment.NewLine;
-        }
+        //if (txtDefaultDate.Text.ToString().Trim().Length == 0)
+        //{
+        //    _message += "Please enter date" + Environment.NewLine;
+        //}
         else
         {
-            if (!Utility.IsDate(txtDefaultDate.Text.ToString()))
+            if (txtDefaultDate.Text.ToString().Trim().Length != 0 && !Utility.IsDate(txtDefaultDate.Text.ToString()))
             {
                 _message += "Please enter valid date" + Environment.NewLine;
             }

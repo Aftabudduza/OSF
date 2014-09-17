@@ -16,7 +16,7 @@
         <h3 class="OFSh3">
             Basic Data</h3>
         <div class="news-osf" style="width: 90%;">
-            <asp:Label ID="lblUserNamePermission" runat="server" CssClass="form_header" Text="New Basic Data"></asp:Label>
+            <asp:Label ID="lblUserNamePermission" runat="server" CssClass="form_header" Text=""></asp:Label>
             <table>
                 <tr style="height: 20px">
                     <td>
@@ -60,12 +60,12 @@
                     <tr>
                         <td class="UserDetailHeader" align="right">
                      
-                            <asp:Label ID="lblDateTtile" runat="server" Text="* Date:"></asp:Label>
+                            <asp:Label ID="lblDateTtile" runat="server" Visible="false" Text="* Date:"></asp:Label>
                         </td>
                         <td>
-                            <asp:TextBox CssClass="OSFTextBox" ID="txtDate" runat="server"></asp:TextBox>
+                            <asp:TextBox CssClass="OSFTextBox" ID="txtDate" Visible="false" runat="server"></asp:TextBox>
                             <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="DataTypeCheck"
-                                Type="Date" ControlToValidate="txtDate" ErrorMessage="Date format MM/dd/yyyy" />
+                                Type="Date" ControlToValidate="txtDate"  ErrorMessage="Date format MM/dd/yyyy" />
                         </td>
                     </tr>
                     <tr>

@@ -1125,8 +1125,11 @@ public partial class Admin_User : System.Web.UI.Page
         try
         {
             int userid = Convert.ToInt32(Session["UserIDEdit"]);
-            string sql = string.Format("SELECt SectionType.*,UserSectionPermission.* from SectionType LEft join  UserSectionPermission ON SectionType.SectionTypeID = UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0}", userid); 
+           //old******** string sql = string.Format("SELECt SectionType.*,UserSectionPermission.* from SectionType LEft join  UserSectionPermission ON SectionType.SectionTypeID = UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0} AND IsCategory=1", userid); 
 
+            string sql = string.Format(@"                SELECt *  FROM
+(select * from SectionType where IsCategory = 1) A LEFT JOIN  UserSectionPermission ON A.SectionTypeID = 
+UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0}", userid); 
 
 
             DataTable ResultSet = cmscon.getRows(sql);

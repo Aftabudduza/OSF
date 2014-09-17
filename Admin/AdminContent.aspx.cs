@@ -291,7 +291,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         {
             //DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "' AND IsLeaf = '" + 0 + "' ");
          //   DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "'");
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID <>{0}",(int)SectionTypeEnum.Discusstion));
+            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID <> {0} AND CategoryTypeID <> {1}", (int)SectionTypeEnum.Discusstion, (int)SectionTypeEnum.ChapterDirectives));
 
             ddlCategoryList.AppendDataBoundItems = true;
             ddlCategoryList.Items.Add(new ListItem("--Select Category--", "-1"));

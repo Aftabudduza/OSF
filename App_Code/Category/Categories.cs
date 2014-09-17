@@ -3,6 +3,7 @@ using System.IO;
 using System.Data;
 using System.Collections;
 using System.Data.SqlClient;
+using System.Collections.Generic;
 
 public class Categories
     {
@@ -242,6 +243,37 @@ public class Categories
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>Nulls in the data record will not be reflected in local variables</remarks>
+
+    public Categories MakeObjectFromRow(DataRow dr)
+    {
+        Categories cobj = new Categories();
+        
+        if (dr != null)
+        {
+            cobj.CategoryID = (dr["CategoryID"] == DBNull.Value ? (int)0 : (int)dr["CategoryID"]);
+            cobj.Description = (dr["Description"] == DBNull.Value ? (string)"" : (string)dr["Description"]);
+            cobj.IsLeaf = (dr["IsLeaf"] == DBNull.Value ? (bool)false : (bool)dr["IsLeaf"]);
+            cobj.IsGlobal = (dr["IsGlobal"] == DBNull.Value ? (bool)false : (bool)dr["IsGlobal"]);
+            cobj.IsAreaChapter = (dr["IsAreaChapter"] == DBNull.Value ? (bool)false : (bool)dr["IsAreaChapter"]);
+            cobj.IsCommittee = (dr["IsCommittee"] == DBNull.Value ? (bool)false : (bool)dr["IsCommittee"]);
+            cobj.IsPrivate = (dr["IsPrivate"] == DBNull.Value ? (bool)false : (bool)dr["IsPrivate"]);
+            cobj.ParentID = (dr["ParentID"] == DBNull.Value ? (int)0 : (int)dr["ParentID"]);
+            cobj.SortOrder = (dr["SortOrder"] == DBNull.Value ? (int)0 : (int)dr["SortOrder"]);
+            cobj.ContentTypeID_ = (dr["ContentTypeID_"] == DBNull.Value ? (short)0 : (short)dr["ContentTypeID_"]);
+            cobj.IsChapter2008 = (dr["IsChapter2008"] == DBNull.Value ? (bool)false : (bool)dr["IsChapter2008"]);
+            cobj.IsACCommon = (dr["IsACCommon"] == DBNull.Value ? (bool)false : (bool)dr["IsACCommon"]);
+            cobj.IsElection2008 = (dr["IsElection2008"] == DBNull.Value ? (bool)false : (bool)dr["IsElection2008"]);
+            cobj.RefTabOrderID = (dr["RefTabOrderID"] == DBNull.Value ? (int)0 : (int)dr["RefTabOrderID"]);
+            cobj.SectionTypeID = (dr["CategoryTypeID"] == DBNull.Value ? (int)0 : (int)dr["CategoryTypeID"]);
+            cobj.CreatedBy = (dr["CreatedBy"] == DBNull.Value ? (int)1 : (int)dr["CreatedBy"]);
+            cobj.CreatedDate = (dr["CreatedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedDate"]);
+            cobj.Modifiedby = (dr["Modifiedby"] == DBNull.Value ? (int)0 : (int)dr["Modifiedby"]);
+            cobj.ModifiedDate = (dr["ModifiedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["ModifiedDate"]);
+           
+        }
+        return cobj;
+    }
+    
     public bool getRecord(int _CategoryID)
         {
         DataRow dr = getRow(_CategoryID);
@@ -440,6 +472,17 @@ public class Categories
         return getRows(cl, whereClause, orderBy);
         }
 
+    public List<Categories> GetListByQuery(string query)
+    {
+        List<Categories> contentsList = new List<Categories>();
+        DataTable dt = cmscon.getRows(query);
+        if (dt != null && dt.Rows.Count > 0)
+            foreach (DataRow dr in dt.Rows)
+            {
+                contentsList.Add(this.MakeObjectFromRow(dr));
+            }
+        return contentsList;
+    }
 
     /// <summary>Get a rows from the Categories table</summary>
     /// <param name="ColumnList">An ArrayList of Strings representing column names in the Categories</param>
@@ -461,25 +504,24 @@ public class Categories
         try
             {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"Categories\" (Description, IsLeaf, IsGlobal, IsAreaChapter, IsCommittee, IsPrivate, ParentID, SortOrder, ContentTypeID_, IsChapter2008, IsACCommon, IsElection2008, RefTabOrderID, CategoryTypeID, CreatedBy, CreatedDate, Modifiedby, ModifiedDate) VALUES (@Description, @IsLeaf, @IsGlobal, @IsAreaChapter, @IsCommittee, @IsPrivate, @ParentID, @SortOrder, @ContentTypeID_, @IsChapter2008, @IsACCommon, @IsElection2008, @RefTabOrderID, @SectionTypeID, @CreatedBy, @CreatedDate, @Modifiedby, @ModifiedDate)", conn);
+            cmd = new SqlCommand("INSERT INTO \"Categories\" (Description, IsLeaf, IsGlobal,  ParentID, SortOrder, ContentTypeID_, RefTabOrderID, CategoryTypeID, CreatedBy, CreatedDate) VALUES (@Description, @IsLeaf, @IsGlobal,  @ParentID, @SortOrder, @ContentTypeID_, @RefTabOrderID, @SectionTypeID, @CreatedBy, @CreatedDate)", conn);
             cmd.Parameters.AddWithValue("@Description", Description);
             cmd.Parameters.AddWithValue("@IsLeaf", IsLeaf);
             cmd.Parameters.AddWithValue("@IsGlobal", IsGlobal);
-            cmd.Parameters.AddWithValue("@IsAreaChapter", IsAreaChapter);
-            cmd.Parameters.AddWithValue("@IsCommittee", IsCommittee);
-            cmd.Parameters.AddWithValue("@IsPrivate", IsPrivate);
+            //cmd.Parameters.AddWithValue("@IsAreaChapter", IsAreaChapter);
+            //cmd.Parameters.AddWithValue("@IsCommittee", IsCommittee);
+            //cmd.Parameters.AddWithValue("@IsPrivate", IsPrivate);
             cmd.Parameters.AddWithValue("@ParentID", ParentID);
             cmd.Parameters.AddWithValue("@SortOrder", SortOrder);
             cmd.Parameters.AddWithValue("@ContentTypeID_", ContentTypeID_);
-            cmd.Parameters.AddWithValue("@IsChapter2008", IsChapter2008);
-            cmd.Parameters.AddWithValue("@IsACCommon", IsACCommon);
-            cmd.Parameters.AddWithValue("@IsElection2008", IsElection2008);
+            //cmd.Parameters.AddWithValue("@IsChapter2008", IsChapter2008);
+            //cmd.Parameters.AddWithValue("@IsACCommon", IsACCommon);
+            //cmd.Parameters.AddWithValue("@IsElection2008", IsElection2008);
             cmd.Parameters.AddWithValue("@RefTabOrderID", RefTabOrderID);
             cmd.Parameters.AddWithValue("@SectionTypeID", SectionTypeID);
             cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
             cmd.Parameters.AddWithValue("@CreatedDate", CreatedDate);
-            cmd.Parameters.AddWithValue("@Modifiedby", Modifiedby);
-            cmd.Parameters.AddWithValue("@ModifiedDate", ModifiedDate);
+
             cmd.ExecuteScalar();
             cmd.Dispose();
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Data;
+using System.Data.SqlClient;
 
 /// <summary>
 /// Summary description for Utility
@@ -16,8 +17,7 @@ public static class Utility
         bool isdate = DateTime.TryParse(inputDate, out dt);
         return isdate;
     }
-
-        //EditContentRow
+    //EditContentRow
     public static string GeneratePopupContentFromContentID(int contentID, bool isBox)
     {
         string htmlData = "";
@@ -91,7 +91,7 @@ public static class Utility
                 </tr>
 
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1:0, c0.CategoryID,c0.URL);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
         }
         else
             htmlData = "No Data Found";
@@ -100,4 +100,87 @@ public static class Utility
         return htmlData;
     }
     public static DataRow dr { get; set; }
+
+    private static SqlConnection conn = null;
+    public static string lastError = "";
+
+    public static string CONNECTIONSTRING
+    {
+        get
+        {
+            try
+            {
+                return Convert.ToString(System.Configuration.ConfigurationManager.ConnectionStrings["ApplicationServices"].ConnectionString);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return "";
+        }
+    }
+
+
+    private static void connect()
+    {
+        if (CONNECTIONSTRING == "")
+        {
+            if (conn == null) throw new Exception("Database not connected");
+        }
+        else
+        {
+            conn = new SqlConnection(CONNECTIONSTRING);
+            conn.Open();
+        }
+    }
+    private static void disconnect()
+    {
+        if (!CONNECTIONSTRING.Equals("") && conn != null)
+        {
+            try
+            {
+                conn.Close();
+                conn.Dispose();
+                conn = null;
+            }
+            catch (Exception ex) { }
+        }
+    }
+
+    private static string translateException(SqlException ex)
+    {
+        string p = "";
+        foreach (SqlError er in ex.Errors)
+            p += er.Message + "\r\n";
+        return p;
+    }
+
+
+    public static bool QueryExecute(string query)
+    {
+        SqlCommand cmd;
+
+
+        try
+        {
+            connect();
+            cmd = new SqlCommand(query, conn);
+            cmd.ExecuteScalar();
+            cmd.Dispose();
+            disconnect();
+        }
+        catch (SqlException ex)
+        {
+            lastError = translateException(ex);
+            disconnect();
+            return false;
+        }
+        catch (Exception ex)
+        {
+            lastError = ex.Message;
+            disconnect();
+            return false;
+        }
+        return true;
+    }
 }

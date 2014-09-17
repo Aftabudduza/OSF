@@ -29,3 +29,12 @@ public enum SectionTypeEnum
     Reference = 23
 
 };
+
+
+public enum SystemSettingsEnum
+{
+BadPasswordLockout = 1,
+EmailPasswordResets = 2,
+GraceLogins = 3
+
+};

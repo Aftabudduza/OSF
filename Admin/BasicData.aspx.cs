@@ -32,16 +32,6 @@ public partial class Admin_BasicData : System.Web.UI.Page
                 if (bType == "Department")
                     ddlSectionType.SelectedIndex = 2;
 
-                //txtBasicDataName.Visible = false;
-                //txtDate.Visible = false;
-                //txtUserDiefinedID.Visible = false;
-
-                //lblAuthorTitle.Visible = false;
-                //lblDateTtile.Visible = false;
-                //lblUserNamePermission.Visible = false;
-                //lblName.Visible = false;
-                //btnSave.Visible = false;
-
                 this.FillGrid(Convert.ToInt32(ddlSectionType.SelectedValue.ToString()));
                 ddlSectionType.Enabled = false;
             }
@@ -105,7 +95,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         if (objBasicData.insert())
         {
             DisplayAlert("Basic Data Type Saved Successfully");
-            lblUserNamePermission.Text = "New Basic Data";
+            lblUserNamePermission.Text = "";
         }
         else
         {

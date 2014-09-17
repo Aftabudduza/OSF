@@ -11,6 +11,22 @@
     <link rel="stylesheet" type="text/css" href="../css/main.css" />
     <script type="text/jscript">
 
+        function EditContent(cid, isBox) {
+
+            var url1 = "../Admin/AdminContent.aspx?Method=EditContent&isBx=0&ID=" + cid;
+            if (isBox == 1) {
+                url1 = "../Admin/AdminContent.aspx?Method=EditContent&isBx=1&ID=" + cid;
+            }
+            window.location.href = url1;
+        }
+
+        //DeleteContent
+
+        function DeleteContent(cid, catID) {
+
+            var url1 = "../Admin/AdminContent.aspx?Method=DeleteContent&ID=" + cid + "&CatID=" + catID;
+            window.location.href = url1;
+        }
 
         function GetPopupContentDefaultPage(xs) {
 
