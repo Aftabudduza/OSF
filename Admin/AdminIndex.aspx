@@ -54,7 +54,7 @@
                                 </tr>
                                 <tr>
                                     <td class="standardtext">
-                                        <a href="adminReferenceTopic.aspx?CategoryID=80&amp" id="Hyperlink5">Reference</a>
+                                        <a href="AdminReference.aspx" id="Hyperlink5">Reference</a>
                                         <%--<a href="AdminContent.aspx?CategoryID=33&amp;ContentScope=1" id="HelpLink">Help/Faqs</a>--%>
                                     </td>
                                 </tr>

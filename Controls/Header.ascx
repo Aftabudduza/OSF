@@ -142,7 +142,7 @@
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
                 <li>|</li>
-                <li><a href="#">Reference</a></li>
+                <li><a href="../Contents/MultilayerBoxContents.aspx?SectionTypeID=23"">Reference</a></li>
                 <%
 } %>
                 <%

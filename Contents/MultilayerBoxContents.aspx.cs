@@ -89,7 +89,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
         foreach (DataRow dr in dt.Rows)
         {
 
-            int itemPerPage = 5;
+            int itemPerPage = 3;
             if (!(DBNull.Value == dr["ItemsPerPage"]) && Convert.ToInt32(dr["ItemsPerPage"]) > 0)
             {
                 itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);
@@ -136,27 +136,28 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
     private string GenerateBoxData(int catID)
     {
 
-        List<ContentObj> contents = new List<ContentObj>();
+        List<ContentObj> thisCatcontents = new List<ContentObj>();
+
         ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
-        contents = cObj.getRecordsbyCategoryID(catID);
+        thisCatcontents = cObj.getRecordsbyCategoryID(catID);
 
         Categories crs = new Categories();
         List<Categories> categories = crs.GetListByQuery(string.Format("SELECT * FROM Categories WHERE ParentID={0}", catID));
+
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
 
-        #region if subcategory NOT exists
-        if (categories == null || categories.Count <= 0)
-        {
-
+        #region All all contents of this cat
+   
             int j = 0;
-            foreach (ContentObj c in contents)
+            foreach (ContentObj c in thisCatcontents)
             {
                 j++;
                 string oddOrEven = "even";
                 if (j % 2 != 0)
                     oddOrEven = "odd";
 
-                tbl.Append(string.Format(@"
+                tbl.Append(string.Format(@"<tr class='{0}'>
+                                                <td >
                                   
                                                     <table cellspacing='0' border='0' style='border-collapse: collapse;width:100%;' id='CMList'>
                                                         <tbody>
@@ -176,19 +177,19 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                                             </tr>                                                         
                                                         </tbody>
                                                     </table>
-                                          
+                                              </td>
+                                            </tr>  
                                          ", oddOrEven, j, c.Date.ToString("dd/MM/yyyy"), c.Title.Length >= 25 ? c.Title.Substring(0, 25) + "..." : c.Title + "...", c.ContentID));
 
             }
 
 
-        }
-
+  
         #endregion if subcategory NOT exists
 
         if (categories != null || categories.Count > 0)
         {
-            int j = 0;
+             j = 0;
             foreach (Categories c in categories)
             {
                 j++;
@@ -196,15 +197,14 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                 if (j % 2 != 0)
                     oddOrEven = "odd";
              
-                ContentObj tempContent = new ContentObj(cmscon.CONNECTIONSTRING);
-                List<ContentObj> tempContents = tempContent.getRecordsbyCategoryID(c.CategoryID);
-
-                    tbl.Append(string.Format(@"
+  
+                tbl.Append(string.Format(@"    <tr class='{0}'>
+                                                <td >
                      
                                                     <table cellspacing='0' border='0' style='border-collapse: collapse;width:100%;' id='CMList'>
                                                         <tbody>
-                                                       <tr style='background:darkgray;width:100%;text-align:center'>
-                                                                <td>
+                                                       <tr style='background:#F3D6F4;width:100%;text-align:center'>
+                                                                <td style=' float: left;margin-left: 30px;  line-height: 6px;'>
                                                                   
 
 
@@ -219,39 +219,15 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                                             </tr>                                                         
                                                         </tbody>
                                                     </table>
+                                            </td>
+                                            </tr>   
                                           
                                          ", oddOrEven, j, c.Description.Length >= 25 ? c.Description.Substring(0, 25) + "..." : c.Description + "...", c.CategoryID));
 
             
 
                     
-                    foreach(ContentObj cc in tempContents)
-
-                    tbl.Append(string.Format(@"
-                                   
-                                                    <table cellspacing='0' border='0' style='border-collapse: collapse;width:100%;' id='CMList'>
-                                                        <tbody>
-                                                            <tr >
-                                                                <td>
-
-                      
-
-                                                                    <span class='standardtextbold' id='CMList_ctl00_Label2'>{2}</span><br>
-
-
-                                                                    <input type='button' value='{3}' onclick='GetPopupContent({4})' class='clsPopupLink' />
-
-
-
-
-                                                                    <br>
-                                                                    &nbsp;
-                                                                </td>
-                                                            </tr>                                                         
-                                                        </tbody>
-                                                    </table>
-                                                
-                                         ", oddOrEven, j, cc.Date.ToString("dd/MM/yyyy"), cc.Title.Length >= 25 ? cc.Title.Substring(0, 25) + "..." : cc.Title + "...", cc.ContentID));
+                   
                
 
 
