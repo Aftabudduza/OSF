@@ -83,17 +83,17 @@
                             <table cellspacing="10" cellpadding="5" border="0">
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A5" href="UnderDev.aspx">View Active Users </a>
+                                        <a id="A5" href="UserReports.aspx?Mode=Active">View Active Users </a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A6" href="UnderDev.aspx">View InActive Users </a>
+                                        <a id="A6" href="UserReports.aspx?Mode=InActive">View InActive Users </a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a id="A7" href="UnderDev.aspx">View Deleted Users </a>
+                                        <a id="A7" href="UserReports.aspx?Mode=Deleted">View Deleted Users </a>
                                     </td>
                                 </tr>
                             </table>
