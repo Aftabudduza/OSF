@@ -69,6 +69,8 @@ public class Users
     public DateTime LastPasswordChange;
     public string CompanionType;
     public int ProfessionalYear;
+    public DateTime CreatedDate;
+    public int CreatedBy;
 
 #region User Variables
     // Add your variables to this object here. Adding them here ensures
@@ -165,6 +167,9 @@ public class Users
         colInfo.Add(new ColumnInfo("LastPasswordChange", "DateTime", 19, true, true));
         colInfo.Add(new ColumnInfo("CompanionType", "string", 50, true, true));
         colInfo.Add(new ColumnInfo("ProfessionalYear", "int", 11, true, true));
+        colInfo.Add(new ColumnInfo("CreatedDate", "DateTime", 19, true, true));
+        colInfo.Add(new ColumnInfo("CreatedBy", "int", 11, true, true));
+        
         colInfo.Sort();
         }
 
@@ -257,6 +262,8 @@ public class Users
         LastPasswordChange = new DateTime(0);
         CompanionType = "";
         ProfessionalYear = 0;
+        CreatedDate = new DateTime(0);
+        CreatedBy = 0;
         valid = false;
         }
 
@@ -398,6 +405,8 @@ public class Users
             LastPasswordChange = (dr["LastPasswordChange"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["LastPasswordChange"]);
             CompanionType = (dr["CompanionType"] == DBNull.Value ? (string)"" : (string)dr["CompanionType"]);
             ProfessionalYear = (dr["ProfessionalYear"] == DBNull.Value ? (int)0 : (int)dr["ProfessionalYear"]);
+            CreatedBy = (dr["CreatedBy"] == DBNull.Value ? (int)0 : (int)dr["CreatedBy"]);
+            CreatedDate = (dr["CreatedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedDate"]);
             valid = true;
             }
         return valid;
@@ -591,7 +600,7 @@ public class Users
         try
             {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"Users\" (LastName, FirstName, Username, Password, Picture, HomeEmail, HomePhone, Chapter,  DepartmentID, JobID, LocationID, HomeStreet1, HomeStreet2, HomeCity, HomeState, HomeZip, HomeCountry, MI, IspID, MinistryTitle, MinistryLocation, MinistryCode, MinistryClassification, MinistryPhone, MinistryFax, MinistryEmail, MinistryStreet1, MinistryStreet2, MinistryCity, MinistryState, MinistryCountry, MinistryZip, Ministry2Title, Ministry2Location, Ministry2Code, Ministry2Classification, Ministry2Phone, Ministry2Fax, Ministry2Email, Ministry2Street1, Ministry2Street2, Ministry2City, Ministry2State, Ministry2Zip, Ministry2Country, FailedLogins, CompanionType, ProfessionalYear) VALUES (@LastName, @FirstName, @Username, @Password, @Picture, @HomeEmail, @HomePhone, @Chapter,  @DepartmentID, @JobID, @LocationID, @HomeStreet1, @HomeStreet2, @HomeCity, @HomeState, @HomeZip, @HomeCountry, @MI, @IspID, @MinistryTitle, @MinistryLocation, @MinistryCode, @MinistryClassification, @MinistryPhone, @MinistryFax, @MinistryEmail, @MinistryStreet1, @MinistryStreet2, @MinistryCity, @MinistryState, @MinistryCountry, @MinistryZip, @Ministry2Title, @Ministry2Location, @Ministry2Code, @Ministry2Classification, @Ministry2Phone, @Ministry2Fax, @Ministry2Email, @Ministry2Street1, @Ministry2Street2, @Ministry2City, @Ministry2State, @Ministry2Zip, @Ministry2Country, @FailedLogins, @CompanionType, @ProfessionalYear)", conn);
+            cmd = new SqlCommand("INSERT INTO \"Users\" (LastName, FirstName, Username, Password, Picture, HomeEmail, HomePhone, Chapter,  DepartmentID, JobID, LocationID, HomeStreet1, HomeStreet2, HomeCity, HomeState, HomeZip, HomeCountry, MI, IspID, MinistryTitle, MinistryLocation, MinistryCode, MinistryClassification, MinistryPhone, MinistryFax, MinistryEmail, MinistryStreet1, MinistryStreet2, MinistryCity, MinistryState, MinistryCountry, MinistryZip, Ministry2Title, Ministry2Location, Ministry2Code, Ministry2Classification, Ministry2Phone, Ministry2Fax, Ministry2Email, Ministry2Street1, Ministry2Street2, Ministry2City, Ministry2State, Ministry2Zip, Ministry2Country, FailedLogins, CompanionType, ProfessionalYear,CreatedDate,CreatedBy) VALUES (@LastName, @FirstName, @Username, @Password, @Picture, @HomeEmail, @HomePhone, @Chapter,  @DepartmentID, @JobID, @LocationID, @HomeStreet1, @HomeStreet2, @HomeCity, @HomeState, @HomeZip, @HomeCountry, @MI, @IspID, @MinistryTitle, @MinistryLocation, @MinistryCode, @MinistryClassification, @MinistryPhone, @MinistryFax, @MinistryEmail, @MinistryStreet1, @MinistryStreet2, @MinistryCity, @MinistryState, @MinistryCountry, @MinistryZip, @Ministry2Title, @Ministry2Location, @Ministry2Code, @Ministry2Classification, @Ministry2Phone, @Ministry2Fax, @Ministry2Email, @Ministry2Street1, @Ministry2Street2, @Ministry2City, @Ministry2State, @Ministry2Zip, @Ministry2Country, @FailedLogins, @CompanionType, @ProfessionalYear, @CreatedDate, @CreatedBy)", conn);
             cmd.Parameters.AddWithValue("@LastName", LastName);
             cmd.Parameters.AddWithValue("@FirstName", FirstName);
             cmd.Parameters.AddWithValue("@Username", Username);
@@ -643,6 +652,8 @@ public class Users
          //   cmd.Parameters.AddWithValue("@LastPasswordChange", LastPasswordChange);
             cmd.Parameters.AddWithValue("@CompanionType", CompanionType);
             cmd.Parameters.AddWithValue("@ProfessionalYear", ProfessionalYear);
+            cmd.Parameters.AddWithValue("@CreatedDate", CreatedDate);
+            cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
             cmd.ExecuteScalar();
             cmd.Dispose();
 
@@ -738,7 +749,7 @@ public class Users
             {
             connect();
             cmd = new SqlCommand(string.Format(@"UPDATE Users SET LastName = @LastName, FirstName = @FirstName,  Picture = @Picture, HomeEmail = @HomeEmail,
-                                HomePhone = @HomePhone, Chapter = @Chapter, LastUpdated = @LastUpdated,
+                                HomePhone = @HomePhone, Chapter = @Chapter, UpdatedByID = @UpdatedByID, LastUpdated = @LastUpdated,
                                 DepartmentID = @DepartmentID, JobID = @JobID, LocationID = @LocationID, HomeStreet1 = @HomeStreet1, 
                                 HomeStreet2 = @HomeStreet2, HomeCity = @HomeCity, HomeState = @HomeState, HomeZip = @HomeZip, 
                                 HomeCountry = @HomeCountry, MI = @MI, IspID = @IspID, MinistryTitle = @MinistryTitle,
@@ -759,7 +770,7 @@ public class Users
             cmd.Parameters.AddWithValue("@HomeEmail", HomeEmail);
             cmd.Parameters.AddWithValue("@HomePhone", HomePhone);
             cmd.Parameters.AddWithValue("@Chapter", Chapter);
-            //cmd.Parameters.AddWithValue("@UpdatedByID", UpdatedByID);
+            cmd.Parameters.AddWithValue("@UpdatedByID", UpdatedByID);
             cmd.Parameters.AddWithValue("@LastUpdated", DateTime.Today);
             cmd.Parameters.AddWithValue("@DepartmentID", DepartmentID);
             cmd.Parameters.AddWithValue("@JobID", JobID);
@@ -918,6 +929,8 @@ public class Users
         p += Convert.ToString(FailedLogins) + ", ";
         p += ((LastPasswordChange == null) ? "<null>" : LastPasswordChange.ToString()) + ", ";
         p += CompanionType + ", ";
+        p += Convert.ToString(CreatedBy) + ", ";
+        p += ((CreatedDate == null) ? "<null>" : CreatedDate.ToString()) + ", ";
         p += Convert.ToString(ProfessionalYear);
         return p;
         }
