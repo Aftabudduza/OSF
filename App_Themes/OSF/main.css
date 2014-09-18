@@ -218,6 +218,7 @@
     width: 906px;
     padding: 0 20px;
     height:auto;
+    min-height:125px;
     }
 
     .colomn 
@@ -371,7 +372,7 @@
     height: auto;
     border:1px solid #4fd2f1;
     position:relative;
-    top:-1px
+    top:-1px;
     padding-bottom: 20px;
 
     }
@@ -952,8 +953,7 @@
     .pnlpopupclass_Dis
     {
 	
-    left: 21% !important;
-    
+    left: 21% !important;    
     top: 6% !important;
    
     }
@@ -990,3 +990,25 @@
 		 margin-bottom: 10px;	
     }
 /********* Amin ******************/
+/****** New Amin 9/18/2014 *********/
+.Reporttestboxcss
+{
+	border: 1px solid #bababa;
+    border-radius: 6px;
+    color: #000;
+    float: left;
+    height: 23px;
+    margin-bottom: 6px;
+    margin-top: 8px;
+    outline: 0 none;
+    position: relative;
+    width: 100px;	
+}
+.pnlpopupclass_Report
+    {
+	
+    left: 24% !important;
+    
+    top: 6% !important;
+   
+    }
