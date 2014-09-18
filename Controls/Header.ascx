@@ -160,7 +160,7 @@
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
                 <li>|</li>
-                <li><a href="#">Chapter2014</a></li>
+                <li><a href="../Contents/BoxContents.aspx?SectionTypeID=7">Chapter2014</a></li>
                 <%
 } %>
                 <%                           

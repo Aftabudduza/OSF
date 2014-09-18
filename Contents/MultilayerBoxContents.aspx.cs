@@ -62,10 +62,22 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
 
     #endregion
 
+    private bool CheckAdminPermission()
+    {
+        Users objUser = (Users)Session["User"];
+        UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+        System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+        if (!dtUP.IsGlobalContentAdmin)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void GetServerDPopupHTML(int a)
     {
         Response.Clear();
-        Response.Write(Utility.GeneratePopupContentFromContentID(a, true));
+        Response.Write(Utility.GeneratePopupContentFromContentID(a, true, CheckAdminPermission()));
         Response.End();
     }
     private void GeneratePage(int CategoryOrSectionTypeIDTypeID, DateTime fromdate, DateTime todate, bool isCategory)

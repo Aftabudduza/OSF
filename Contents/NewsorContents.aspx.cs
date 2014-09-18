@@ -101,12 +101,22 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
         }
         return _message;
     }
-
+    private bool CheckAdminPermission()
+    {
+        Users objUser = (Users)Session["User"];
+        UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+        System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+        if (!dtUP.IsGlobalContentAdmin)
+        {
+            return false;
+        }
+        return true;
+    }
 
     private void GetServerDPopupHTML(int a)
     {
         Response.Clear();
-        Response.Write(Utility.GeneratePopupContentFromContentID(a,false));
+        Response.Write(Utility.GeneratePopupContentFromContentID(a, false, CheckAdminPermission()));
         Response.End();
     }
 

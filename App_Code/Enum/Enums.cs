@@ -38,3 +38,11 @@ EmailPasswordResets = 2,
 GraceLogins = 3
 
 };
+
+public enum HomePageColumnType
+{
+    LeftColumn = 1,
+    MiddleColumn = 2,
+    RightColumn = 3
+
+};

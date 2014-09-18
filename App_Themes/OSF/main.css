@@ -363,6 +363,7 @@
     background:url(../images/colomn-bg2.png) no-repeat ;
     padding-left:10px;
     width:95%;
+    float:left;
     }
 
     .news-osf

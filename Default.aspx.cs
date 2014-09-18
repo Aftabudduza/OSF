@@ -7,21 +7,31 @@ using System.Web.UI.WebControls;
 
 public partial class _Default : System.Web.UI.Page
 {
-    int _catID = 0;
+    int _catID = 0; bool _hasAdminPermission = false;
 
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["UserID"] != null)
-        {
-           
-            _catID = (int)SectionTypeEnum.News;
-            GeneratePage(_catID, DateTime.MinValue, DateTime.MinValue);
-        }
-        else
+        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
         {
             Response.Redirect("~/Admin/Login.aspx");
         }
+        else
+        {
+          _hasAdminPermission =  CheckAdminPermission();
+        }
+        if (!IsPostBack)
+        {
+            if (Session["UserID"] != null)
+            {
+
+                _catID = (int)SectionTypeEnum.News;
+                GeneratePage(_catID, DateTime.MinValue, DateTime.MinValue);
+            }
+
+        }
+
+
     }
     #endregion
 
@@ -31,50 +41,161 @@ public partial class _Default : System.Web.UI.Page
     #endregion
 
     #region Method
+
+    private bool CheckAdminPermission()
+    {
+        Users objUser = (Users)Session["User"];
+        UserPermissions dtUP = (UserPermissions)Session["UserPermission"];
+        System.Data.DataTable dtUSP = (System.Data.DataTable)Session["UserSectionPermission"];
+        if (!dtUP.IsGlobalContentAdmin)
+        {
+            return false;
+        }
+        return true;
+    }
+
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<ContentObj> cObjs = new List<ContentObj>();
         ContentObj contents = new ContentObj(cmscon.CONNECTIONSTRING);
 
-        if (_catID == (int)SectionTypeEnum.News)
+        List<HomePageSettings> homePageSettings = new List<HomePageSettings>();
+        HomePageSettings hpTemp = new HomePageSettings(cmscon.CONNECTIONSTRING);
+        int count = 0;
+
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.MiddleColumn));
+        System.Text.StringBuilder tbl = null;
+        if ((homePageSettings != null) & homePageSettings.Count > 0)
         {
-            cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
-           // lblRcentTitle.Text = "Recent News at OSF";
-        }
-        else
-        {
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
-
-            SectionTypeEnum enumDisplayStatus = ((SectionTypeEnum)catID);
-            string stringValue = enumDisplayStatus.ToString();
-
-          //  lblRcentTitle.Text = string.Format("Recent {0}s at OSF", stringValue);
-            cObjs = contents.getRecordsWithPermission(catID, fromdate, todate, Convert.ToInt32(Session["UserID"]));
-        }
-
-
-        if ((cObjs != null) & cObjs.Count > 0)
-        {
-
-            System.Text.StringBuilder tbl = new System.Text.StringBuilder();
-
-            tbl.Append(" <div class='news-osf'>");
-            foreach (ContentObj cO in cObjs)
+            tbl = new System.Text.StringBuilder();
+             
+            foreach (HomePageSettings seti in homePageSettings)
             {
-                tbl.Append(string.Format(@"<div class='recent-news'> 
+                if (seti.WillShow)
+                {
+                    cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
+                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    cc.getRecord(seti.CategoryID);
+
+                    if (cObjs.Count > 0)
+                    {
+                        tbl.Append(string.Format(@"<h3>{0}</h3>", cc.Description));
+                        tbl.Append(" <div class='news-osf' style='margin-bottom: 10px;'>");
+                    }
+                    count = 0;
+                    foreach (ContentObj cO in cObjs)
+                    {
+                        count++;
+                        if (count <= 5)
+                        {
+                            tbl.Append(string.Format(@"<div class='recent-news'> 
                         <p> <strong>Date:</strong>{0}</p>
                         <p> <strong><input type='button' style='width:100%;' value='{1}' onclick='GetPopupContentDefaultPage({4})' class='clsPopupLink' /> </strong></p> 
                         <p> <strong>From:</strong>{2}</p> 
                         <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p>
 
-                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content,cO.ContentID));
+                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content, cO.ContentID));
+                        }
+                    }
+                    tbl.Append("</div>");
+                }
+           
+                
             }
 
-            tbl.Append("</div>");
-            dynamicDiv.InnerHtml = tbl.ToString();
-
+            dynamicMidDiv.InnerHtml = tbl.ToString();
         }
 
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.LeftColumn));
+        tbl = null;
+        if ((homePageSettings != null) & homePageSettings.Count > 0)
+        {
+            tbl = new System.Text.StringBuilder();
+
+            foreach (HomePageSettings seti in homePageSettings)
+            {
+                if (seti.WillShow)
+                {
+                    cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
+                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    cc.getRecord(seti.CategoryID);
+
+                    tbl.Append(string.Format(@"<div class='colomn'>
+                                        <h3>
+                                            {0}</h3>
+                                        <div class='notices'>
+                                            <ul>",cc.Description));
+
+                    count = 0;
+                    foreach (ContentObj cO in cObjs)
+                    {
+                        count++;
+                        if (count <= 5)
+                        {
+                            tbl.Append(string.Format(@" <li><span>{0}</span>
+                                                        <a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", cO.Date.ToString("dd/MM/yyyy"), cO.Title, cO.ContentID));
+                        }
+                    }
+                    tbl.Append(string.Format(@"  </ul>
+                                        </div>
+                                    </div>"));
+
+
+
+                }
+
+
+            }
+
+            dynamicLeftDiv.InnerHtml = tbl.ToString();
+        }
+
+
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.RightColumn));
+        tbl = null;
+        if ((homePageSettings != null) & homePageSettings.Count > 0)
+        {
+            tbl = new System.Text.StringBuilder();
+
+            foreach (HomePageSettings seti in homePageSettings)
+            {
+                if (seti.WillShow)
+                {
+                    cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
+                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    cc.getRecord(seti.CategoryID);
+
+                    tbl.Append(string.Format(@"<div class='colomn'>
+                                        <h3>
+                                            {0}</h3>
+                                        <div class='notices'>
+                                            <ul>", cc.Description));
+
+
+                    count = 0;
+                    foreach (ContentObj cO in cObjs)
+                    {
+                        count++;
+                        if (count <= 5)
+                        {
+                            tbl.Append(string.Format(@" <li><span>{0}</span><a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", cO.Date.ToString("dd/MM/yyyy"), cO.Title, cO.ContentID));
+                        }
+                    }
+                    tbl.Append(string.Format(@"  </ul>
+                                        </div>
+                                    </div>"));
+
+
+
+                }
+
+
+            }
+
+            dynamicRightDiv.InnerHtml = tbl.ToString();
+        }
+      
+       //dynamicRightDiv.InnerHtml = tbl.ToString();
 
     }
 

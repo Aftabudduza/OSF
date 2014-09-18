@@ -295,7 +295,7 @@ public class Categories
             IsACCommon = (dr["IsACCommon"] == DBNull.Value ? (bool)false : (bool)dr["IsACCommon"]);
             IsElection2008 = (dr["IsElection2008"] == DBNull.Value ? (bool)false : (bool)dr["IsElection2008"]);
             RefTabOrderID = (dr["RefTabOrderID"] == DBNull.Value ? (int)0 : (int)dr["RefTabOrderID"]);
-            SectionTypeID = (dr["SectionTypeID"] == DBNull.Value ? (int)0 : (int)dr["SectionTypeID"]);
+            SectionTypeID = (dr["CategoryTypeID"] == DBNull.Value ? (int)0 : (int)dr["CategoryTypeID"]);
             CreatedBy = (dr["CreatedBy"] == DBNull.Value ? (int)1 : (int)dr["CreatedBy"]);
             CreatedDate = (dr["CreatedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedDate"]);
             Modifiedby = (dr["Modifiedby"] == DBNull.Value ? (int)0 : (int)dr["Modifiedby"]);
