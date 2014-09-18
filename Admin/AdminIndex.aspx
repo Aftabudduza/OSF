@@ -120,14 +120,10 @@
                                 </tr>
                                 <tr>
                                     <td class="standardText">
-                                        <a href="UnderDev.aspx" id="chapter2008">Chapter 2014</a>
+                                        <a href="HomePageControlPanel.aspx" id="HomePageControlPanel">Home Page Control Panel</a>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <a href="UnderDev.aspx" id="Hyperlink2">AC Common</a>
-                                    </td>
-                                </tr>
+          
                                 <tr>
                                     <td>
                                         <a href="UnderDev.aspx" id="Hyperlink3">Reset Password</a>
