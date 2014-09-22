@@ -65,7 +65,7 @@ public partial class Admin_Discussion : System.Web.UI.Page
     {
         GridViewRow row = ((LinkButton)sender).Parent.Parent as GridViewRow;
         HiddenField vId = (HiddenField)gvDiscussion.Rows[row.RowIndex].FindControl("hdId");
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         if (Convert.ToInt32(vId.Value) > 0)
         {
             try
@@ -87,7 +87,7 @@ public partial class Admin_Discussion : System.Web.UI.Page
     {
         try
         {
-            Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+            Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
 
             if (this.ValidateObject().Length > 0)
             {
@@ -157,16 +157,16 @@ public partial class Admin_Discussion : System.Web.UI.Page
         try
         {
             DataTable objDataTable = new DataTable();
-            Categories obj = new Categories(cmscon.CONNECTIONSTRING);
+            Categories obj = new Categories(osfcon.CONNECTIONSTRING);
             string sql = "";
             sql = string.Format(@"SELECT DISTINCT cat.CategoryID, MAX(cat.[Description]) Description ,Discussions = ISNULL((SELECT COUNT(distinct(c2.ContentID)) Total  
                                 FROM Categories cat1, [Content] c2  WHERE cat1.CategoryTypeID={0} AND cat1.CategoryID=c2.CategoryID  AND (c2.RootThreadID = 0 OR c2.RootThreadID IS NULL) AND cat1.CategoryID
                                 = cat.CategoryID  GROUP BY cat1.CategoryID ),0) ,Post = ISNULL((SELECT COUNT(distinct(c4.ContentID)) Total  FROM Categories cat2, [Content] c4  WHERE cat2.CategoryTypeID={0}
                                 AND cat2.CategoryID=c4.CategoryID AND c4.RootThreadID > 0  AND cat2.CategoryID = cat.CategoryID  GROUP BY cat2.CategoryID ),0) FROM (select * from Categories WHERE CategoryTypeID={0})
-                                cat LEFT join [Content] c  on  cat.CategoryID=c.CategoryID  GROUP BY cat.CategoryID ", (int)SectionTypeEnum.Discusstion);
+                                cat LEFT join [Content] c  on  cat.CategoryID=c.CategoryID  GROUP BY cat.CategoryID ", (int)EnumSectionType.Discusstion);
             //sql = string.Format("SELECT distinct cat.CategoryID, MAX(cat.[Description]) Description ,Discussions = ISNULL((SELECT COUNT(distinct(c2.ContentID)) Total  FROM Categories cat1, [Content] c2  WHERE cat1.CategoryTypeID={0} AND cat1.CategoryID=c2.CategoryID AND (c2.RootThreadID = 0 OR c2.RootThreadID IS NULL) AND cat1.CategoryID = cat.CategoryID    GROUP BY cat1.CategoryID ),0) ,Post = ISNULL((SELECT COUNT(distinct(c4.ContentID)) Total  FROM Categories cat2, [Content] c4  WHERE cat2.CategoryTypeID={0} AND cat2.CategoryID=c4.CategoryID AND c4.RootThreadID > 0 AND cat2.CategoryID = cat.CategoryID    GROUP BY cat2.CategoryID ),0) FROM Categories cat, [Content] c  WHERE cat.CategoryTypeID={0} AND cat.CategoryID=c.CategoryID  GROUP BY cat.CategoryID ORDER BY MAX(cat.[Description]) ASC ");
 
-            objDataTable = cmscon.getRows(sql);
+            objDataTable = osfcon.getRows(sql);
             if (objDataTable != null)
             {
                 gvDiscussion.DataSource = objDataTable;
@@ -187,7 +187,7 @@ public partial class Admin_Discussion : System.Web.UI.Page
             DataTable objCategoryDetails = new DataTable();
             DataTable objCategory = new DataTable();
 
-            objCategory = cmscon.getRows(string.Format(@"SELECT * FROM Categories WHERE CategoryID={0}", categoryID));
+            objCategory = osfcon.getRows(string.Format(@"SELECT * FROM Categories WHERE CategoryID={0}", categoryID));
 
             if (objCategory.Rows.Count > 0)
             {
@@ -228,7 +228,7 @@ public partial class Admin_Discussion : System.Web.UI.Page
 
         try
         {
-            cat.SectionTypeID = Convert.ToInt32(SectionTypeEnum.Discusstion);
+            cat.SectionTypeID = Convert.ToInt32(EnumSectionType.Discusstion);
             cat.Description = txtTopicsName.Text;
             cat.IsLeaf = false;
             cat.CreatedBy = Convert.ToInt32(Session["UserID"]);

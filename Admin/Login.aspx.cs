@@ -14,9 +14,11 @@ public partial class Admin_Login : System.Web.UI.Page
     }
     protected void btnLogin_Click(object sender, EventArgs e)
     {
-        Users uInfo = new Users(cmscon.CONNECTIONSTRING);
+        Users uInfo = new Users(osfcon.CONNECTIONSTRING);
         string userName = txtUserName.Text;
+        Session["User"] = null;
         this.ValidateUser();
+       
 
     }
 
@@ -25,22 +27,23 @@ public partial class Admin_Login : System.Web.UI.Page
     {
         if (!String.IsNullOrEmpty(txtUserName.Text.Trim()) && !String.IsNullOrEmpty(txtPassword.Text.Trim()))
         {
-            Users objUsers = new Users(cmscon.CONNECTIONSTRING);
+            Users objUsers = new Users(osfcon.CONNECTIONSTRING);
             try
             {
-                DataTable dtSysChk = cmscon.getRows(string.Format(@"select FailedLogins from Users where Username =  '{0}'
-                                                    Union all
-                                                    SELECT NumVal from SystemSettings where SystemSettingID={1}", txtUserName.Text.Trim(), (int)SystemSettingsEnum.BadPasswordLockout));
+                DataTable dtSysChk = osfcon.getRows(string.Format(@"select FailedLogins from Users where Username =  '{0}'", txtUserName.Text.Trim(), (int)EnumSystemSettings.BadPasswordLockout));
+                SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+                
+                
                 bool isUserBlocked = false;
-                if (dtSysChk != null && dtSysChk.Rows.Count > 1 && Convert.ToInt32(dtSysChk.Rows[0][0]) > 0)
+                if (ss.Enabled && dtSysChk != null & Convert.ToInt32(dtSysChk.Rows[0][0]) > 0)
                 {
-                    if (Convert.ToInt32(dtSysChk.Rows[0][0]) == Convert.ToInt32(dtSysChk.Rows[1][0]))
+                    if (Convert.ToInt32(dtSysChk.Rows[0][0]) == ss.NumVal)
                         isUserBlocked = true;
                 }
 
                 if (!isUserBlocked)
                 {
-                    DataTable objUserDataTable = cmscon.getRows(string.Format("SELECT * FROM (SELECT * FROM Users  WHERE Username = '{0}' AND Password='{1}' ) U LEFT Join UserPermissions Up on U.UserID = up.UserID", txtUserName.Text.ToString().Trim(), txtPassword.Text.ToString()));
+                    DataTable objUserDataTable = osfcon.getRows(string.Format("SELECT * FROM (SELECT * FROM Users  WHERE Username = '{0}' AND Password='{1}' ) U LEFT Join UserPermissions Up on U.UserID = up.UserID", txtUserName.Text.ToString().Trim(), txtPassword.Text.ToString()));
 
                     if ((objUserDataTable != null) && objUserDataTable.Rows.Count > 0)
                     {
@@ -59,11 +62,11 @@ public partial class Admin_Login : System.Web.UI.Page
                             {
                                 Session["User"] = objUsers;
 
-                                UserPermissions up = new UserPermissions(cmscon.CONNECTIONSTRING);
+                                UserPermissions up = new UserPermissions(osfcon.CONNECTIONSTRING);
                                 up.getRecord(objUsers.UserID);
                                 Session["UserPermission"] = up;
                                 DataTable dtUSP = null;
-                                dtUSP = cmscon.getRows(string.Format("SELECT * FROM UserSectionPermission WHERE UserID={0} AND IsSection=1", objUsers.UserID));
+                                dtUSP = osfcon.getRows(string.Format("SELECT * FROM UserSectionPermission WHERE UserID={0} AND IsSection=1", objUsers.UserID));
                                 if (!(up.IsSister || up.IsStaff))
                                 {
                                     if (up.IsLayPerson)
@@ -78,9 +81,9 @@ public partial class Admin_Login : System.Web.UI.Page
                                     {
                                         foreach (System.Data.DataRow drow in dtUSP.Rows)
                                         {
-                                            if (Convert.ToBoolean(drow["IsSection"]) && Convert.ToInt32(drow["SectionID"]) != (int)SectionTypeEnum.Calender)
+                                            if (Convert.ToBoolean(drow["IsSection"]) && Convert.ToInt32(drow["SectionID"]) != (int)EnumSectionType.Calender)
                                                 drow["HasPermission"] = false;
-                                            if (Convert.ToBoolean(drow["IsSection"]) && Convert.ToInt32(drow["SectionID"]) == (int)SectionTypeEnum.Calender)
+                                            if (Convert.ToBoolean(drow["IsSection"]) && Convert.ToInt32(drow["SectionID"]) == (int)EnumSectionType.Calender)
                                                 drow["HasPermission"] = true;
                                         }
                                     }

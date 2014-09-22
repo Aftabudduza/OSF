@@ -340,7 +340,7 @@ public class ContentObj
     public List<ContentObj> getRecords(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0}", categoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0}", categoryTypeID));
         if(dt != null)
         foreach(DataRow dr in dt.Rows)
         {
@@ -358,7 +358,7 @@ public class ContentObj
         else
         {
             List<ContentObj> contentsList = new List<ContentObj>();
-            DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.Date between '{1}' AND '{2}'", categoryTypeID, fromdate,todate));
+            DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.Date between '{1}' AND '{2}'", categoryTypeID, fromdate,todate));
             if (dt != null)
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -376,7 +376,7 @@ public class ContentObj
         else
         {
             List<ContentObj> contentsList = new List<ContentObj>();
-            DataTable dt = cmscon.getRows(string.Format(@"
+            DataTable dt = osfcon.getRows(string.Format(@"
                                             SELECT a.* FROM 
                                             (  select * from Content Con where Con.Date BETWEEN '{0}' AND '{1}' AND Con.CategoryID
                                             in(SELECT CategoryID from Categories where CategoryTypeID = {2})) A  join UserSectionPermission up on 
@@ -394,7 +394,7 @@ public class ContentObj
     {
 
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format(@"
+        DataTable dt = osfcon.getRows(string.Format(@"
                                             SELECT a.* FROM 
                                             (  select * from Content Con where  Con.CategoryID
                                             in(SELECT CategoryID from Categories where CategoryTypeID = {0})) A  join UserSectionPermission up on 
@@ -411,7 +411,7 @@ public class ContentObj
     public List<ContentObj> getRecordsbyCategoryTypeID(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
         if (dt != null)
             foreach (DataRow dr in dt.Rows)
             {
@@ -423,7 +423,7 @@ public class ContentObj
     public List<ContentObj> getRecordsbyCategoryID(int categoryID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
         if (dt != null && dt.Rows.Count > 0)
             foreach (DataRow dr in dt.Rows)
             {
@@ -434,7 +434,7 @@ public class ContentObj
     public ContentObj getRecordFromID(int ContentID)
     {
         ContentObj content = new ContentObj();
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM Content WHERE ContentID= {0}", ContentID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Content WHERE ContentID= {0}", ContentID));
         if (dt != null)
             foreach (DataRow dr in dt.Rows)
             {

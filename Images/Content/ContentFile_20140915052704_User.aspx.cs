@@ -47,8 +47,8 @@ public partial class Admin_User : System.Web.UI.Page
         HiddenField vId = (HiddenField)gvUser.Rows[row.RowIndex].FindControl("hdId");
         Session["UserIDEdit"] = vId.Value;
         ImageButton btndetails = sender as ImageButton;
-        Users uObj = new Users(cmscon.CONNECTIONSTRING);
-        DataTable dt = cmscon.getRows(string.Format("SELECT * FROM users WHERE UserID={0}", Convert.ToInt32(vId.Value)));
+        Users uObj = new Users(osfcon.CONNECTIONSTRING);
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM users WHERE UserID={0}", Convert.ToInt32(vId.Value)));
         if (dt != null)
         {
             this.FillControls(dt);
@@ -65,7 +65,7 @@ public partial class Admin_User : System.Web.UI.Page
     {
         string message = "";
 
-        Users uObj = new Users(cmscon.CONNECTIONSTRING);
+        Users uObj = new Users(osfcon.CONNECTIONSTRING);
 
 
         message = ValidateObject();
@@ -144,8 +144,8 @@ public partial class Admin_User : System.Web.UI.Page
             if (txtsProfessionalYear.Text != "")
                 sql += string.Format(" AND ProfessionalYear = {0}", Convert.ToInt32(txtsProfessionalYear.Text));
 
-            Users uObj = new Users(cmscon.CONNECTIONSTRING);
-            DataTable dt = cmscon.getRows(sql);
+            Users uObj = new Users(osfcon.CONNECTIONSTRING);
+            DataTable dt = osfcon.getRows(sql);
             if (dt != null)
             {
                 gvUser.DataSource = dt;
@@ -216,8 +216,8 @@ public partial class Admin_User : System.Web.UI.Page
         Session["UserIDEdit"] = vId.Value;
         ImageButton btndetails = sender as ImageButton;
 
-        Users uObj = new Users(cmscon.CONNECTIONSTRING);
-        DataTable userData = cmscon.getRows(string.Format("SELECT * FROM users WHERE UserID={0}", Convert.ToInt32(vId.Value)));
+        Users uObj = new Users(osfcon.CONNECTIONSTRING);
+        DataTable userData = osfcon.getRows(string.Format("SELECT * FROM users WHERE UserID={0}", Convert.ToInt32(vId.Value)));
 
         if (userData != null)
         {
@@ -226,7 +226,7 @@ public partial class Admin_User : System.Web.UI.Page
             txtUserNamePermission.Text = userData.Rows[0]["UserName"].ToString();
             Session["UserName"] = userData.Rows[0]["UserName"].ToString();
 
-            DataTable perMissionData = cmscon.getRows(string.Format("SELECT * FROM UserPermissions WHERE UserID={0}", Convert.ToInt32(vId.Value)));
+            DataTable perMissionData = osfcon.getRows(string.Format("SELECT * FROM UserPermissions WHERE UserID={0}", Convert.ToInt32(vId.Value)));
             if (perMissionData == null || perMissionData.Rows.Count <=0)
             {                
                 Session["IsNew"] = true;               
@@ -242,7 +242,7 @@ public partial class Admin_User : System.Web.UI.Page
             DisplayAlert("No Details Data Fount");
         }
 
-        DataTable userSectionPermissionData = cmscon.getRows(string.Format("SELECT * FROM UserSectionPermission WHERE UserID={0}", Convert.ToInt32(vId.Value)));
+        DataTable userSectionPermissionData = osfcon.getRows(string.Format("SELECT * FROM UserSectionPermission WHERE UserID={0}", Convert.ToInt32(vId.Value)));
         if (userSectionPermissionData != null)
         {
             if (userSectionPermissionData == null || userSectionPermissionData.Rows.Count <= 0)
@@ -273,7 +273,7 @@ public partial class Admin_User : System.Web.UI.Page
 
     protected void btnPermissionSave_Click(object sender, EventArgs e)
     {
-        UserPermissions uObj = new UserPermissions(cmscon.CONNECTIONSTRING);
+        UserPermissions uObj = new UserPermissions(osfcon.CONNECTIONSTRING);
     }
 
 
@@ -281,7 +281,7 @@ public partial class Admin_User : System.Web.UI.Page
     {
         string message = "";
         int a =LinksTreeView.Nodes.Count;
-        UserPermissions uObj = new UserPermissions(cmscon.CONNECTIONSTRING);
+        UserPermissions uObj = new UserPermissions(osfcon.CONNECTIONSTRING);
         this.MakePermissionObject(uObj);
         List<UserSectionPermission> usPermissions = new List<UserSectionPermission>();
         MakeSectionPermissionObject(usPermissions);
@@ -307,12 +307,12 @@ public partial class Admin_User : System.Web.UI.Page
 
             if (chkResetPassword.Checked)
             { //QueryExecute
-                Users user = new Users(cmscon.CONNECTIONSTRING);
+                Users user = new Users(osfcon.CONNECTIONSTRING);
                 user.QueryExecute(string.Format("UPDATE Users SET Password='{0}' WHERE UserID={1}",txtUserNamePermission.Text,uObj.UserID));
             }
         }
 
-        UserSectionPermission usp = new UserSectionPermission(cmscon.CONNECTIONSTRING);
+        UserSectionPermission usp = new UserSectionPermission(osfcon.CONNECTIONSTRING);
         int userID =  Convert.ToInt32(Session["UserIDEdit"] == "" ? 0 : Session["UserIDEdit"]);
         usp.QueryExecute(string.Format("DELETE  FROM UserSectionPermission WHERE UserID = {0}",userID));
         foreach (UserSectionPermission u in usPermissions)
@@ -660,10 +660,10 @@ public partial class Admin_User : System.Web.UI.Page
         ddlDepartment.Items.Clear();
         ddlSDepartment.Items.Clear();
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(SectionTypeEnum.Department)));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(EnumSectionType.Department)));
 
 
             ddlDepartment.AppendDataBoundItems = true;
@@ -693,10 +693,10 @@ public partial class Admin_User : System.Web.UI.Page
         ddlPosition.Items.Clear();
         ddlSPost.Items.Clear();
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(SectionTypeEnum.Job)));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(EnumSectionType.Job)));
 
 
             ddlPosition.AppendDataBoundItems = true;
@@ -726,10 +726,10 @@ public partial class Admin_User : System.Web.UI.Page
         ddlLocation.Items.Clear();
         ddlSLocation.Items.Clear();
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(SectionTypeEnum.Location)));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM BasicData WHERE ParentID= {0}", Convert.ToInt32(EnumSectionType.Location)));
 
 
             ddlLocation.AppendDataBoundItems = true;
@@ -779,7 +779,7 @@ public partial class Admin_User : System.Web.UI.Page
         try
         {
             string sql = "Select * FROM SectionType ";
-            DataTable ResultSet = cmscon.getRows(sql);
+            DataTable ResultSet = osfcon.getRows(sql);
 
             // Create the second-level nodes
             if (ResultSet != null)
@@ -799,7 +799,7 @@ public partial class Admin_User : System.Web.UI.Page
                         if (Convert.ToBoolean(row["IsCategory"]))
                         {
                             string newsql = string.Format("Select * From Categories Where CategoryTypeID={0}", Convert.ToInt32(row["SectionTypeID"]));// + row["category_id"].ToString();
-                            DataTable newResultSet = cmscon.getRows(newsql);
+                            DataTable newResultSet = osfcon.getRows(newsql);
                             if (newResultSet != null)
                             {
                                 // Create the third-level nodes.
@@ -845,7 +845,7 @@ public partial class Admin_User : System.Web.UI.Page
 
 
 
-            DataTable ResultSet = cmscon.getRows(sql);
+            DataTable ResultSet = osfcon.getRows(sql);
 
             // Create the second-level nodes
             if (ResultSet != null)
@@ -868,7 +868,7 @@ public partial class Admin_User : System.Web.UI.Page
                             {
 
                             string newsql = string.Format("SELECT T.CategoryID,T.Description, U.* FROM (Select * From Categories Where CategoryTypeID={0} ) T LEFT JOIN UserSectionPermission U on T.CategoryID = U.CategoryID AND U.UserID = {1}", Convert.ToInt32(row["SectionTypeID"]),userid);// + row["category_id"].ToString();
-                            DataTable newResultSet = cmscon.getRows(newsql);
+                            DataTable newResultSet = osfcon.getRows(newsql);
                             if (newResultSet != null)
                             {
                                 // Create the third-level nodes.

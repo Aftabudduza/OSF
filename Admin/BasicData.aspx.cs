@@ -88,7 +88,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
 
     protected void btnSaveType_Click(object sender, EventArgs e)
     {
-        BasicData objBasicData = new BasicData(cmscon.CONNECTIONSTRING);
+        BasicData objBasicData = new BasicData(osfcon.CONNECTIONSTRING);
         this.MakeBasicType(objBasicData); 
 
 
@@ -112,7 +112,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {
-        BasicData objBasicData = new BasicData(cmscon.CONNECTIONSTRING);
+        BasicData objBasicData = new BasicData(osfcon.CONNECTIONSTRING);
         this.MakeBasic(objBasicData);
         if (objBasicData.ParentID == -1)
         {
@@ -129,7 +129,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         if (Convert.ToInt32(Session["LevelId"]) == 0)
         {
 
-            DataTable dt = cmscon.getRows(string.Format("SELECT  COUNT(*) FROM BasicData WHERE UserDefinedID={0}", objBasicData.UserDefinedID));
+            DataTable dt = osfcon.getRows(string.Format("SELECT  COUNT(*) FROM BasicData WHERE UserDefinedID={0}", objBasicData.UserDefinedID));
             if (Convert.ToInt32(dt.Rows[0][0]) >= 1)
             {
                 DisplayAlert("Same Userdefined ID exists");
@@ -177,7 +177,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
     {
         DataTable objCategory = new DataTable();
 
-        objCategory = cmscon.getRows(string.Format(@"SELECT * FROM BasicData WHERE BasicDataID={0}", basicDataID));
+        objCategory = osfcon.getRows(string.Format(@"SELECT * FROM BasicData WHERE BasicDataID={0}", basicDataID));
         if (objCategory != null)
         {
             txtUserDiefinedID.Text = objCategory.Rows[0]["UserDefinedID"].ToString();
@@ -193,11 +193,11 @@ public partial class Admin_BasicData : System.Web.UI.Page
     {
         ddlSectionType.Items.Clear();
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
 
-            DataTable objDataTable = cmscon.getRows("SELECT * FROM SectionType WHERE UserDefinedID IN (14,15,16)");
+            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType WHERE UserDefinedID IN (14,15,16)");
             ddlSectionType.AppendDataBoundItems = true;
             ddlSectionType.Items.Add(new ListItem("--Select Type--", "-1"));
             foreach (DataRow dr in objDataTable.Rows)
@@ -236,7 +236,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
     private void FillGrid(int parentID)
     {
         DataTable objDataTable = new DataTable();
-        CategoryDetails obj = new CategoryDetails(cmscon.CONNECTIONSTRING);
+        CategoryDetails obj = new CategoryDetails(osfcon.CONNECTIONSTRING);
 
         string sql = "";
         if (parentID == 0)
@@ -244,7 +244,7 @@ public partial class Admin_BasicData : System.Web.UI.Page
         else
             sql = string.Format("SELECT BasicData.*,SectionType.Description Type FROM BasicData JOIN SectionType on BasicData.ParentID = SectionType.UserDefinedID AND BasicData.ParentID ={0}",parentID); 
 
-        objDataTable = cmscon.getRows(sql);
+        objDataTable = osfcon.getRows(sql);
         if (objDataTable != null)
         {
             gvCategory.DataSource = objDataTable;

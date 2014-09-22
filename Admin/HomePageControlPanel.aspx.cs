@@ -30,7 +30,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
             if (!IsPostBack)
             {
                 Session["FileName"] = null;
-                DataTable dt = cmscon.getRows("SELECT Count(*) From HomePageSettings");
+                DataTable dt = osfcon.getRows("SELECT Count(*) From HomePageSettings");
 
                 if (dt == null || dt.Rows.Count <= 0 || Convert.ToInt32(dt.Rows[0][0]) <= 0)
                     FirstTimeFill();
@@ -58,7 +58,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                 up.IsSection = true;
                 up.CategoryID = 0;
                 up.WillShow = false;
-                up.HomePageColumnType = (int)HomePageColumnType.LeftColumn;
+                up.HomePageColumnType = (int)HomePageColumnTypeEnum.LeftColumn;
                 leftCol.Add(up);
 
                 if (node.ChildNodes != null && node.ChildNodes.Count > 0)
@@ -70,7 +70,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                         up.IsSection = false;
                         up.CategoryID = Convert.ToInt32(cnode.Value);
                         up.WillShow = cnode.Checked;
-                        up.HomePageColumnType = (int)HomePageColumnType.LeftColumn; 
+                        up.HomePageColumnType = (int)HomePageColumnTypeEnum.LeftColumn; 
                         leftCol.Add(up);
                     }
                 }
@@ -88,7 +88,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                 up.IsSection = true;
                 up.CategoryID = 0;
                 up.WillShow = false;
-                up.HomePageColumnType = (int)HomePageColumnType.RightColumn;
+                up.HomePageColumnType = (int)HomePageColumnTypeEnum.RightColumn;
                 RightCol.Add(up);
 
                 if (node.ChildNodes != null && node.ChildNodes.Count > 0)
@@ -100,7 +100,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                         up.IsSection = false;
                         up.CategoryID = Convert.ToInt32(cnode.Value);
                         up.WillShow = cnode.Checked;
-                        up.HomePageColumnType = (int)HomePageColumnType.RightColumn;
+                        up.HomePageColumnType = (int)HomePageColumnTypeEnum.RightColumn;
                         RightCol.Add(up);
                     }
                 }
@@ -119,7 +119,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                 up.IsSection = true;
                 up.CategoryID = 0;
                 up.WillShow = false;
-                up.HomePageColumnType = (int)HomePageColumnType.MiddleColumn;
+                up.HomePageColumnType = (int)HomePageColumnTypeEnum.MiddleColumn;
                 MiddleCol.Add(up);
 
                 if (node.ChildNodes != null && node.ChildNodes.Count > 0)
@@ -131,7 +131,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                         up.IsSection = false;
                         up.CategoryID = Convert.ToInt32(cnode.Value);
                         up.WillShow = cnode.Checked;
-                        up.HomePageColumnType = (int)HomePageColumnType.MiddleColumn;
+                        up.HomePageColumnType = (int)HomePageColumnTypeEnum.MiddleColumn;
                         MiddleCol.Add(up);
                     }
                 }
@@ -140,7 +140,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
         Utility.QueryExecute("DELETE FROM HomePageSettings");
         foreach (HomePageSettings hps in leftCol)
         {
-            HomePageSettings h = new HomePageSettings(cmscon.CONNECTIONSTRING);
+            HomePageSettings h = new HomePageSettings(osfcon.CONNECTIONSTRING);
             h.CategoryID = hps.CategoryID;
             h.SectionID = hps.SectionID;
             h.IsSection = hps.IsSection;
@@ -153,7 +153,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
 
         foreach (HomePageSettings hps in RightCol)
         {
-            HomePageSettings h = new HomePageSettings(cmscon.CONNECTIONSTRING);
+            HomePageSettings h = new HomePageSettings(osfcon.CONNECTIONSTRING);
             h.CategoryID = hps.CategoryID;
              h.SectionID = hps.SectionID;
             h.IsSection = hps.IsSection;
@@ -167,7 +167,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
 
         foreach (HomePageSettings hps in MiddleCol)
         {
-            HomePageSettings h = new HomePageSettings(cmscon.CONNECTIONSTRING);
+            HomePageSettings h = new HomePageSettings(osfcon.CONNECTIONSTRING);
             h.CategoryID = hps.CategoryID;
             h.SectionID = hps.SectionID;
             h.IsSection = hps.IsSection;
@@ -232,7 +232,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                         if (Convert.ToBoolean(row["IsCategory"]))
                         {
                             string newsql = string.Format("Select * From Categories Where CategoryTypeID={0}", Convert.ToInt32(row["SectionTypeID"]));// + row["category_id"].ToString();
-                            DataTable newResultSet = cmscon.getRows(newsql);
+                            DataTable newResultSet = osfcon.getRows(newsql);
                             if (newResultSet != null && newResultSet.Rows.Count > 0)
                             {
                                 // Create the third-level nodes.
@@ -295,7 +295,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                     if (Convert.ToBoolean(row["IsCategory"]))
                     {
                         string newsql = string.Format("Select * From Categories Where CategoryTypeID={0}", Convert.ToInt32(row["SectionTypeID"]));// + row["category_id"].ToString();
-                        DataTable newResultSet = cmscon.getRows(newsql);
+                        DataTable newResultSet = osfcon.getRows(newsql);
                         if (newResultSet != null && newResultSet.Rows.Count > 0)
                         {
                             // Create the third-level nodes.
@@ -357,7 +357,7 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                     if (Convert.ToBoolean(row["IsCategory"]))
                     {
                         string newsql = string.Format("Select * From Categories Where CategoryTypeID={0}", Convert.ToInt32(row["SectionTypeID"]));// + row["category_id"].ToString();
-                        DataTable newResultSet = cmscon.getRows(newsql);
+                        DataTable newResultSet = osfcon.getRows(newsql);
                         if (newResultSet != null && newResultSet.Rows.Count > 0)
                         {
                             // Create the third-level nodes.
@@ -392,8 +392,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
 
     private void FirstTimeFill()
     {
-        string sql = string.Format("Select * FROM SectionType WHERE IsCategory=1 AND SectionTypeID <>{0}", (int)SectionTypeEnum.Directory);
-        DataTable ResultSet = cmscon.getRows(sql);
+        string sql = string.Format("Select * FROM SectionType WHERE IsCategory=1 AND SectionTypeID <>{0}", (int)EnumSectionType.Directory);
+        DataTable ResultSet = osfcon.getRows(sql);
 
         GenerateLeftTreeView(ResultSet);
         GenerateRightTreeView(ResultSet);
@@ -416,8 +416,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
     {
         string sql = string.Format(@"SELECT * FROM (Select * FROM SectionType WHERE IsCategory=1 AND SectionTypeID <> {0} ) A
                                     LEFT JOIN
-                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)SectionTypeEnum.Directory, (int)HomePageColumnType.LeftColumn);
-        DataTable ResultSet = cmscon.getRows(sql);
+                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)EnumSectionType.Directory, (int)HomePageColumnTypeEnum.LeftColumn);
+        DataTable ResultSet = osfcon.getRows(sql);
 
         treeViewLeft.Nodes.Clear();
   
@@ -441,8 +441,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                                                             (
                                                             SELECT * FROM HomePageSettings where IsSection =0 AND HomePageColumnType = {1} ) B 
 
-                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnType.LeftColumn);// + row["category_id"].ToString();
-                    DataTable newResultSet = cmscon.getRows(newsql);
+                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnTypeEnum.LeftColumn);// + row["category_id"].ToString();
+                    DataTable newResultSet = osfcon.getRows(newsql);
                     if (newResultSet != null && newResultSet.Rows.Count > 0)
                     {
 
@@ -477,8 +477,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
     {
         string sql = string.Format(@"SELECT * FROM (Select * FROM SectionType WHERE IsCategory=1 AND SectionTypeID <> {0} ) A
                                     LEFT JOIN
-                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)SectionTypeEnum.Directory, (int)HomePageColumnType.RightColumn);
-        DataTable ResultSet = cmscon.getRows(sql);
+                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)EnumSectionType.Directory, (int)HomePageColumnTypeEnum.RightColumn);
+        DataTable ResultSet = osfcon.getRows(sql);
 
         treeViewRight.Nodes.Clear();
 
@@ -502,8 +502,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                                                             (
                                                             SELECT * FROM HomePageSettings where IsSection =0 AND HomePageColumnType = {1} ) B 
 
-                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnType.RightColumn);// + row["category_id"].ToString();
-                    DataTable newResultSet = cmscon.getRows(newsql);
+                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnTypeEnum.RightColumn);// + row["category_id"].ToString();
+                    DataTable newResultSet = osfcon.getRows(newsql);
                     if (newResultSet != null && newResultSet.Rows.Count > 0)
                     {
 
@@ -538,8 +538,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
     {
         string sql = string.Format(@"SELECT * FROM (Select * FROM SectionType WHERE IsCategory=1 AND SectionTypeID <> {0} ) A
                                     LEFT JOIN
-                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)SectionTypeEnum.Directory, (int)HomePageColumnType.MiddleColumn);
-        DataTable ResultSet = cmscon.getRows(sql);
+                                  ( SELECT * FROM HomePageSettings where IsSection =1 AND HomePageColumnType = {1} ) B on A.SectionTypeID = B.SectionID", (int)EnumSectionType.Directory, (int)HomePageColumnTypeEnum.MiddleColumn);
+        DataTable ResultSet = osfcon.getRows(sql);
 
         treeViewMidde.Nodes.Clear();
 
@@ -563,8 +563,8 @@ public partial class Admin_HomePageControlPanel : System.Web.UI.Page
                                                             (
                                                             SELECT * FROM HomePageSettings where IsSection =0 AND HomePageColumnType = {1} ) B 
 
-                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnType.MiddleColumn);// + row["category_id"].ToString();
-                    DataTable newResultSet = cmscon.getRows(newsql);
+                                                            On A.CategoryID = B.CategoryID", Convert.ToInt32(row["SectionTypeID"]), (int)HomePageColumnTypeEnum.MiddleColumn);// + row["category_id"].ToString();
+                    DataTable newResultSet = osfcon.getRows(newsql);
                     if (newResultSet != null && newResultSet.Rows.Count > 0)
                     {
 

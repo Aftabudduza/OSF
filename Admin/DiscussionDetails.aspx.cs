@@ -90,7 +90,7 @@ public partial class DiscussionDetails : System.Web.UI.Page
     {
         GridViewRow row = ((LinkButton)sender).Parent.Parent as GridViewRow;
         HiddenField vId = (HiddenField)gvDiscussion.Rows[row.RowIndex].FindControl("hdId");
-        ContentObj obj = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj obj = new ContentObj(osfcon.CONNECTIONSTRING);
         if (Convert.ToInt32(vId.Value) > 0)
         {
             try
@@ -117,7 +117,7 @@ public partial class DiscussionDetails : System.Web.UI.Page
     protected void btnDiscussion_Click(object sender, EventArgs e)
     {
         int checkInsert = 0;
-        ContentObj objCaontent = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj objCaontent = new ContentObj(osfcon.CONNECTIONSTRING);
         try 
         { 
             if (this.ValidateObject().Length > 0)
@@ -183,7 +183,7 @@ public partial class DiscussionDetails : System.Web.UI.Page
         try
         {
             DataTable objDataTable = new DataTable();
-            Categories obj = new Categories(cmscon.CONNECTIONSTRING);
+            Categories obj = new Categories(osfcon.CONNECTIONSTRING);
             string sql = "";
             //sql = string.Format(" SELECT distinct max(c.ContentID) ContentID,max(c.Author) Author,max(c.Content) Title,max(c.Date) LastUpdated , Post=ISNULL((SELECT COUNT( c3.ContentID) AS Total FROM [Content] c3, [Content] c4 WHERE c3.ContentID=c4.RootThreadID AND c3.CategoryID=" + nCatID + " AND c.ContentID=c3.ContentID GROUP BY c3.ContentID),0)  FROM [Content] c, [Content] c2 WHERE c.CategoryID= " + nCatID + " AND c.RootThreadID=0 GROUP BY c.ContentID ");            
             sql = string.Format(@"SELECT distinct c.ContentID ,max(c.Author) Author,max(c.Content) 
@@ -193,7 +193,7 @@ public partial class DiscussionDetails : System.Web.UI.Page
                                  FROM [Content] c, [Content] c2 WHERE c.CategoryID= {0} AND c.RootThreadID=0 GROUP BY c.ContentID",nCatID);
 
 
-            objDataTable = cmscon.getRows(sql);
+            objDataTable = osfcon.getRows(sql);
             if (objDataTable != null)
             {
                 gvDiscussion.DataSource = objDataTable;

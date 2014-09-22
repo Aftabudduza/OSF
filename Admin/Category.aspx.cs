@@ -32,7 +32,7 @@ public partial class Admin_Category : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         this.RefreshObject(objCategories);
 
         if (objCategories.insert())
@@ -64,11 +64,11 @@ public partial class Admin_Category : System.Web.UI.Page
         ddlSectionType.Items.Clear();
 
 
-        SectionType objSectionType = new SectionType(cmscon.CONNECTIONSTRING);
+        SectionType objSectionType = new SectionType(osfcon.CONNECTIONSTRING);
         try
         {
 
-            DataTable objDataTable = cmscon.getRows("SELECT * FROM SectionType");
+            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType");
 
 
             ddlSectionType.AppendDataBoundItems = true;

@@ -123,9 +123,9 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<ContentObj> cObjs = new List<ContentObj>();
-        ContentObj contents = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj contents = new ContentObj(osfcon.CONNECTIONSTRING);
 
-        if (Convert.ToInt32(Request["SectionTypeID"]) == (int)SectionTypeEnum.News)
+        if (Convert.ToInt32(Request["SectionTypeID"]) == (int)EnumSectionType.News)
         {
             cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
             lblRcentTitle.Text = "News at OSF";
@@ -134,7 +134,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
         {
             int catID = Convert.ToInt32(Request["SectionTypeID"]);
 
-            SectionTypeEnum enumDisplayStatus = ((SectionTypeEnum)catID);
+            EnumSectionType enumDisplayStatus = ((EnumSectionType)catID);
             string stringValue = enumDisplayStatus.ToString();
 
             lblRcentTitle.Text = string.Format("Recent {0}s",stringValue);

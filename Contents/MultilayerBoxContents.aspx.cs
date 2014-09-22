@@ -83,7 +83,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
     private void GeneratePage(int CategoryOrSectionTypeIDTypeID, DateTime fromdate, DateTime todate, bool isCategory)
     {
         List<Categories> cObjs = new List<Categories>();
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
 
         //   CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
 
@@ -91,9 +91,9 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
         //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
         DataTable dt = new DataTable();
         if(!isCategory)
-        dt = cmscon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryOrSectionTypeIDTypeID));
+        dt = osfcon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryOrSectionTypeIDTypeID));
         else
-            dt = cmscon.getRows(string.Format("SELECT C.*, 5 ItemsPerPage FROM Categories C where C.CategoryID={0}", CategoryOrSectionTypeIDTypeID));
+            dt = osfcon.getRows(string.Format("SELECT C.*, 5 ItemsPerPage FROM Categories C where C.CategoryID={0}", CategoryOrSectionTypeIDTypeID));
     
         
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
@@ -150,7 +150,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
 
         List<ContentObj> thisCatcontents = new List<ContentObj>();
 
-        ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
         thisCatcontents = cObj.getRecordsbyCategoryID(catID);
 
         Categories crs = new Categories();

@@ -56,8 +56,6 @@
             xmlhttp.send();
         }
     </script>
-
-
     <style type="text/css">
         #element_to_pop_up2
         {
@@ -88,13 +86,13 @@
         <!--Container-->
         <div class="container">
             <div class="wrapper">
-                <div class="left-sidebar" id="dynamicLeftDiv" runat="server">
+                <div class="left-sidebar"  id="dynamicLeftDiv" runat="server">
                 </div>
-                <div class="mid-container">
+                <div class="mid-container" style="padding: 0 14px 0 20px;">
                     <div id="dynamicMidDiv" runat="server">
                     </div>
                 </div>
-                <div class="right-sidebar" id="dynamicRightDiv" runat="server">
+                <div class="right-sidebar" id="dynamicRightDiv" style="float:left;" runat="server">
                 </div>
             </div>
         </div>
@@ -107,37 +105,36 @@
         </div>
         <!-- End Footer -->
     </div>
-        <script type="text/javascript">
-            function JSOSFPrint(contentSpan, authorspan, datespan, titlespan) {
-                var contentControlToPrint = '#' + contentSpan;
-                var prtContent = $(contentControlToPrint).html();
-                prtContent = $(prtContent).html();  //removint <p> tag
+    <script type="text/javascript">
+        function JSOSFPrint(contentSpan, authorspan, datespan, titlespan) {
+            var contentControlToPrint = '#' + contentSpan;
+            var prtContent = $(contentControlToPrint).html();
+            prtContent = $(prtContent).html();  //removint <p> tag
 
 
-                var authorControlToPrint = '#' + authorspan;
-                var prtAuthor = $(authorControlToPrint).html();
+            var authorControlToPrint = '#' + authorspan;
+            var prtAuthor = $(authorControlToPrint).html();
 
-                var TitleControlToPrint = '#' + titlespan;
-                var prtTitle = $(TitleControlToPrint).html();
+            var TitleControlToPrint = '#' + titlespan;
+            var prtTitle = $(TitleControlToPrint).html();
 
-                var DateControlToPrint = '#' + datespan;
-                var prtDate = $(DateControlToPrint).html();
-                var oldPage = document.body.innerHTML;
+            var DateControlToPrint = '#' + datespan;
+            var prtDate = $(DateControlToPrint).html();
+            var oldPage = document.body.innerHTML;
 
-                document.body.innerHTML = "<table > <tbody> <tr> <td> <span id='TitleTitle' class='standardTextBold'></span> <strong>Title: </strong><span id='TitleSpan'>" + prtTitle + "</span> </td> </tr> <tr> <td colspan='2'> <span id='PostDateTitle' class='standardTextBold'></span> <strong>Date: </strong><span id='DateSpan'>" + prtDate + "</span> </td>	</tr> <tr>	<td colspan='2'><span id='AuthorTitle' class='standardTextBold'></span>	<strong>Author: </strong><span id='AuthorSpan'>" + prtAuthor + "</span></td></tr>	<tr><td colspan='2'><strong>Content: </strong>  </td> </tr>	<tr><td colspan='2'><span id='ContentSpan'><p>" + prtContent + "....</p></span>  </td></tr></tbody></table>";
-
-
-                window.print();
+            document.body.innerHTML = "<table > <tbody> <tr> <td> <span id='TitleTitle' class='standardTextBold'></span> <strong>Title: </strong><span id='TitleSpan'>" + prtTitle + "</span> </td> </tr> <tr> <td colspan='2'> <span id='PostDateTitle' class='standardTextBold'></span> <strong>Date: </strong><span id='DateSpan'>" + prtDate + "</span> </td>	</tr> <tr>	<td colspan='2'><span id='AuthorTitle' class='standardTextBold'></span>	<strong>Author: </strong><span id='AuthorSpan'>" + prtAuthor + "</span></td></tr>	<tr><td colspan='2'><strong>Content: </strong>  </td> </tr>	<tr><td colspan='2'><span id='ContentSpan'><p>" + prtContent + "....</p></span>  </td></tr></tbody></table>";
 
 
-//                document.body.innerHTML = oldPage;
-//                document.getElementById("element_to_pop_up2").style.display = 'none';
+            window.print();
+
+
+            //                document.body.innerHTML = oldPage;
+            //                document.getElementById("element_to_pop_up2").style.display = 'none';
 
 
 
-            }
+        }
     
     </script>
-
 </body>
 </html>

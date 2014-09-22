@@ -31,7 +31,7 @@ public static class Utility
         string htmlData = "";
         ContentObj c0 = new ContentObj();
 
-        DataRow dr = cmscon.getRows(string.Format("SELECT * from Content WHERE ContentID={0}", contentID)).Rows[0];
+        DataRow dr = osfcon.getRows(string.Format("SELECT * from Content WHERE ContentID={0}", contentID)).Rows[0];
         c0 = c0.MakeRowToObject(dr);
 
 
@@ -118,7 +118,7 @@ public static class Utility
         string htmlData = "";
         ContentObj c0 = new ContentObj();
 
-        DataRow dr = cmscon.getRows(string.Format("SELECT * from Content WHERE ContentID={0}", contentID)).Rows[0];
+        DataRow dr = osfcon.getRows(string.Format("SELECT * from Content WHERE ContentID={0}", contentID)).Rows[0];
         c0 = c0.MakeRowToObject(dr);
 
 

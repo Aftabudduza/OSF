@@ -59,7 +59,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL3.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             _categoryIDL2 = Convert.ToInt32(ddlCategoryListL2.SelectedValue.ToString());
@@ -118,7 +118,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
                     }
                     uplProduct.SaveAs(nFile);
 
-                    ContentObj objContentObj = new ContentObj(cmscon.CONNECTIONSTRING);
+                    ContentObj objContentObj = new ContentObj(osfcon.CONNECTIONSTRING);
 
                     this.MakeNewObject(objContentObj);
 
@@ -174,12 +174,12 @@ public partial class Admin_AdminReference : System.Web.UI.Page
     {
 
 
-        Categories objContentObj = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objContentObj = new Categories(osfcon.CONNECTIONSTRING);
         objContentObj.Description = txtLvl2.Text;
         objContentObj.Modifiedby = Convert.ToInt32(Session["UserID"]);
         objContentObj.CreatedDate = DateTime.Today;
         objContentObj.ParentID = Convert.ToInt32(ddlCategoryListL1.SelectedValue.ToString());
-        objContentObj.SectionTypeID = (int)SectionTypeEnum.ChapterDirectives;
+        objContentObj.SectionTypeID = (int)EnumSectionType.ChapterDirectives;
         objContentObj.CategoryID = Convert.ToInt32(Request["CategoryID"]);//Convert.ToInt32(ddlCategoryListL1.SelectedValue.ToString());
 
         if (objContentObj.insert())
@@ -199,12 +199,12 @@ public partial class Admin_AdminReference : System.Web.UI.Page
     }
     protected void btnlvl3Save_Click(object sender, EventArgs e)
     {
-        Categories objContentObj = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objContentObj = new Categories(osfcon.CONNECTIONSTRING);
         objContentObj.Description = txtLvl3.Text;
         objContentObj.Modifiedby = Convert.ToInt32(Session["UserID"]);
         objContentObj.CreatedDate = DateTime.Today;
         objContentObj.ParentID = Convert.ToInt32(ddlCategoryListL2.SelectedValue.ToString());
-        objContentObj.SectionTypeID = (int)SectionTypeEnum.ChapterDirectives;
+        objContentObj.SectionTypeID = (int)EnumSectionType.ChapterDirectives;
         objContentObj.CategoryID = Convert.ToInt32(Request["CategoryID"]); //Convert.ToInt32(ddlCategoryListL1.SelectedValue.ToString());
 
         if (objContentObj.insert())
@@ -231,11 +231,11 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL1.Items.Clear();
         int catID = Convert.ToInt32(Request["CategoryID"]);
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
 
-           DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND  CategoryTypeID = {0}", (int)SectionTypeEnum.Reference));
+           DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND  CategoryTypeID = {0}", (int)EnumSectionType.Reference));
 
 
             ddlCategoryListL1.AppendDataBoundItems = true;
@@ -256,7 +256,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL2.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             _categoryIDL1 = Convert.ToInt32(ddlCategoryListL1.SelectedValue.ToString());
@@ -282,7 +282,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL3.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             _categoryIDL2 = Convert.ToInt32(ddlCategoryListL2.SelectedValue.ToString());
@@ -309,7 +309,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL4.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             _categoryIDL3 = Convert.ToInt32(ddlCategoryListL3.SelectedValue.ToString());
@@ -408,12 +408,12 @@ public partial class Admin_AdminReference : System.Web.UI.Page
     }
     protected void btnLvl4Save_Click(object sender, EventArgs e)
     {
-        Categories objContentObj = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objContentObj = new Categories(osfcon.CONNECTIONSTRING);
         objContentObj.Description = txtLvl4.Text;
         objContentObj.Modifiedby = Convert.ToInt32(Session["UserID"]);
         objContentObj.CreatedDate = DateTime.Today;
         objContentObj.ParentID = Convert.ToInt32(ddlCategoryListL3.SelectedValue.ToString());
-        objContentObj.SectionTypeID = (int)SectionTypeEnum.ChapterDirectives;
+        objContentObj.SectionTypeID = (int)EnumSectionType.ChapterDirectives;
         objContentObj.CategoryID = Convert.ToInt32(Request["CategoryID"]); //Convert.ToInt32(ddlCategoryListL1.SelectedValue.ToString());
 
         if (objContentObj.insert())
@@ -436,7 +436,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
         ddlCategoryListL4.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             _categoryIDL3 = Convert.ToInt32(ddlCategoryListL3.SelectedValue.ToString());

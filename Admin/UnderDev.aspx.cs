@@ -29,13 +29,13 @@ public partial class Admin_UnderDev : System.Web.UI.Page
     public string GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<Categories> cObjs = new List<Categories>();
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
 
         //   CategoryTypeID = (int)SectionTypeEnum.Calender;//********************************************************WILL Change
 
 
         //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
-        DataTable dt = cmscon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryTypeID));
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
         int I = -1;
@@ -90,7 +90,7 @@ public partial class Admin_UnderDev : System.Web.UI.Page
     {
 
         List<ContentObj> contents = new List<ContentObj>();
-        ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
         contents = cObj.getRecordsbyCategoryTypeID(catTypeID);
 
 

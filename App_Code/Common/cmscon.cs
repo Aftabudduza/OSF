@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Data.SqlClient;
 using System.IO;
 
-public class cmscon
+public class osfcon
 {
     private static SqlConnection conn = null;
     public static string lastError = "";
@@ -114,7 +114,7 @@ public class cmscon
         try {
             string sSQL = "SELECT TOP 1 page_content FROM pageinfo where page_ref='" + sPageRef.Replace("'", "''") + "' AND WebsiteID=" + iWebId;
 
-            DataTable ResultSet = cmscon.getRows(sSQL);
+            DataTable ResultSet = osfcon.getRows(sSQL);
 
             // Create the second-level nodes
             if (ResultSet != null)
@@ -158,9 +158,9 @@ public class cmscon
 
     public static string NotFoundFileName()
     {
-        string sSQL = "select imagerootpath + '/'+ notfoundfilename from website where id=" + cmscon.WebsiteID;
+        string sSQL = "select imagerootpath + '/'+ notfoundfilename from website where id=" + osfcon.WebsiteID;
        
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        DataTable ResultSet = osfcon.getRows(sSQL);
         string s = "";
         // Create the second-level nodes
         if (ResultSet != null)
@@ -179,8 +179,8 @@ public class cmscon
 
     public static string ImageRootPath()
     {
-        string sSQL = "select imagerootpath  from website where id=" + cmscon.WebsiteID;
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        string sSQL = "select imagerootpath  from website where id=" + osfcon.WebsiteID;
+        DataTable ResultSet = osfcon.getRows(sSQL);
         string s = "";
         // Create the second-level nodes
         if (ResultSet != null)
@@ -198,8 +198,8 @@ public class cmscon
     }
     public static string ThumbRootPath()
     {
-        string sSQL = "select thumbrootpath  from website where id=" + cmscon.WebsiteID;
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        string sSQL = "select thumbrootpath  from website where id=" + osfcon.WebsiteID;
+        DataTable ResultSet = osfcon.getRows(sSQL);
         string s = "";
         // Create the second-level nodes
         if (ResultSet != null)
@@ -218,8 +218,8 @@ public class cmscon
     }
     public static string ImageRootFilePath()
     {
-        string sSQL = "select imagerootfilepath from website where id=" + cmscon.WebsiteID;
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        string sSQL = "select imagerootfilepath from website where id=" + osfcon.WebsiteID;
+        DataTable ResultSet = osfcon.getRows(sSQL);
         string s = "";
         // Create the second-level nodes
         if (ResultSet != null)
@@ -237,8 +237,8 @@ public class cmscon
     }
     public static string ThumbRootFilePath()
     {
-        string sSQL = "select thumbrootfilepath  from website where id=" + cmscon.WebsiteID;
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        string sSQL = "select thumbrootfilepath  from website where id=" + osfcon.WebsiteID;
+        DataTable ResultSet = osfcon.getRows(sSQL);
         string s = "";
         // Create the second-level nodes
         if (ResultSet != null)
@@ -257,9 +257,9 @@ public class cmscon
 
     public static int THUMBIMAGEWIDTH()
     {
-        string sSQL = "select thumbimagewidth  from website where id=" + cmscon.WebsiteID;
+        string sSQL = "select thumbimagewidth  from website where id=" + osfcon.WebsiteID;
         
-        DataTable ResultSet = cmscon.getRows(sSQL);
+        DataTable ResultSet = osfcon.getRows(sSQL);
         int s = 0;
         // Create the second-level nodes
         if (ResultSet != null)
@@ -319,7 +319,7 @@ public class cmscon
         {
             StreamWriter sw = default(StreamWriter);
             string curPath = System.Web.HttpContext.Current.Request.PhysicalApplicationPath;           
-            sw = new StreamWriter(cmscon.FixPath(ErrorLogPath) + "SQLDataError.log", true);
+            sw = new StreamWriter(osfcon.FixPath(ErrorLogPath) + "SQLDataError.log", true);
             sw.WriteLine(DateTime.Now.ToString() + ": " + Information);
             sw.Flush();
             sw.Close();
@@ -372,7 +372,7 @@ public class cmscon
         catch (Exception ex)
         {
             sError = ex.Message;
-            cmscon.LogDataError("Error sending email: " + ex.Message);
+            osfcon.LogDataError("Error sending email: " + ex.Message);
             return false;
         }
 
@@ -414,7 +414,7 @@ public class cmscon
         catch (Exception ex)
         {
             sError = ex.Message;
-            cmscon.LogDataError("Error sending email: " + ex.Message);
+            osfcon.LogDataError("Error sending email: " + ex.Message);
             return false;
         }
 

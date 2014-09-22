@@ -159,7 +159,7 @@ public partial class Admin_UserReports : System.Web.UI.Page
                     {
                         gvReport.DataSource = null;
                         gvReport.DataBind();
-                        dt = cmscon.getRows(str);
+                        dt = osfcon.getRows(str);
                         if (dt != null && dt.Rows.Count > 0)
                         {
                             gvReport.DataSource = dt;
@@ -206,12 +206,15 @@ public partial class Admin_UserReports : System.Web.UI.Page
         if (nId > 0)
         {
             ImageButton btndetails = sender as ImageButton;
-            Users uObj = new Users(cmscon.CONNECTIONSTRING);
-            DataTable dt = cmscon.getRows(string.Format("SELECT u.*, Job = (SELECT Name From BasicData WHERE BasicDataID=u.JobID), Department = (SELECT Name From BasicData WHERE BasicDataID=u.DepartmentID), Location = (SELECT Name From BasicData WHERE BasicDataID=u.LocationID) FROM users u WHERE u.UserID={0}", Convert.ToInt32(vId.Value)));
+            Users uObj = new Users(osfcon.CONNECTIONSTRING);
+            DataTable dt = osfcon.getRows(string.Format("SELECT u.*, Job = (SELECT Name From BasicData WHERE BasicDataID=u.JobID), Department = (SELECT Name From BasicData WHERE BasicDataID=u.DepartmentID), Location = (SELECT Name From BasicData WHERE BasicDataID=u.LocationID) FROM users u WHERE u.UserID={0}", Convert.ToInt32(vId.Value)));
             if (dt != null)
             {
                 this.FillControlsView(dt);
-                this.ReportPopUpNew.Show();              
+                this.ReportPopUpNew.Show();  
+
+
+            
       
             }
             else

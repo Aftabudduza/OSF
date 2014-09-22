@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-public enum SectionTypeEnum
+public enum EnumSectionType
 {
     Billboard = 1,
     Committee = 2,
@@ -31,7 +31,7 @@ public enum SectionTypeEnum
 };
 
 
-public enum SystemSettingsEnum
+public enum EnumSystemSettings
 {
 BadPasswordLockout = 1,
 EmailPasswordResets = 2,
@@ -39,7 +39,7 @@ GraceLogins = 3
 
 };
 
-public enum HomePageColumnType
+public enum HomePageColumnTypeEnum
 {
     LeftColumn = 1,
     MiddleColumn = 2,

@@ -14,6 +14,20 @@ public partial class MasterPages_Main : System.Web.UI.MasterPage
         {
             Response.Redirect("../Admin/Login.aspx");
         }
+       CheckPasswordValidity();
         
+    }
+
+    private void CheckPasswordValidity()
+    {
+        Users user = (Users)(Session["User"]);
+        SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+        ss.getRecord((int)EnumSystemSettings.GraceLogins);
+
+        if (ss.Enabled && user.LastPasswordChange.AddDays(ss.NumVal) < DateTime.UtcNow)
+        {
+            Page.ClientScript.RegisterStartupScript(this.GetType(), "myScript", "GoPasswordChangePage()", true);
+        }
+
     }
 }

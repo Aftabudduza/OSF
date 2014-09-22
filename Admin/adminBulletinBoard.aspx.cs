@@ -62,7 +62,7 @@ public partial class Admin_adminBulletinBoard : System.Web.UI.Page
                 }
                 uplProduct.SaveAs(nFile);
 
-                ContentObj objContentObj = new ContentObj(cmscon.CONNECTIONSTRING);
+                ContentObj objContentObj = new ContentObj(osfcon.CONNECTIONSTRING);
                 objContentObj.Author = txtAuthor.Text;
                 objContentObj.Date = Convert.ToDateTime(txtDate.Text);
                 objContentObj.Title = txtTitle.Text;
@@ -110,7 +110,7 @@ public partial class Admin_adminBulletinBoard : System.Web.UI.Page
         ddlCategoryList.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + Convert.ToInt32(Session["CategoryID"])+ "' ");

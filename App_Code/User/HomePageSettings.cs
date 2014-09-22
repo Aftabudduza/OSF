@@ -314,7 +314,7 @@ public class HomePageSettings
     public List<HomePageSettings> getRecordsbyQuery(string query)
     {
         List<HomePageSettings> contentsList = new List<HomePageSettings>();
-        DataTable dt = cmscon.getRows(query);
+        DataTable dt = osfcon.getRows(query);
         if (dt != null && dt.Rows.Count > 0)
             foreach (DataRow dr in dt.Rows)
             {

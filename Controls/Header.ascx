@@ -2,7 +2,7 @@
 <div class="header-top">
     <div class="header-menu">
         <ul>
-            <li><a href="#">Password Maint.</a></li>
+            <li><a href="../Admin/PasswordChange.aspx">Password Maint.</a></li>
             <li>|</li>
             <li><a href="#">Contacts</a></li>
             <li>|</li>
@@ -39,7 +39,7 @@
                 %>
                 <li><a href="../Default.aspx">Home</a></li>
                 <%
-                    string query = string.Format("SectionID={0}", (int)SectionTypeEnum.News);
+                    string query = string.Format("SectionID={0}", (int)EnumSectionType.News);
                     System.Data.DataRow dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     {
@@ -50,7 +50,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Calender);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Calender);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     {
@@ -61,7 +61,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Directory);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Directory);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     {
@@ -72,7 +72,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.BulletinBoard);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.BulletinBoard);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     {
@@ -83,7 +83,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Email);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Email);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -92,7 +92,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Discusstion);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Discusstion);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -101,7 +101,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.ACCommon);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.ACCommon);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -110,7 +110,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.AreaChapter);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.AreaChapter);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -119,7 +119,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Committee);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Committee);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -128,7 +128,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.ChapterDirectives);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.ChapterDirectives);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -137,7 +137,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Reference);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Reference);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -146,7 +146,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Private);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Private);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>
@@ -155,7 +155,7 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)SectionTypeEnum.Chapter2008);
+                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Chapter2008);
                     dr = dtUSP.Select(query).FirstOrDefault();
                     if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
                     { %>

@@ -20,7 +20,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         {
             CheckAdminPermission();
             LoadComboCategoryList();
-            ContentObj cObj = new ContentObj(cmscon.CONNECTIONSTRING);
+            ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
 
             if (Request.QueryString["ID"] != null)
             {
@@ -33,13 +33,13 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         }
         else if (!IsPostBack && Request.QueryString["Method"] != null && Request.QueryString["Method"] == "DeleteContent")
         {
-            UserSectionPermission usp = new UserSectionPermission(cmscon.CONNECTIONSTRING);
+            UserSectionPermission usp = new UserSectionPermission(osfcon.CONNECTIONSTRING);
             usp.QueryExecute(string.Format("UPDATE Content SET IsActive = 0 WHERE ContentID= {0}", Convert.ToInt32(Request.QueryString["ID"])));
 
-            DataTable dt = cmscon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", Convert.ToInt32(Request.QueryString["CatID"])));
+            DataTable dt = osfcon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", Convert.ToInt32(Request.QueryString["CatID"])));
             int secID = Convert.ToInt32(dt.Rows[0][0]);
             DisplayAlert("Content deleted Successfully");
-            if (secID == (int)SectionTypeEnum.News || secID == (int)SectionTypeEnum.Calender || secID == (int)SectionTypeEnum.BulletinBoard)
+            if (secID == (int)EnumSectionType.News || secID == (int)EnumSectionType.Calender || secID == (int)EnumSectionType.BulletinBoard)
                 Response.Redirect(string.Format("../Contents/NewsorContents.aspx?SectionTypeID={0}", secID));
             else
                 Response.Redirect(string.Format("../Contents/BoxContents.aspx?SectionTypeID={0}", secID));
@@ -109,7 +109,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                         }
                         uplProduct.SaveAs(nFile);
 
-                        ContentObj objContent = new ContentObj(cmscon.CONNECTIONSTRING);
+                        ContentObj objContent = new ContentObj(osfcon.CONNECTIONSTRING);
                         this.SetData(objContent);
                         if (ddlCategoryList.SelectedValue != "-1")
                         {
@@ -172,7 +172,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                         }
                         uplProduct.SaveAs(nFile);
                     }
-                    ContentObj objContent = new ContentObj(cmscon.CONNECTIONSTRING);
+                    ContentObj objContent = new ContentObj(osfcon.CONNECTIONSTRING);
 
                     this.SetData(objContent);
                     objContent.ModifiedBy = Convert.ToInt32(Session["UserID"]);
@@ -185,7 +185,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                         objContent.CategoryID = Convert.ToInt32(ddlCategoryList.SelectedValue.ToString());
 
                     }
-                    DataTable dt = cmscon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", objContent.CategoryID));
+                    DataTable dt = osfcon.getRows(string.Format("SELECT CategoryTypeID FROM Categories WHERE CategoryID ={0}", objContent.CategoryID));
 
 
                     int secID = Convert.ToInt32(dt.Rows[0][0]);
@@ -194,7 +194,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                     {
                         Session["FileName"] = null;
                         DisplayAlert("Content Saved Successfully");
-                        if (secID == (int)SectionTypeEnum.News || secID == (int)SectionTypeEnum.Calender || secID == (int)SectionTypeEnum.BulletinBoard)
+                        if (secID == (int)EnumSectionType.News || secID == (int)EnumSectionType.Calender || secID == (int)EnumSectionType.BulletinBoard)
                             Response.Redirect(string.Format("../Contents/NewsorContents.aspx?SectionTypeID={0}", secID));
                         else
                             Response.Redirect(string.Format("../Contents/BoxContents.aspx?SectionTypeID={0}", secID));
@@ -286,12 +286,12 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         ddlCategoryList.Items.Clear();
 
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
             //DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "' AND IsLeaf = '" + 0 + "' ");
          //   DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "'");
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID <> {0} AND CategoryTypeID <> {1}", (int)SectionTypeEnum.Discusstion, (int)SectionTypeEnum.ChapterDirectives));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID <> {0} AND CategoryTypeID <> {1}", (int)EnumSectionType.Discusstion, (int)EnumSectionType.ChapterDirectives));
 
             ddlCategoryList.AppendDataBoundItems = true;
             ddlCategoryList.Items.Add(new ListItem("--Select Category--", "-1"));
@@ -339,10 +339,10 @@ public partial class Admin_AdminContent : System.Web.UI.Page
             isNeedtoShowDefaultContent = false;
         }
         //Get Category Details to Load control categorywise
-        CategoryDetails objCategoryDetail = new CategoryDetails(cmscon.CONNECTIONSTRING);
+        CategoryDetails objCategoryDetail = new CategoryDetails(osfcon.CONNECTIONSTRING);
         try
         {
-            DataTable objDataTable = cmscon.getRows(string.Format("SELECT * FROM CategoryDetails WHERE CategoryID={0}",categoryID));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM CategoryDetails WHERE CategoryID={0}",categoryID));
             if ((objDataTable.Rows[0]["TitleTitle"].ToString() != null))
             {
                 lblTitleTitle.Text = objDataTable.Rows[0]["TitleTitle"].ToString();

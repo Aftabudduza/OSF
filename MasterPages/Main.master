@@ -11,8 +11,12 @@
     <script type="text/javascript">
 
         function TestT() {
-            alert(23232);
+            alert(4);
         }
+        function GoPasswordChangePage() {
+            window.location = "../Admin/PasswordChange.aspx";
+        }
+
 
         function EditContent(cid, isBox) {
 

@@ -62,7 +62,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
     protected void btnSave_Click(object sender, EventArgs e)
     {
 
-        Categories objCategories = new Categories(cmscon.CONNECTIONSTRING);
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
 
         if (this.ValidateObject().Length > 0)
         {
@@ -79,7 +79,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
                 if (objCategories.insert())
                 {
 
-                    CategoryDetails obj = new CategoryDetails(cmscon.CONNECTIONSTRING);
+                    CategoryDetails obj = new CategoryDetails(osfcon.CONNECTIONSTRING);
                     obj.CategoryID = objCategories.CategoryID;
                     this.RefreshObject(obj);
 
@@ -111,7 +111,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
                 if (objCategories.update())
                 {
 
-                    CategoryDetails obj = new CategoryDetails(cmscon.CONNECTIONSTRING);
+                    CategoryDetails obj = new CategoryDetails(osfcon.CONNECTIONSTRING);
                     obj.CategoryID = objCategories.CategoryID;
                     this.RefreshObject(obj);
                     
@@ -152,7 +152,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
     private void FillGrid(int SectionTypeID)
     {
         DataTable objDataTable = new DataTable();
-        CategoryDetails obj = new CategoryDetails(cmscon.CONNECTIONSTRING);
+        CategoryDetails obj = new CategoryDetails(osfcon.CONNECTIONSTRING);
 
         string sql = "";
         if (SectionTypeID <=0)
@@ -160,7 +160,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         else
             sql = string.Format("SELECT * FROM (SELECT CategoryID CID,Description,SortOrder   FROM Categories WHERE CategoryTypeID={0}) A LEFT JOIN CategoryDetails ON  A.CID = CategoryDetails.CategoryID    Order By A.CID ASC", SectionTypeID);
 
-        objDataTable = cmscon.getRows(sql);
+        objDataTable = osfcon.getRows(sql);
         if (objDataTable != null)
         {
             gvCategory.DataSource = objDataTable;
@@ -173,11 +173,11 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         ddlSectionType.Items.Clear();
 
 
-        SectionType objSectionType = new SectionType(cmscon.CONNECTIONSTRING);
+        SectionType objSectionType = new SectionType(osfcon.CONNECTIONSTRING);
         try
         {
 
-            DataTable objDataTable = cmscon.getRows("SELECT * FROM SectionType WHERE IsCategory = 1");
+            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType WHERE IsCategory = 1");
 
 
             ddlSectionType.AppendDataBoundItems = true;
@@ -199,9 +199,9 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         DataTable objCategoryDetails = new DataTable();
         DataTable objCategory = new DataTable();
 
-        objCategory = cmscon.getRows(string.Format(@"SELECT * FROM Categories WHERE CategoryID={0}", categoryID));
+        objCategory = osfcon.getRows(string.Format(@"SELECT * FROM Categories WHERE CategoryID={0}", categoryID));
 
-        objCategoryDetails = cmscon.getRows(string.Format(@"SELECT * FROM CategoryDetails WHERE CategoryID={0}", categoryID));
+        objCategoryDetails = osfcon.getRows(string.Format(@"SELECT * FROM CategoryDetails WHERE CategoryID={0}", categoryID));
 
         if (objCategoryDetails.Rows.Count > 0)
         {

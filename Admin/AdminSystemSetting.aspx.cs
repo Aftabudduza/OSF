@@ -55,7 +55,7 @@ public partial class Admin_AdminSystemSetting : System.Web.UI.Page
             sql = "SELECT * FROM SystemSettings";
             //sql = string.Format("SELECT distinct cat.CategoryID, MAX(cat.[Description]) Description ,Discussions = ISNULL((SELECT COUNT(distinct(c2.ContentID)) Total  FROM Categories cat1, [Content] c2  WHERE cat1.CategoryTypeID={0} AND cat1.CategoryID=c2.CategoryID AND (c2.RootThreadID = 0 OR c2.RootThreadID IS NULL) AND cat1.CategoryID = cat.CategoryID    GROUP BY cat1.CategoryID ),0) ,Post = ISNULL((SELECT COUNT(distinct(c4.ContentID)) Total  FROM Categories cat2, [Content] c4  WHERE cat2.CategoryTypeID={0} AND cat2.CategoryID=c4.CategoryID AND c4.RootThreadID > 0 AND cat2.CategoryID = cat.CategoryID    GROUP BY cat2.CategoryID ),0) FROM Categories cat, [Content] c  WHERE cat.CategoryTypeID={0} AND cat.CategoryID=c.CategoryID  GROUP BY cat.CategoryID ORDER BY MAX(cat.[Description]) ASC ");
 
-            objDataTable = cmscon.getRows(sql);
+            objDataTable = osfcon.getRows(sql);
             if (objDataTable != null)
             {
                 gvSystem.DataSource = objDataTable;
@@ -94,7 +94,7 @@ public partial class Admin_AdminSystemSetting : System.Web.UI.Page
         {
 
 
-            SystemSettings obj = new SystemSettings(cmscon.CONNECTIONSTRING);
+            SystemSettings obj = new SystemSettings(osfcon.CONNECTIONSTRING);
             int Id =Convert.ToInt32(hdstate.Value);
             obj.SystemSettingID = Convert.ToInt32(hdstate.Value);
             obj.Name = txtName.ToString();

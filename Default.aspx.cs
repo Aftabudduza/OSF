@@ -12,6 +12,7 @@ public partial class _Default : System.Web.UI.Page
     #region Global Variable & PageLoad
     protected void Page_Load(object sender, EventArgs e)
     {
+        CheckPasswordValidity();
         if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
         {
             Response.Redirect("~/Admin/Login.aspx");
@@ -25,7 +26,7 @@ public partial class _Default : System.Web.UI.Page
             if (Session["UserID"] != null)
             {
 
-                _catID = (int)SectionTypeEnum.News;
+                _catID = (int)EnumSectionType.News;
                 GeneratePage(_catID, DateTime.MinValue, DateTime.MinValue);
             }
 
@@ -57,13 +58,13 @@ public partial class _Default : System.Web.UI.Page
     private void GeneratePage(int CategoryTypeID, DateTime fromdate, DateTime todate)
     {
         List<ContentObj> cObjs = new List<ContentObj>();
-        ContentObj contents = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj contents = new ContentObj(osfcon.CONNECTIONSTRING);
 
         List<HomePageSettings> homePageSettings = new List<HomePageSettings>();
-        HomePageSettings hpTemp = new HomePageSettings(cmscon.CONNECTIONSTRING);
+        HomePageSettings hpTemp = new HomePageSettings(osfcon.CONNECTIONSTRING);
         int count = 0;
 
-        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.MiddleColumn));
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnTypeEnum.MiddleColumn));
         System.Text.StringBuilder tbl = null;
         if ((homePageSettings != null) & homePageSettings.Count > 0)
         {
@@ -74,7 +75,7 @@ public partial class _Default : System.Web.UI.Page
                 if (seti.WillShow)
                 {
                     cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
-                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    Categories cc = new Categories(osfcon.CONNECTIONSTRING);
                     cc.getRecord(seti.CategoryID);
 
                     if (cObjs.Count > 0)
@@ -92,9 +93,9 @@ public partial class _Default : System.Web.UI.Page
                         <p> <strong>Date:</strong>{0}</p>
                         <p> <strong><input type='button' style='width:100%;' value='{1}' onclick='GetPopupContentDefaultPage({4})' class='clsPopupLink' /> </strong></p> 
                         <p> <strong>From:</strong>{2}</p> 
-                        <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p>
+                        <p> <strong>Description:</strong> {3}  </p>
 
-                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content, cO.ContentID));
+                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length > 200 ? (cO.Content.Substring(0, 199) + "...") : (cO.Content + "..."), cO.ContentID));
                         }
                     }
                     tbl.Append("</div>");
@@ -106,7 +107,7 @@ public partial class _Default : System.Web.UI.Page
             dynamicMidDiv.InnerHtml = tbl.ToString();
         }
 
-        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.LeftColumn));
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnTypeEnum.LeftColumn));
         tbl = null;
         if ((homePageSettings != null) & homePageSettings.Count > 0)
         {
@@ -117,7 +118,7 @@ public partial class _Default : System.Web.UI.Page
                 if (seti.WillShow)
                 {
                     cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
-                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    Categories cc = new Categories(osfcon.CONNECTIONSTRING);
                     cc.getRecord(seti.CategoryID);
 
                     tbl.Append(string.Format(@"<div class='colomn'>
@@ -151,7 +152,7 @@ public partial class _Default : System.Web.UI.Page
         }
 
 
-        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnType.RightColumn));
+        homePageSettings = hpTemp.getRecordsbyQuery(string.Format(@"SELECT * FROM HomePageSettings WHERE IsSection=0 AND HomePageColumnType={0}", (int)HomePageColumnTypeEnum.RightColumn));
         tbl = null;
         if ((homePageSettings != null) & homePageSettings.Count > 0)
         {
@@ -162,7 +163,7 @@ public partial class _Default : System.Web.UI.Page
                 if (seti.WillShow)
                 {
                     cObjs = contents.getRecordsbyCategoryID(seti.CategoryID);
-                    Categories cc = new Categories(cmscon.CONNECTIONSTRING);
+                    Categories cc = new Categories(osfcon.CONNECTIONSTRING);
                     cc.getRecord(seti.CategoryID);
 
                     tbl.Append(string.Format(@"<div class='colomn'>
@@ -196,6 +197,19 @@ public partial class _Default : System.Web.UI.Page
         }
       
        //dynamicRightDiv.InnerHtml = tbl.ToString();
+
+    }
+
+    private void CheckPasswordValidity()
+    {
+        Users user = (Users)(Session["User"]);
+        SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+        ss.getRecord((int)EnumSystemSettings.GraceLogins);
+
+        if (ss.Enabled && user.LastPasswordChange.AddDays(ss.NumVal) < DateTime.UtcNow)
+        {
+            Response.Redirect("/Admin/PasswordChange.aspx");
+        }
 
     }
 

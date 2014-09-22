@@ -30,7 +30,7 @@ public partial class Admin_DiscussionPost : System.Web.UI.Page
                 try
                 {
                     contentId = Convert.ToInt32(Request.QueryString["ContentIdDiscussionDetail"].ToString());
-                    Session["CategoryID"] = Convert.ToInt32( (cmscon.getRows(string.Format(@"SELECT CategoryID FROM Content WHERE ContentID={0}", contentId)).Rows[0][0]));
+                    Session["CategoryID"] = Convert.ToInt32( (osfcon.getRows(string.Format(@"SELECT CategoryID FROM Content WHERE ContentID={0}", contentId)).Rows[0][0]));
                 }
                 catch
                 {
@@ -84,7 +84,7 @@ public partial class Admin_DiscussionPost : System.Web.UI.Page
 
     protected void btnSave_Click(object sender, EventArgs e)
     {      
-        ContentObj obj = new ContentObj(cmscon.CONNECTIONSTRING);
+        ContentObj obj = new ContentObj(osfcon.CONNECTIONSTRING);
      
         try
         {
@@ -163,13 +163,13 @@ public partial class Admin_DiscussionPost : System.Web.UI.Page
         try
         {
             DataTable objDataTable = new DataTable();
-            Categories obj = new Categories(cmscon.CONNECTIONSTRING);
+            Categories obj = new Categories(osfcon.CONNECTIONSTRING);
             string sql = "";
             string html = "";
             sql = string.Format(" SELECT * FROM [Content] c WHERE c.RootThreadID=" + nCatID);
             if (sql.Length > 0)
             {
-                objDataTable = cmscon.getRows(sql);
+                objDataTable = osfcon.getRows(sql);
                 if (objDataTable != null && objDataTable.Rows.Count > 0)
                 {
                     Session["CategoryID"] = Convert.ToInt32(objDataTable.Rows[0]["CategoryID"].ToString());

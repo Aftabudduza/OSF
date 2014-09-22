@@ -475,7 +475,7 @@ public class Categories
     public List<Categories> GetListByQuery(string query)
     {
         List<Categories> contentsList = new List<Categories>();
-        DataTable dt = cmscon.getRows(query);
+        DataTable dt = osfcon.getRows(query);
         if (dt != null && dt.Rows.Count > 0)
             foreach (DataRow dr in dt.Rows)
             {
