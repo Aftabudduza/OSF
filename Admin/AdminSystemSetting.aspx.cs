@@ -39,140 +39,7 @@ public partial class Admin_AdminSystemSetting : System.Web.UI.Page
     #endregion
 
     #region Events
-    //protected void gvSystem_OnRowCommand1(object sender, GridViewCommandEventArgs e)
-    //{
-
-    //    if (e.CommandName.Equals("EmptyInsert"))
-    //    {
-
-    //        TextBox State = gvSystem.Controls[0].Controls[0].FindControl("txtState") as TextBox;
-    //        TextBox StateName = gvSystem.Controls[0].Controls[0].FindControl("txtStateName") as TextBox;
-    //        TextBox SalesTaxRate = gvSystem.Controls[0].Controls[0].FindControl("txtSalesTaxRate") as TextBox;
-    //        TextBox FreightTaxable = gvSystem.Controls[0].Controls[0].FindControl("txtFreightTaxable") as TextBox;
-    //        TextBox ShippingSurcharge = gvSystem.Controls[0].Controls[0].FindControl("txtShippingSurcharge") as TextBox;
-    //        try
-    //        {
-    //            App_ReferenData_cl obj = new App_ReferenData_cl(cmscon.CONNECTIONSTRING);
-    //            obj.s_STATE = State.Text.ToString();
-    //            obj.s_STATENAME = StateName.Text.ToString();
-    //            obj.s_SalesTaxRate = Convert.ToDecimal(SalesTaxRate.Text.ToString());
-    //            obj.s_FreightTaxable = Convert.ToChar(FreightTaxable.Text.ToString());
-    //            obj.s_ShippingSurcharge = Convert.ToDecimal(ShippingSurcharge.Text.ToString());
-    //            obj.Insert();
-    //            lblError.Text = "<br />Record inserted successfully<br />";
-
-    //            BindCurrentUsers(); // rebind the dat
-    //        }
-    //        catch (Exception ex)
-    //        {
-
-
-    //        }
-
-    //    }
-
-    //    if (e.CommandName.Equals("Insert"))
-    //    {
-
-    //        TextBox State = gvSystem.FooterRow.FindControl("txtState") as TextBox;
-    //        TextBox StateName = gvSystem.FooterRow.FindControl("txtStateName") as TextBox;
-    //        TextBox SalesTaxRate = gvSystem.FooterRow.FindControl("txtSalesTaxRate") as TextBox;
-    //        TextBox FreightTaxable = gvSystem.FooterRow.FindControl("txtFreightTaxable") as TextBox;
-    //        TextBox ShippingSurcharge = gvSystem.FooterRow.FindControl("txtShippingSurcharge") as TextBox;
-
-    //        try
-    //        {
-    //            App_ReferenData_cl obj = new App_ReferenData_cl(cmscon.CONNECTIONSTRING);
-    //            if (!string.IsNullOrEmpty(State.Text.ToString()))
-    //            {
-    //                obj.s_STATE = State.Text.ToString();
-    //            }
-    //            else
-    //            {
-
-    //                DisplayAlert("State can't Be Empty");
-
-    //            }
-    //            if (!string.IsNullOrEmpty(StateName.Text.ToString()))
-    //            {
-    //                obj.s_STATENAME = StateName.Text.ToString();
-    //            }
-    //            if (!string.IsNullOrEmpty(SalesTaxRate.Text.ToString()))
-    //            {
-    //                obj.s_SalesTaxRate = Convert.ToDecimal(SalesTaxRate.Text.ToString());
-    //            }
-    //            else
-    //            {
-    //                obj.s_SalesTaxRate = 0.000M;
-    //            }
-    //            if (!string.IsNullOrEmpty(FreightTaxable.Text.ToString()))
-    //            {
-    //                obj.s_FreightTaxable = Convert.ToChar(FreightTaxable.Text.ToString());
-    //            }
-    //            else
-    //            {
-    //                obj.s_FreightTaxable = 'N';
-    //            }
-    //            if (!string.IsNullOrEmpty(ShippingSurcharge.Text.ToString()))
-    //            {
-    //                obj.s_ShippingSurcharge = Convert.ToDecimal(ShippingSurcharge.Text.ToString());
-    //            }
-    //            else
-    //            {
-    //                obj.s_ShippingSurcharge = 0.00M;
-
-    //            }
-    //            if (obj.Insert())
-    //            {
-
-    //                lblError.Text = "<br />Record inserted successfully<br />";
-    //                BindCurrentUsers();
-    //            }
-    //            else
-    //            {
-    //                lblError.Text = "Record Cant't Be Empty";
-
-    //            }
-    //        }
-    //        catch
-    //        {
-
-
-    //        }
-
-
-    //    }
-
-    //}
-
-    //void BindCurrentUsers()
-    //{
-
-    //    App_ReferenData_cl admin = new App_ReferenData_cl(cmscon.CONNECTIONSTRING);
-
-    //    try
-    //    {
-
-    //        gvSystem.DataSource = admin.getRows();
-    //        gvSystem.DataBind();
-
-    //    }
-
-    //    catch (Exception ex)
-    //    {
-
-    //        lblError.Text = "Griedview not loaded";
-
-    //    }
-
-    //    finally
-    //    {
-
-    //        admin = null;
-
-    //    }
-
-    //}
+    
     protected void gvSystem_PageIndexChanging(object sender, GridViewPageEventArgs e)
     {
         BindCurrentUsers();
@@ -184,7 +51,6 @@ public partial class Admin_AdminSystemSetting : System.Web.UI.Page
         try
         {
             DataTable objDataTable = new DataTable();
-           // SystemSettings obj = new SystemSettings(cmscon.CONNECTIONSTRING);
             string sql = "";
             sql = "SELECT * FROM SystemSettings";
             //sql = string.Format("SELECT distinct cat.CategoryID, MAX(cat.[Description]) Description ,Discussions = ISNULL((SELECT COUNT(distinct(c2.ContentID)) Total  FROM Categories cat1, [Content] c2  WHERE cat1.CategoryTypeID={0} AND cat1.CategoryID=c2.CategoryID AND (c2.RootThreadID = 0 OR c2.RootThreadID IS NULL) AND cat1.CategoryID = cat.CategoryID    GROUP BY cat1.CategoryID ),0) ,Post = ISNULL((SELECT COUNT(distinct(c4.ContentID)) Total  FROM Categories cat2, [Content] c4  WHERE cat2.CategoryTypeID={0} AND cat2.CategoryID=c4.CategoryID AND c4.RootThreadID > 0 AND cat2.CategoryID = cat.CategoryID    GROUP BY cat2.CategoryID ),0) FROM Categories cat, [Content] c  WHERE cat.CategoryTypeID={0} AND cat.CategoryID=c.CategoryID  GROUP BY cat.CategoryID ORDER BY MAX(cat.[Description]) ASC ");

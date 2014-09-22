@@ -12,7 +12,7 @@
             AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" CaptionAlign="Left"
             ForeColor="#D24D8A" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last"
             PagerSettings-NextPageText="Next" PagerSettings-Mode="NumericFirstLast" PagerSettings-PreviousPageText="Previous"
-            GridLines="None" PageSize="15" SelectedIndex="0" ShowFooter="False" OnRowEditing="gvSystem_RowEditing"  OnRowUpdating="gvSystem_RowUpdating" OnRowCancelingEdit="gvSystem_RowCancelingEdit" 
+            GridLines="Vertical" PageSize="15" SelectedIndex="0" ShowFooter="False" OnRowEditing="gvSystem_RowEditing"  OnRowUpdating="gvSystem_RowUpdating" OnRowCancelingEdit="gvSystem_RowCancelingEdit" 
              AutoGenerateEditButton="true"   EnableViewState="True">
             <RowStyle BackColor="#F7F6F3" ForeColor="#D24D8A" Font-Size="Small" Font-Bold="false"
                 CssClass="grid" />
