@@ -134,6 +134,11 @@
                                         <a href="UnderDev.aspx" id="Hyperlink4">Manage AC Hotlinks</a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <a href="AdminSystemSetting.aspx" id="A2">System Settings</a>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                     </tr>
