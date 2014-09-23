@@ -8,22 +8,22 @@
 <body style="background: #F3D6F4;">
     <form id="form1" runat="server">
     <div class="mid-container" style="margin: 100px 0 0 205px;">
-    <table width="400" align="Center" cellpadding="5" border="0" id="LoginTable">
+    <table width="400" align="center" cellpadding="5" border="0" id="LoginTable">
             <tbody>
                 <tr>
-                    <td align="Center" colspan="2" class="tableHeader">
+                    <td align="center" colspan="2" class="tableHeader">
                         &nbsp;</td>
                 </tr>
                 <tr>
-                    <td align="Right">
-                        <asp:Label ID="lblDateTtile4" runat="server" Text="Old Password:"></asp:Label>
+                    <td align="right">
+                        <asp:Label ID="lblOldPassword" runat="server" Text="Old Password:"></asp:Label>
                     &nbsp;</td>
                     <td>
                         <asp:TextBox CssClass="OSFTextBox" ID="txtOldPassword" runat="server" TextMode="Password"></asp:TextBox>
                     </td>
                 </tr>
                 <tr>
-                    <td align="Right">
+                    <td align="right">
                         <asp:Label ID="lblDateTtile3" runat="server" Text="New Password:"></asp:Label>
                     &nbsp;</td>
                     <td>

@@ -351,9 +351,9 @@ public class osfcon
             //bypass the authentication if there is no pass
             if (!string.IsNullOrEmpty(sEmailPass.Trim()))
             {
-                objSMTPClient.Credentials = new System.Net.NetworkCredential(sEmailAccount, sEmailPass);
+                objSMTPClient.Credentials = new System.Net.NetworkCredential(sEmailAccount, "l1vey0url1fe");
             }
-            objCustomerEmail.From = new System.Net.Mail.MailAddress(sEmailAccount);
+            objCustomerEmail.From = new System.Net.Mail.MailAddress("sazzad013@gmail.com");
            // objCustomerEmail.ReplyTo = new System.Net.Mail.MailAddress(sEmailAccount);
 
             objCustomerEmail.To.Add(new System.Net.Mail.MailAddress(strEmailTo.ToString()));

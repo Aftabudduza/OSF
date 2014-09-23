@@ -516,7 +516,13 @@ public partial class Admin_User : System.Web.UI.Page
       {
           _message += "ProfessionalYear will be only one letter" + Environment.NewLine;
       }
+      if ((txtHomeEmail.Text.Length <=0))
+      {
+          _message += "Please enter Home Email" + Environment.NewLine;
+      }
 
+
+        
         return _message;
     }
 

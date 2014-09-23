@@ -4,68 +4,128 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data;
 
 public partial class Admin_PasswordChange : System.Web.UI.Page
 {
-
     #region Global Variable & PageLoad
-  
+   
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+        if (!IsPostBack)
         {
-            Response.Redirect("Login.aspx");
+            if (Request["Token"] == null)
+            {
+                if (Session["User"] == null || Session["UserPermission"] == null || Session["UserID"] == null || Session["UserSectionPermission"] == null)
+                {
+                    Response.Redirect("Login.aspx");
+                }
+               
+                txtOldPassword.Visible = true;
+                lblOldPassword.Visible = true;
+            }
+            else
+            {
+                DataTable passReq = osfcon.getRows(string.Format(@"SELECT * FROM PasswordResetRequests WHERE ResetCode='{0}'", Request["Token"].ToString()));
+                Users user = new Users(osfcon.CONNECTIONSTRING);
+                user.getRecord(Convert.ToInt32(passReq.Rows[0][0]));
+                Session["User"] = user;
+                txtOldPassword.Visible = false;
+                lblOldPassword.Visible = false;                
+
+            }
         }
     }
     #endregion
 
-
     #region Events
     protected void btnSubmit_Click(object sender, EventArgs e)
     {
-        string message = "";
-        message = ValidateObject();
-        if (message.Length > 0)
+        if (Request["Token"] == null)
         {
-            DisplayAlert(message);
-
-        }
-        else
-        {
-            Users user = (Users)(Session["User"]);            
-
-
-            message = "";
-            message = ValidatePassword(user.Password);
+            string message = "";
+            message = ValidateObject();
             if (message.Length > 0)
             {
                 DisplayAlert(message);
-                txtConfirmPassword.Text = "";
-                txtNewPassword.Text = "";
-                txtOldPassword.Text = "";
+
             }
             else
             {
+                Users user = (Users)(Session["User"]);
 
-                SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
-                ss.getRecord((int)EnumSystemSettings.GraceLogins);
-                user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtNewPassword.Text, DateTime.UtcNow, user.UserID));
-                DisplayAlert(string.Format("Password Change successfull" + Environment.NewLine + "Your next password renewal date is:'{0}'", DateTime.UtcNow.AddDays(ss.NumVal)));
-                user.LastPasswordChange = DateTime.UtcNow;
-                Session["User"] = user;
-                Response.Redirect("../Default.aspx");
+
+                message = "";
+                message = ValidatePassword(user.Password);
+                if (message.Length > 0)
+                {
+                    DisplayAlert(message);
+                    txtConfirmPassword.Text = "";
+                    txtNewPassword.Text = "";
+                    txtOldPassword.Text = "";
+                }
+                else
+                {
+
+                    SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+                    ss.getRecord((int)EnumSystemSettings.GraceLogins);
+                    user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtNewPassword.Text, DateTime.UtcNow, user.UserID));
+                    user.QueryExecute(string.Format("DELETE FROM PasswordResetRequests WHERE UserID={0}",user.UserID));
+
+                    DisplayAlert(string.Format("Password Change successfull" + Environment.NewLine + "Your next password renewal date is:'{0}'", DateTime.UtcNow.AddDays(ss.NumVal)));
+
+
+                    Response.Redirect("../Default.aspx");
+
+                }
 
             }
-            //if (user.Password == txtOldPassword.Text.Trim())
-            //{
-            //    user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtNewPassword.Text, DateTime.UtcNow, userID));
-            //}
-            
+        }
+        else
+        {
 
-            //else
-            //{
-            //    DisplayAlert("Old password doesnot match!");
-            //}
+            string message = "";
+            message = ValidateObjectForForgetPassword();
+            if (message.Length > 0)
+            {
+                DisplayAlert(message);
+
+            }
+            else
+            {
+                Users user = (Users)(Session["User"]);
+
+
+                message = "";
+                message = ValidatePasswordForForgetPassword();
+                if (message.Length > 0)
+                {
+                    DisplayAlert(message);
+                    txtConfirmPassword.Text = "";
+                    txtNewPassword.Text = "";
+                    txtOldPassword.Text = "";
+                }
+                else
+                {
+
+                    SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+                    ss.getRecord((int)EnumSystemSettings.GraceLogins);
+
+
+                    user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtNewPassword.Text, DateTime.UtcNow, user.UserID));
+                    user.QueryExecute(string.Format("DELETE FROM PasswordResetRequests WHERE UserID={0}", user.UserID));
+
+                    DisplayAlert(string.Format("Password Change successfull" + Environment.NewLine + "Your next password renewal date is:'{0}'", DateTime.UtcNow.AddDays(ss.NumVal)));
+                    user.LastPasswordChange = DateTime.UtcNow;
+                    
+                    Session["User"] = null;
+                    Response.Redirect("Login.aspx");
+
+                }
+
+            }
+
+
         }
     }
     #endregion
@@ -115,8 +175,36 @@ public partial class Admin_PasswordChange : System.Web.UI.Page
 
         return _message;
     }
+
+    private string ValidateObjectForForgetPassword()
+    {
+        string _message = "";
+
+
+        if ((txtNewPassword.Text.Length <= 0))
+        {
+            _message += "New password can not be empty" + Environment.NewLine;
+        }
+
+        if ((txtConfirmPassword.Text.Length <= 0))
+        {
+            _message += "Please confirm new password" + Environment.NewLine;
+        }
+
+
+        return _message;
+    }
+
+    private string ValidatePasswordForForgetPassword()
+    {
+        string _message = "";
+
+        if ((txtConfirmPassword.Text.Trim() != txtNewPassword.Text.Trim()))
+        {
+            _message += "New password Doesn't match" + Environment.NewLine;
+        }
+
+        return _message;
+    }
     #endregion
-
-
-
 }
