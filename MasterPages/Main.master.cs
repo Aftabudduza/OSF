@@ -14,7 +14,8 @@ public partial class MasterPages_Main : System.Web.UI.MasterPage
         {
             Response.Redirect("../Admin/Login.aspx");
         }
-       CheckPasswordValidity();
+       
+        CheckPasswordValidity();
         
     }
 

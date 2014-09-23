@@ -340,7 +340,7 @@ public class ContentObj
     public List<ContentObj> getRecords(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0}", categoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1 Order by c.HotpOrder", categoryTypeID));
         if(dt != null)
         foreach(DataRow dr in dt.Rows)
         {
@@ -358,7 +358,7 @@ public class ContentObj
         else
         {
             List<ContentObj> contentsList = new List<ContentObj>();
-            DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.Date between '{1}' AND '{2}'", categoryTypeID, fromdate,todate));
+            DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.Date between '{1}' AND '{2}' AND c.IsActive=1 Order by c.HotpOrder", categoryTypeID, fromdate, todate));
             if (dt != null)
                 foreach (DataRow dr in dt.Rows)
                 {
@@ -398,7 +398,7 @@ public class ContentObj
                                             SELECT a.* FROM 
                                             (  select * from Content Con where  Con.CategoryID
                                             in(SELECT CategoryID from Categories where CategoryTypeID = {0})) A  join UserSectionPermission up on 
-                                            A.CategoryID = up.CategoryID AND up.HasPermission = 1 and UP.UserID = {1}", categoryTypeID, userID));
+                                            A.CategoryID = up.CategoryID AND up.HasPermission = 1 and UP.UserID = {1} Order by A.HotpOrder", categoryTypeID, userID));
         if (dt != null)
             foreach (DataRow dr in dt.Rows)
             {
@@ -411,7 +411,7 @@ public class ContentObj
     public List<ContentObj> getRecordsbyCategoryTypeID(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1", categoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1 Order by c.HotpOrder", categoryTypeID));
         if (dt != null)
             foreach (DataRow dr in dt.Rows)
             {
@@ -423,7 +423,7 @@ public class ContentObj
     public List<ContentObj> getRecordsbyCategoryID(int categoryID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1", categoryID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1 Order by c.HotpOrder", categoryID));
         if (dt != null && dt.Rows.Count > 0)
             foreach (DataRow dr in dt.Rows)
             {

@@ -9,7 +9,7 @@ public enum EnumSectionType
     Committee = 2,
     Content = 3,
     ChapterDirectives = 4,
-    FAQ = 5,
+    HelpFAQ = 5,
     Others = 6,
     Chapter2008 = 7,
     ACCommon = 8,

@@ -131,7 +131,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <a href="UnderDev.aspx" id="Hyperlink4">Manage AC Hotlinks</a>
+                                        <a href="../Contents/ContentOrderManagement.aspx" id="Hyperlink4">Content Order</a>
                                     </td>
                                 </tr>
                                 <tr>

@@ -17,7 +17,7 @@
     </asp:ToolkitScriptManager>
     <div class="mid-container" style="margin: 20px 0 0 0; width: 95%;">
         <h3 class="OFSh3">
-            Manage Category</h3>
+            Content Order</h3>
         <div class="news-osf">
             <fieldset>
                 <div style="margin-left: 10px; margin-right: 10px; margin-top: -4px;">
@@ -26,119 +26,119 @@
                         CaptionAlign="Left" ForeColor="#333333" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last"
                         PagerSettings-NextPageText="Next" PagerSettings-Mode="NumericFirstLast" PagerSettings-PreviousPageText="Previous"
                         GridLines="None" PageSize="4" SelectedIndex="0" OnPageIndexChanging="gvCategory_PageIndexChanging">
-           <RowStyle BackColor="#F7F6F3" ForeColor="#D24D8A" Font-Size="Small" Font-Bold="false"
-                CssClass="grid" />
+                        <RowStyle BackColor="#F7F6F3" ForeColor="#D24D8A" Font-Size="Small" Font-Bold="false"
+                            CssClass="grid" />
                         <Columns>
                             <asp:TemplateField HeaderText="Category" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("Description")%>
                                 </ItemTemplate>
-                                 <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Sort Order" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("SortOrder")%>
                                 </ItemTemplate>
-                              <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Title of Title" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("TitleTitle")%>
                                 </ItemTemplate>
-                                 <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Author Title" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("AuthorTitle")%>
                                 </ItemTemplate>
-                              <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="DateTitle" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("DateTitle")%>
                                 </ItemTemplate>
-                             <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Content Title" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("ContentTitle")%>
                                 </ItemTemplate>
-                            <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Show Title" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("ShowTitle")%>
                                 </ItemTemplate>
-                               <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Show Author" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("ShowAuthor")%>
                                 </ItemTemplate>
-                                        <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Show Date" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("ShowDate")%>
                                 </ItemTemplate>
-                           <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Show Content" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("ShowContent")%>
                                 </ItemTemplate>
-                           <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Default Title" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("DefaultTitle")%>
                                 </ItemTemplate>
-                                 <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Default Author" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("DefaultAuthor")%>
                                 </ItemTemplate>
-                            <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Default Date" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("DefaultDate" ,"{0:MMM dd yyyy}")%>
                                 </ItemTemplate>
-                               <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Default Content" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("DefaultContent")%>
                                 </ItemTemplate>
-                              <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Is Quick Launch" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("IsQuickLaunch")%>
                                 </ItemTemplate>
-                          <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Items Per Page" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("ItemsPerPage")%>
                                 </ItemTemplate>
-                   <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
+                                <HeaderStyle Font-Size="12px" Width="80px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Action" ItemStyle-HorizontalAlign="Center">
@@ -282,17 +282,15 @@
                                             <asp:CheckBox ID="CheckBoxShowContent" runat="server" Text="ShowContent" />
                                         </td>
                                     </tr>
-                                                               <tr>
+                                    <tr>
                                         <td class="UserDetailHeader">
-                                        &nbsp;
+                                            &nbsp;
                                         </td>
                                         <td width="210px" style="float: left">
-                                            
                                         </td>
                                         <td class="UserDetailHeader">
                                         </td>
                                         <td width="210px" style="float: left">
-
                                         </td>
                                     </tr>
                                     <tr>
