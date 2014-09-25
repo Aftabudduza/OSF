@@ -340,7 +340,7 @@ public class ContentObj
     public List<ContentObj> getRecords(int categoryTypeID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1 Order by c.HotpOrder", categoryTypeID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT top 1000 * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryTypeID= {0} AND c.IsActive=1 Order by c.HotpOrder desc", categoryTypeID));
         if(dt != null)
         foreach(DataRow dr in dt.Rows)
         {
@@ -349,7 +349,7 @@ public class ContentObj
         return contentsList;
     }
 
-    public List<ContentObj> getRecords(int categoryTypeID,  DateTime fromdate, DateTime todate)
+    public List<ContentObj> getRecordsForNewsType(int categoryTypeID,  DateTime fromdate, DateTime todate)
     {
         if (fromdate == null || todate == null || fromdate == DateTime.MinValue || todate == DateTime.MinValue)
         {
@@ -423,7 +423,7 @@ public class ContentObj
     public List<ContentObj> getRecordsbyCategoryID(int categoryID)
     {
         List<ContentObj> contentsList = new List<ContentObj>();
-        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1 Order by c.HotpOrder", categoryID));
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1 Order by c.Date DESC", categoryID));
         if (dt != null && dt.Rows.Count > 0)
             foreach (DataRow dr in dt.Rows)
             {

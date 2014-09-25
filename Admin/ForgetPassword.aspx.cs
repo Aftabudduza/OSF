@@ -6,11 +6,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 using System.Net.Mail;
+using System.Configuration;
 
 public partial class Admin_ForgetPassword : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        
+        //string f = osfcon.URLPATH(hr);
         string userName = "", email = "";
         if (Request["UserName"] != null)
             userName = Request["UserName"].ToString();
@@ -50,7 +53,11 @@ public partial class Admin_ForgetPassword : System.Web.UI.Page
 
             msg.Subject = "This is a test Email subject";
             msg.IsBodyHtml = true;
-            msg.Body = string.Format("<html><head></head><body><b>{0}</b></body>", "http://localhost:2519/Admin/PasswordChange.aspx?Token=" + toke);
+
+            string url = ConfigurationManager.AppSettings["URL"].ToString();
+
+            string link = string.Format("http://{0}/Admin/PasswordChange.aspx?Token={1}",url,toke );
+            msg.Body = string.Format("<html><head></head><body><b>{0}</b></body>", link);
 
 //                System.Text.StringBuilder tbl = new System.Text.StringBuilder();
 //            msg.Body = tbl.Append(string.Format(@"<div style='direction:ltr;text-align:left;font-family:'Open sans','Arial',sans-serif;color:#444;background-color:white;

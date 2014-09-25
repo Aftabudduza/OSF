@@ -260,7 +260,7 @@
     {
     float: left;
     width: 99%;
-    min-height:206px; 
+    min-height:260px; 
     border:1px solid #4fd2f1;
     position:relative;
     top:-1px
@@ -364,6 +364,7 @@
     padding-left:10px;
     width:95%;
     float:left;
+    height:24px;
     }
 
     .news-osf
@@ -1013,3 +1014,15 @@
     top: 6% !important;
    
     }
+    
+    .clsHeaderLink {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: medium none;
+   font-weight: bold;
+    cursor: auto;
+    float: left;
+    font-size: 12px;
+    margin-top: 2px;
+    padding: 0;
+    text-align: left;
+}

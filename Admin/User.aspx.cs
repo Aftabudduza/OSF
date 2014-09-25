@@ -704,23 +704,23 @@ public partial class Admin_User : System.Web.UI.Page
         if (dt.Rows[0]["Ministry2Email"] != null)
             txtMinistry2Email.Text = dt.Rows[0]["Ministry2Email"].ToString();
 
-        if (dt.Rows[0]["DepartmentID"] != null)
+        if (dt.Rows[0]["DepartmentID"] != null && dt.Rows[0]["DepartmentID"].ToString() != "")
             ddlDepartment.SelectedValue = dt.Rows[0]["DepartmentID"].ToString();
 
-        if (dt.Rows[0]["JobID"] != null)
+        if (dt.Rows[0]["JobID"] != null && dt.Rows[0]["JobID"].ToString() != "")
             ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
 
-        if (dt.Rows[0]["LocationID"] != null)
+        if (dt.Rows[0]["LocationID"] != null && dt.Rows[0]["LocationID"].ToString() != "")
             ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
 
-        if (dt.Rows[0]["DepartmentID"] != null)
-            ddlDepartment.SelectedValue = dt.Rows[0]["DepartmentID"].ToString();
+        //if (dt.Rows[0]["DepartmentID"] != null)
+        //    ddlDepartment.SelectedValue = dt.Rows[0]["DepartmentID"].ToString();
 
-        if (dt.Rows[0]["JobID"] != null)
-            ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
+        //if (dt.Rows[0]["JobID"] != null)
+        //    ddlPosition.SelectedValue = dt.Rows[0]["JobID"].ToString();
 
-        if (dt.Rows[0]["LocationID"] != null)
-            ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
+        //if (dt.Rows[0]["LocationID"] != null)
+        //    ddlLocation.SelectedValue = dt.Rows[0]["LocationID"].ToString();
 
 
         if (dt.Rows[0]["Picture"] != null && dt.Rows[0]["Picture"].ToString() != string.Empty)

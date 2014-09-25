@@ -65,9 +65,9 @@
                                 <span id="Span3" style="color: #FF0000">*</span>
                                 <asp:Label ID="lblDateTtile" runat="server" Text="Date:"></asp:Label>
                             </td>
-                            <td>
+                            <td >
                                 <asp:TextBox CssClass="OSFTextBox" ID="txtDate" runat="server"></asp:TextBox>
-                                <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="DataTypeCheck"
+                                <asp:CompareValidator ID="CompareValidator2"  runat="server" Operator="DataTypeCheck"
                                     Type="Date" ControlToValidate="txtDate" ErrorMessage="Date format MM/dd/yyyy" />
                             </td>
                         </tr>

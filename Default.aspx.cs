@@ -131,10 +131,16 @@ public partial class _Default : System.Web.UI.Page
                     foreach (ContentObj cO in cObjs)
                     {
                         count++;
+                        string dateS = "";
+                        if (cO.Date <= Convert.ToDateTime("1 Jan 1980"))
+                            dateS = "";
+                        else
+                            dateS = cO.Date.ToString("dd/MM/yyyy");
+
                         if (count <= 5)
                         {
                             tbl.Append(string.Format(@" <li><span>{0}</span>
-                                                        <a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", cO.Date.ToString("dd/MM/yyyy"), cO.Title, cO.ContentID));
+                                                        <a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", dateS, cO.Title, cO.ContentID));
                         }
                     }
                     tbl.Append(string.Format(@"  </ul>
@@ -202,13 +208,20 @@ public partial class _Default : System.Web.UI.Page
 
     private void CheckPasswordValidity()
     {
-        Users user = (Users)(Session["User"]);
-        SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
-        ss.getRecord((int)EnumSystemSettings.GraceLogins);
-
-        if (ss.Enabled && user.LastPasswordChange.AddDays(ss.NumVal) < DateTime.UtcNow)
+        if (Session["User"] != null)
         {
-            Response.Redirect("/Admin/PasswordChange.aspx");
+            Users user = (Users)(Session["User"]);
+            SystemSettings ss = new SystemSettings(osfcon.CONNECTIONSTRING);
+            ss.getRecord((int)EnumSystemSettings.GraceLogins);
+
+            if (ss.Enabled && user.LastPasswordChange.AddDays(ss.NumVal) < DateTime.UtcNow)
+            {
+                Response.Redirect("/Admin/PasswordChange.aspx");
+            }
+        }
+        else
+        {
+          //  Response.Redirect("/Admin/Login.aspx");
         }
 
     }

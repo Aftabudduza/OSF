@@ -22,6 +22,7 @@
             top: 5px;
         }
     </style>
+    <link href="../Styles/2R.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript">
         //        function EditContentRow(xs1) {
         //            var xmlhttpNewsCon;
@@ -43,7 +44,7 @@
         <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
         </asp:ToolkitScriptManager>
         <div class="Left-85P-container">
-            <h3>
+            <h3  >
                 <asp:Label ID="lblRcentTitle" runat="server" Text="Label"></asp:Label></h3>
             <div id="dynamicDiv" runat="server">
             </div>

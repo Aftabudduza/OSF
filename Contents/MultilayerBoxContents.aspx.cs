@@ -91,9 +91,9 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
         //cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
         DataTable dt = new DataTable();
         if(!isCategory)
-        dt = osfcon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0}", CategoryOrSectionTypeIDTypeID));
+        dt = osfcon.getRows(string.Format("SELECT C.*, CD.ItemsPerPage FROM Categories C, CategoryDetails CD WHERE C.CategoryID = CD.CategoryID AND C.CategoryTypeID={0} AND C.ParentID=0", CategoryOrSectionTypeIDTypeID));
         else
-            dt = osfcon.getRows(string.Format("SELECT C.*, 5 ItemsPerPage FROM Categories C where C.CategoryID={0}", CategoryOrSectionTypeIDTypeID));
+            dt = osfcon.getRows(string.Format("SELECT C.*, 5 ItemsPerPage FROM Categories C where C.CategoryID={0} ", CategoryOrSectionTypeIDTypeID));
     
         
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
@@ -118,7 +118,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                                        
                                                         <tr>
                                                             <td>
-                                                            ", I, dr["Description"].ToString())
+                                                            ", I, dr["Description"].ToString().Length <= 20 ? dr["Description"].ToString() : dr["Description"].ToString().Substring(0,20))
 
                                                          + this.GenerateBoxData(Convert.ToInt32(dr["CategoryID"])) +
 
@@ -131,7 +131,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                                     <div id='pageNavPosition{0}' style='padding-top: 0' align='center'>
                                                     </div>
                                                     <script type='text/javascript'><!--
-                                                            var pager{0} = new Pager('tablepaging{0}', {2});
+                                                            var pager{0} = new Pager('tablepaging{0}', 6);
                                                             pager{0}.init();
                                                             pager{0}.showPageNav('pager{0}', 'pageNavPosition{0}');
                                                             pager{0}.showPage(1);
@@ -213,7 +213,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                 tbl.Append(string.Format(@"    <tr class='{0}'>
                                                 <td >
                      
-                                                    <table cellspacing='0' border='0' style='border-collapse: collapse;width:100%;' id='CMList'>
+                                                    <table cellspacing='0' border='0' style='border-collapse: collapse;width:100%;margin-bottom: 5px;margin-top: 5px;' id='CMList'>
                                                         <tbody>
                                                        <tr style='background:#F3D6F4;width:100%;text-align:center'>
                                                                 <td style=' float: left;margin-left: 30px;  line-height: 6px;'>
@@ -234,7 +234,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                             </td>
                                             </tr>   
                                           
-                                         ", oddOrEven, j, c.Description.Length >= 25 ? c.Description.Substring(0, 25) + "..." : c.Description + "...", c.CategoryID));
+                                         ", oddOrEven, j, c.Description.Length >= 21 ? c.Description.Substring(0, 21) + "..." : c.Description + "...", c.CategoryID));
 
             
 

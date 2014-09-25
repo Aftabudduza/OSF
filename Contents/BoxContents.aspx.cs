@@ -31,9 +31,14 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                 int catID = Convert.ToInt32(Request["SectionTypeID"]);
                 string query = string.Format("SectionID={0} AND IsSection=1", catID);
                 DataRow dr = dtUSP.Select(query).FirstOrDefault();
-                if (!Convert.ToBoolean(dr["HasPermission"]))
+                if (dr != null)
                 {
-                    Response.Redirect("../Default.aspx");
+                    if ((dr["HasPermission"] != null && Convert.ToBoolean(dr["HasPermission"])))
+                    {
+
+                    }
+                    else
+                        Response.Redirect("../Default.aspx");
                 }
 
             }
@@ -75,10 +80,11 @@ public partial class Contents_BoxContents : System.Web.UI.Page
         foreach (DataRow dr in dt.Rows)
         {
 
-            int itemPerPage = 5;
+            int itemPerPage = 6;
             if (!(DBNull.Value == dr["ItemsPerPage"]) && Convert.ToInt32(dr["ItemsPerPage"]) > 0)
             {
-                itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);
+            //    itemPerPage = Convert.ToInt32(dr["ItemsPerPage"]);//////////////////////////////////////////////////
+                //*****NOW HARDCODED
             }
 
             I++;
@@ -86,13 +92,14 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                           <div class='right-15p-sidebar' style='margin: 10px 10px 0;'>
                                             <div class='colomn'>
                                                 <h3>
-                                                    {1}</h3>
+                                                    <input type='button' title='{2}' value='{1}' class='clsHeaderLink'>
+                                                                   </h3>
                                                 <div class='alerts'>
                                                     <table id='tablepaging{0}' width='100%' cellspacing='0' cellpadding='0' border='0'>
                                                        
                                                         <tr>
                                                             <td>
-                                                            ", I, dr["Description"].ToString())
+                                                            ", I, dr["Description"].ToString().Length <= 18 ? dr["Description"].ToString() : dr["Description"].ToString().Substring(0, 17) + "..", dr["Description"].ToString())
 
                                                          + this.GenerateBoxData(Convert.ToInt32(dr["CategoryID"])) +
 
@@ -112,7 +119,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                     </script>
                                             </div>
                                         </div>                  
-                        ", I, dr["Description"].ToString(), itemPerPage));
+                        ", I, dr["Description"].ToString().Length <= 18 ? dr["Description"].ToString() : dr["Description"].ToString().Substring(0,17) +"..", itemPerPage));
         }
 
 

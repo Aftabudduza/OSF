@@ -6,7 +6,7 @@
             <li>|</li>
             <li><a href="#">Contacts</a></li>
             <li>|</li>
-            <li><a href="#">Help</a></li>
+            <li><a href="../Contents/NewsorContents.aspx?SectionTypeID=5">Help</a></li>
             <li>|</li>
             <li><a href="../Admin/Logout.aspx">Log Out</a></li>
         </ul>

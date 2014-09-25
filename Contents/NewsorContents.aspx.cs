@@ -127,7 +127,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
 
         if (Convert.ToInt32(Request["SectionTypeID"]) == (int)EnumSectionType.News)
         {
-            cObjs = contents.getRecords(CategoryTypeID, fromdate, todate);
+            cObjs = contents.getRecordsForNewsType(CategoryTypeID, fromdate, todate);
             lblRcentTitle.Text = "News at OSF";
         }
         else
@@ -148,17 +148,35 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
             System.Text.StringBuilder tbl = new System.Text.StringBuilder();
 
             tbl.Append(" <div class='news-osf'>");
+            tbl.Append(string.Format(@"<table id='tablepagingNEWS' width='100%' cellspacing='0' cellpadding='0' border='0'>"));
             foreach (ContentObj cO in cObjs)
-            { 
-                tbl.Append(string.Format(@"<div class='recent-news'>
-                                                <p> <strong>Date:</strong>{0}</p> 
-                                                <p> <strong><input type='button' style='width:100%;' value='{1}' onclick='GetPopupContent({4})' class='clsPopupLink' /> </strong></p> 
-                                                <p> <strong>From:</strong>{2}</p> 
-                                                <p> <strong>Description:</strong> {3} <a href='#'>Read More</a> </p> 
-                                          </div>", cO.Date.ToString("MM/dd/yyyy"),cO.Title, cO.Author, cO.Content,cO.ContentID));
+            {
+       
+
+                tbl.Append(string.Format(@"  
+                                               <tr>
+                                                   <td>
+                                                        <div class='recent-news'>
+                                                            <p> <strong>Date:</strong>{0}</p> 
+                                                            <p> <strong><input type='button' style='width:100%;' value='{1}' onclick='GetPopupContent({4})' class='clsPopupLink' /> </strong></p> 
+                                                            <p> <strong>From:</strong>{2}</p> 
+                                                            <p> <strong>Description:</strong> {3} ... </p> 
+                                                       </div>
+                                                 </td>
+                                              </tr>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length <= 280 ? cO.Content : cO.Content.Substring(0,279), cO.ContentID));
             }
 
+            tbl.Append("</table>");
             tbl.Append("</div>");
+           tbl.Append(string.Format(@" <div id='pageNavPositionNEWS' style='padding-top: 0' align='center'>
+                                                    </div>
+                                                    <script type='text/javascript'><!--
+                                                            var pagerNEWS = new Pager('tablepagingNEWS', 10);
+                                                            pagerNEWS.init();
+                                                            pagerNEWS.showPageNav('pagerNEWS', 'pageNavPositionNEWS');
+                                                            pagerNEWS.showPage(1);
+                                                    </script>"));
+
             dynamicDiv.InnerHtml = tbl.ToString();
 
         }

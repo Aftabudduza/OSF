@@ -72,9 +72,10 @@ public partial class Admin_PasswordChange : System.Web.UI.Page
                     user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtNewPassword.Text, DateTime.UtcNow, user.UserID));
                     user.QueryExecute(string.Format("DELETE FROM PasswordResetRequests WHERE UserID={0}",user.UserID));
 
-                    DisplayAlert(string.Format("Password Change successfull" + Environment.NewLine + "Your next password renewal date is:'{0}'", DateTime.UtcNow.AddDays(ss.NumVal)));
+                   // DisplayAlert(string.Format("Password Change successfull" + Environment.NewLine + "Your next password renewal date is:'{0}'", DateTime.UtcNow.AddDays(ss.NumVal)));
 
-
+                    user.LastPasswordChange = DateTime.UtcNow;
+                    Session["User"] = user;
                     Response.Redirect("../Default.aspx");
 
                 }
