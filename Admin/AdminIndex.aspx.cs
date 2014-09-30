@@ -31,6 +31,7 @@ public partial class Admin_AdminIndex : System.Web.UI.Page
             {
                 UserPermissions up = (UserPermissions)Session["UserPermission"];
                 Session["IsGlobalContentAdmin"] = up.IsGlobalContentAdmin;
+                Session["IsGlobalDirectoryAdmin"] = up.IsDirectoryAdmin;
             }
         }
     }

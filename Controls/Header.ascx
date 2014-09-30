@@ -61,9 +61,9 @@
                 <%
 } %>
                 <%
-                    query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Directory);
-                    dr = dtUSP.Select(query).FirstOrDefault();
-                    if (dr != null && Convert.ToBoolean(dr["HasPermission"]))
+                    //query = string.Format("SectionID={0} AND IsSection=1", (int)EnumSectionType.Directory);
+                    //dr = dtUSP.Select(query).FirstOrDefault();
+                    if (dtUP.IsDirectoryAdmin)
                     {
                                   
                 %>

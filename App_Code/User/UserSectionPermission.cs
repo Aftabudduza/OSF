@@ -22,7 +22,8 @@ public class UserSectionPermission
     public int CategoryID;
     public int SectionID;
     public bool IsSection;
-    public bool HasPermission;
+    public bool ? HasPermission;
+    public  bool ? IsContentAdmin;
 
 #region User Variables
     // Add your variables to this object here. Adding them here ensures
@@ -400,7 +401,7 @@ public class UserSectionPermission
 
     /// <summary>Insert a record in the UserSectionPermission table from the data stored in the local variables</summary>
     /// <returns>'True', if successful</returns>
-    public bool insert()
+    public bool insertContentAdminNull()
         {
         SqlCommand cmd;
 
@@ -413,6 +414,8 @@ public class UserSectionPermission
             cmd.Parameters.AddWithValue("@SectionID", SectionID);
             cmd.Parameters.AddWithValue("@IsSection", IsSection);
             cmd.Parameters.AddWithValue("@HasPermission", HasPermission);
+  
+            
             cmd.ExecuteScalar();
             cmd.Dispose();
 
@@ -434,6 +437,47 @@ public class UserSectionPermission
             }
         return true;
         }
+
+
+
+        public bool insertHasPermissionNull()
+        {
+        SqlCommand cmd;
+
+        try
+            {
+            connect();
+            cmd = new SqlCommand("INSERT INTO \"UserSectionPermission\" (UserID, CategoryID, SectionID, IsSection, IsContentAdmin) VALUES (@UserID, @CategoryID, @SectionID, @IsSection,  @IsContentAdmin)", conn);
+            cmd.Parameters.AddWithValue("@UserID", UserID);
+            cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+            cmd.Parameters.AddWithValue("@SectionID", SectionID);
+            cmd.Parameters.AddWithValue("@IsSection", IsSection);
+            cmd.Parameters.AddWithValue("@IsContentAdmin", IsContentAdmin);
+  
+            
+            cmd.ExecuteScalar();
+            cmd.Dispose();
+
+          
+
+            disconnect();
+            }
+        catch(SqlException ex)
+            {
+            lastError = translateException(ex);
+            disconnect();
+            return false;
+            }
+        catch(Exception ex)
+            {
+            lastError = ex.Message;
+            disconnect();
+            return false;
+            }
+        return true;
+        }
+
+
 
     public bool insertNoCategory()
     {

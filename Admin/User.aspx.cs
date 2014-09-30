@@ -110,7 +110,8 @@ public partial class Admin_User : System.Web.UI.Page
 
     protected void btnSearch_Click(object sender, EventArgs e)
     {
-        if (ValidateSearch().Length <= 0)
+        string msg = ValidateSearch();
+        if (msg.Length <= 0)
         {
             string sql = "";
             if (txtRecordCount.Text == "")
@@ -133,22 +134,78 @@ public partial class Admin_User : System.Web.UI.Page
 
 
             if (txtSHomeCity.Text != "")
-                sql += string.Format(" AND HomeCity = {0}", Convert.ToInt32(txtSHomeCity.Text));
+                sql += string.Format(" AND HomeCity  LIKE '%{0}%'", txtSHomeCity.Text);
 
             if (txtsMinistryTitle.Text != "")
-                sql += string.Format(" AND MinistryTitle = {0}", Convert.ToInt32(txtsMinistryTitle.Text));
+                sql += string.Format(" AND MinistryTitle  LIKE '%{0}%'", txtsMinistryTitle.Text);
 
             if (txtSMinistryLocation.Text != "")
-                sql += string.Format(" AND MinistryLocation = {0}", Convert.ToInt32(txtSMinistryLocation.Text));
+                sql += string.Format(" AND MinistryLocation LIKE '%{0}%'", txtSMinistryLocation.Text);
 
             if (txtSMinistryCity.Text != "")
-                sql += string.Format(" AND MinistryCity = {0}", Convert.ToInt32(txtSMinistryCity.Text));
+                sql += string.Format(" AND MinistryCity LIKE '%{0}%'", txtSMinistryCity.Text);
 
             if (txtSMinistryState.Text != "")
-                sql += string.Format(" AND MinistryState = {0}", Convert.ToInt32(txtSMinistryState.Text));
+                sql += string.Format(" AND MinistryState LIKE '%{0}%'", txtSMinistryState.Text);
 
             if (txtsProfessionalYear.Text != "")
                 sql += string.Format(" AND ProfessionalYear = {0}", Convert.ToInt32(txtsProfessionalYear.Text));
+
+            //if (ddlSectionType.SelectedIndex == 0)
+            //{
+            //    msg += "Please select a Type" + Environment.NewLine;
+            //}
+            //int parentID = Convert.ToInt32(ddlSectionType.SelectedValue.ToString());
+
+            if (ddlSDepartment.SelectedIndex > 0)
+            {
+                int deptID = Convert.ToInt32(ddlSDepartment.SelectedValue.ToString());
+                sql += string.Format(" AND DepartmentID = {0}", deptID);
+            }
+
+            if (ddlSPost.SelectedIndex > 0)
+            {
+                int jobID = Convert.ToInt32(ddlSPost.SelectedValue.ToString());
+                sql += string.Format(" AND JobID = {0}", jobID);
+            }
+
+            if (ddlSLocation.SelectedIndex > 0)
+            {
+                int locID = Convert.ToInt32(ddlSLocation.SelectedValue.ToString());
+                sql += string.Format(" AND LocationID = {0}", locID);
+            }
+
+            if (chkIsSSister.Checked || chkIsSStaff.Checked || chkIsSCompanion.Checked || chkIsSCommittee.Checked)
+            {
+                string subSql = "";
+                if (chkIsSSister.Checked)
+                {
+                    subSql += string.Format(" AND IsSister = 1");
+                }
+                if (chkIsSStaff.Checked)
+                {
+                    subSql += string.Format(" AND IsStaff = 1");
+                }
+                if (chkIsSCompanion.Checked)
+                {
+                    subSql += string.Format(" AND IsCompanion = 1");
+                }
+                if (chkIsSCommittee.Checked)
+                {
+                    subSql += string.Format(" AND IsLayPerson = 1");
+                }
+
+                string queryN = "";
+
+                if (subSql.Length > 0)
+                    queryN = string.Format(@"SELECT Users.* FROM ({0}) Users JOIN UserPermissions up on USErs.UserID = up.UserID  {1}", sql,subSql);
+                else
+                    queryN = sql;
+
+
+
+                sql = queryN;
+            }
 
             Users uObj = new Users(osfcon.CONNECTIONSTRING);
             DataTable dt = osfcon.getRows(sql);
@@ -158,6 +215,11 @@ public partial class Admin_User : System.Web.UI.Page
                 gvUser.DataBind();
             }
 
+        }
+        else
+        {
+            DisplayAlert(msg);
+        
         }
     }
 
@@ -285,7 +347,7 @@ public partial class Admin_User : System.Web.UI.Page
     protected void btnAddPermission_Click(object sender, EventArgs e)
     {
         string message = "";
-        int a =LinksTreeView.Nodes.Count;
+        int a = LinksTreeView.Nodes.Count;
         UserPermissions uObj = new UserPermissions(osfcon.CONNECTIONSTRING);
         this.MakePermissionObject(uObj);
         List<UserSectionPermission> usPermissions = new List<UserSectionPermission>();
@@ -297,7 +359,7 @@ public partial class Admin_User : System.Web.UI.Page
 
             if (uObj.insert())
             {
-     
+
             }
             else
             {
@@ -306,20 +368,28 @@ public partial class Admin_User : System.Web.UI.Page
         }
         else
         {
+            if (Session["UserIDEdit"] != null)
+            {
 
-            uObj.UserID = Session["UserIDEdit"].ToString() == "" ? 0 : Convert.ToInt32(Session["UserIDEdit"].ToString());
-            uObj.update();
+                uObj.UserID = Session["UserIDEdit"].ToString() == "" ? 0 : Convert.ToInt32(Session["UserIDEdit"].ToString());
+                uObj.update();
 
-            if (chkResetPassword.Checked)
-            { //QueryExecute
-                Users user = new Users(osfcon.CONNECTIONSTRING);
-                user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtUserNamePermission.Text,DateTime.UtcNow,  uObj.UserID));
+                if (chkResetPassword.Checked)
+                { //QueryExecute
+                    Users user = new Users(osfcon.CONNECTIONSTRING);
+                    user.QueryExecute(string.Format("UPDATE Users SET Password='{0}',LastPasswordChange='{1}' WHERE UserID={2}", txtUserNamePermission.Text, DateTime.UtcNow, uObj.UserID));
+                }
+            }
+
+            else
+            {
+                Response.Redirect("Logout.aspx");
             }
         }
 
         UserSectionPermission usp = new UserSectionPermission(osfcon.CONNECTIONSTRING);
-        int userID =  Convert.ToInt32(Session["UserIDEdit"] == "" ? 0 : Session["UserIDEdit"]);
-        usp.QueryExecute(string.Format("DELETE  FROM UserSectionPermission WHERE UserID = {0}",userID));
+        int userID = Convert.ToInt32(Session["UserIDEdit"] == "" ? 0 : Session["UserIDEdit"]);
+        usp.QueryExecute(string.Format("DELETE  FROM UserSectionPermission WHERE UserID = {0}", userID));
         foreach (UserSectionPermission u in usPermissions)
         {
             usp.CategoryID = u.CategoryID;
@@ -327,9 +397,15 @@ public partial class Admin_User : System.Web.UI.Page
             usp.UserID = u.UserID;
             usp.IsSection = u.IsSection;
             usp.HasPermission = u.HasPermission;
+            usp.IsContentAdmin = u.IsContentAdmin;
             if (usp.CategoryID > 0)
             {
-                usp.insert();
+                if (usp.IsContentAdmin == null)
+                    usp.insertContentAdminNull();
+
+                else if (usp.HasPermission == null)
+                    usp.insertHasPermissionNull();
+
                 //if (usp.HasPermission)
                 //{
                 //    usp.QueryExecute(string.Format("UPDATE UserSectionPermission SET HasPermission=1 WHERE SectionID={0} AND IsSection=1 AND UserID={1}",usp.SectionID,usp.UserID));
@@ -453,6 +529,7 @@ public partial class Admin_User : System.Web.UI.Page
             up.CategoryID = 0;
             up.SectionID = Convert.ToInt32(li.Value);
             up.HasPermission = li.Selected;
+            up.IsContentAdmin = null;
             up.IsSection = true;
             uObj.Add(up);
         }
@@ -463,12 +540,6 @@ public partial class Admin_User : System.Web.UI.Page
 
             if (node.Parent == null) //its parent Node
             {
-                //up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
-                //up.CategoryID = 0;
-                //up.SectionID =Convert.ToInt32(node.Value);
-                //up.HasPermission = node.Checked;
-                //up.IsSection = true;
-                //uObj.Add(up);
 
                 if (node.ChildNodes != null && node.ChildNodes.Count > 0)
                 {
@@ -479,6 +550,29 @@ public partial class Admin_User : System.Web.UI.Page
                         up.CategoryID = Convert.ToInt32(cnode.Value);
                         up.SectionID = Convert.ToInt32(node.Value);
                         up.HasPermission = cnode.Checked;
+                        up.IsContentAdmin = null;
+                        uObj.Add(up);
+                    }
+                }
+            }
+        }
+
+        foreach (TreeNode node in treeViewCatConPerm.Nodes)
+        {
+            UserSectionPermission up = new UserSectionPermission();
+
+            if (node.Parent == null) //its parent Node
+            { 
+                if (node.ChildNodes != null && node.ChildNodes.Count > 0)
+                {
+                    foreach (TreeNode cnode in node.ChildNodes)
+                    {
+                        up = new UserSectionPermission();
+                        up.UserID = Convert.ToInt32(Session["UserIDEdit"]);
+                        up.CategoryID = Convert.ToInt32(cnode.Value);
+                        up.SectionID = Convert.ToInt32(node.Value);
+                        up.IsContentAdmin = cnode.Checked;
+                        up.HasPermission = null;
                         uObj.Add(up);
                     }
                 }
@@ -1043,15 +1137,8 @@ public partial class Admin_User : System.Web.UI.Page
 
     private void GenerateTreeView()
     {
-
-        //chkHeaderList.Items.Add(new ListItem("Hello1", "1" ));
-        //chkHeaderList.Items.Add(new ListItem("Hello2", "2"));
-        //chkHeaderList.Items.Add(new ListItem("Hello3", "3"));
-        //chkHeaderList.Items.Add(new ListItem("Hello4", "4"));
-        //chkHeaderList.Items.Add(new ListItem("Hello5", "5"));
-
-        //chkHeaderList.RepeatDirection = RepeatDirection.Horizontal;
         LinksTreeView.Nodes.Clear();
+        treeViewCatConPerm.Nodes.Clear();
         try
         {
             string sql = "Select * FROM SectionType WHERE IsCategory=1";
@@ -1067,10 +1154,13 @@ public partial class Admin_User : System.Web.UI.Page
                     {
                         TreeNode ParentNode = new TreeNode();
                         ParentNode.Text = row["Description"].ToString();
-                        ParentNode.Value = row["SectionTypeID"].ToString();
-                        //ParentNode.SelectAction = TreeNodeSelectAction.Select;
-                        ParentNode.ShowCheckBox = false;
+                        ParentNode.Value = row["SectionTypeID"].ToString();                       
+                        ParentNode.ShowCheckBox = true;
                         LinksTreeView.Nodes.Add(ParentNode);
+
+                        //ContentAdmin Treeview
+                      //  treeViewCatConPerm.Nodes.Add(ParentNode);
+
                         chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
                         // Add Child Node 
                         if (Convert.ToBoolean(row["IsCategory"]))
@@ -1100,6 +1190,49 @@ public partial class Admin_User : System.Web.UI.Page
                             }
                         }
                     }
+                    //for content admin perm tree
+                    foreach (DataRow row in ResultSet.Rows)
+                    {
+                        TreeNode ParentNode = new TreeNode();
+                        ParentNode.Text = row["Description"].ToString();
+                        ParentNode.Value = row["SectionTypeID"].ToString();
+                        ParentNode.ShowCheckBox = true;
+                      
+
+                        //ContentAdmin Treeview
+                         treeViewCatConPerm.Nodes.Add(ParentNode);
+
+                
+                        // Add Child Node 
+                        if (Convert.ToBoolean(row["IsCategory"]))
+                        {
+                            string newsql = string.Format("Select * From Categories Where CategoryTypeID={0}", Convert.ToInt32(row["SectionTypeID"]));// + row["category_id"].ToString();
+                            DataTable newResultSet = osfcon.getRows(newsql);
+                            if (newResultSet != null)
+                            {
+                                // Create the third-level nodes.
+                                if (newResultSet.Rows.Count > 0)
+                                {
+                                    foreach (DataRow newrow in newResultSet.Rows)
+                                    {
+
+                                        // Create the new node.
+                                        TreeNode childNode = new TreeNode();
+                                        //childNode.Text = "<a style='text-decoration:none; color:#000;' href='PageContent.aspx?page_id=" + newrow["CategoryID"].ToString() + "'>" + newrow["Description"].ToString() + "</a>";
+                                        childNode.Text = newrow["Description"].ToString();
+                                        childNode.Value = newrow["CategoryID"].ToString();
+                                        //childNode.SelectAction = TreeNodeSelectAction.Select;
+                                        childNode.ShowCheckBox = true;
+
+                                        ParentNode.ChildNodes.Add(childNode);
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
                 }
             }
         }
@@ -1115,14 +1248,15 @@ public partial class Admin_User : System.Web.UI.Page
     private void GenerateTreeViewEdit()
     {
         LinksTreeView.Nodes.Clear();
+        treeViewCatConPerm.Nodes.Clear();
         try
         {
             int userid = Convert.ToInt32(Session["UserIDEdit"]);
-           //old******** string sql = string.Format("SELECt SectionType.*,UserSectionPermission.* from SectionType LEft join  UserSectionPermission ON SectionType.SectionTypeID = UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0} AND IsCategory=1", userid); 
+            //old******** string sql = string.Format("SELECt SectionType.*,UserSectionPermission.* from SectionType LEft join  UserSectionPermission ON SectionType.SectionTypeID = UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0} AND IsCategory=1", userid); 
 
             string sql = string.Format(@"                SELECt *  FROM
-(select * from SectionType where IsCategory = 1) A LEFT JOIN  UserSectionPermission ON A.SectionTypeID = 
-UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0}", userid); 
+                        (select * from SectionType where IsCategory = 1) A LEFT JOIN  UserSectionPermission ON A.SectionTypeID = 
+                        UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND UserSectionPermission.UserID  ={0}", userid);
 
 
             DataTable ResultSet = osfcon.getRows(sql);
@@ -1137,29 +1271,32 @@ UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND User
 
                     foreach (DataRow row in ResultSet.Rows)
                     {
-                     
-                            TreeNode ParentNode = new TreeNode();
-                            ParentNode.Text = row["Description"].ToString();
-                            ParentNode.Value = row["SectionTypeID"].ToString();
-                           // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
-                            ParentNode.ShowCheckBox = false;
-                            LinksTreeView.Nodes.Add(ParentNode);
 
-                            chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
+                        //  if (row["HasPermission"] != null)
 
-                            foreach (ListItem li in chkHeaderList.Items)
+
+                        TreeNode ParentNode = new TreeNode();
+                        ParentNode.Text = row["Description"].ToString();
+                        ParentNode.Value = row["SectionTypeID"].ToString();
+                        // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
+                       ParentNode.ShowCheckBox = true;
+                        LinksTreeView.Nodes.Add(ParentNode);
+
+                        chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
+
+                        foreach (ListItem li in chkHeaderList.Items)
+                        {
+                            if (li.Value == ParentNode.Value)
                             {
-                                if (li.Value == ParentNode.Value)
-                                {
-                                    li.Selected = Convert.ToBoolean(row["HasPermission"]);
-                                }
-
+                                li.Selected = Convert.ToBoolean(row["HasPermission"]);
                             }
-                            // Add Child Node 
-                            if (Convert.ToBoolean(row["IsCategory"]))
-                            {
 
-                            string newsql = string.Format("SELECT T.CategoryID,T.Description, U.* FROM (Select * From Categories Where CategoryTypeID={0} ) T LEFT JOIN UserSectionPermission U on T.CategoryID = U.CategoryID AND U.UserID = {1}", Convert.ToInt32(row["SectionTypeID"]),userid);// + row["category_id"].ToString();
+                        }
+                        // Add Child Node 
+                        if (Convert.ToBoolean(row["IsCategory"]))
+                        {
+
+                            string newsql = string.Format("SELECT T.CategoryID,T.Description, U.* FROM (Select * From Categories Where CategoryTypeID={0} ) T LEFT JOIN UserSectionPermission U on T.CategoryID = U.CategoryID AND U.UserID = {1}", Convert.ToInt32(row["SectionTypeID"]), userid);// + row["category_id"].ToString();
                             DataTable newResultSet = osfcon.getRows(newsql);
                             if (newResultSet != null)
                             {
@@ -1168,22 +1305,82 @@ UserSectionPermission.sectionid AND UserSectionPermission.issection = 1 AND User
                                 {
                                     foreach (DataRow newrow in newResultSet.Rows)
                                     {
+                                        if (newrow["HasPermission"] != null && newrow["HasPermission"] != DBNull.Value)
+                                        {
+                                            // Create the new node.
+                                            TreeNode childNode = new TreeNode();
+                                            //childNode.Text = "<a style='text-decoration:none; color:#000;' href='PageContent.aspx?page_id=" + newrow["CategoryID"].ToString() + "'>" + newrow["Description"].ToString() + "</a>";
+                                            childNode.Text = newrow["Description"].ToString();
+                                            childNode.Value = newrow["CategoryID"].ToString();
+                                            childNode.Checked = Convert.ToBoolean(newrow["HasPermission"]);
+                                            childNode.ShowCheckBox = true;
 
-                                        // Create the new node.
-                                        TreeNode childNode = new TreeNode();
-                                        //childNode.Text = "<a style='text-decoration:none; color:#000;' href='PageContent.aspx?page_id=" + newrow["CategoryID"].ToString() + "'>" + newrow["Description"].ToString() + "</a>";
-                                        childNode.Text = newrow["Description"].ToString();
-                                        childNode.Value = newrow["CategoryID"].ToString();
-                                        childNode.Checked = Convert.ToBoolean(newrow["HasPermission"]);
-                                        childNode.ShowCheckBox = true;
+                                            ParentNode.ChildNodes.Add(childNode);
+                                        }
+                                    }
+                                }
+                            }
+                        }
 
-                                        ParentNode.ChildNodes.Add(childNode);
+                    }
+
+                    //for content admin tree
+                    foreach (DataRow row in ResultSet.Rows)
+                    {
+
+
+
+                        TreeNode ParentNode = new TreeNode();
+                        ParentNode.Text = row["Description"].ToString();
+                        ParentNode.Value = row["SectionTypeID"].ToString();
+                        // ParentNode.Checked = Convert.ToBoolean(row["HasPermission"]);
+                       ParentNode.ShowCheckBox = true;
+                        treeViewCatConPerm.Nodes.Add(ParentNode);
+
+                        //chkHeaderList.Items.Add(new ListItem(ParentNode.Text, ParentNode.Value));
+
+                        //foreach (ListItem li in chkHeaderList.Items)
+                        //{
+                        //    if (li.Value == ParentNode.Value)
+                        //    {
+                        //        li.Selected = Convert.ToBoolean(row["IsContentAdmin"]);
+                        //    }
+
+                        //}
+                        // Add Child Node 
+                        if (Convert.ToBoolean(row["IsCategory"]))
+                        {
+
+                            string newsql = string.Format("SELECT T.CategoryID,T.Description,U.UserID,U.CategoryID ,U.SectionID, U.IsSection, U.HasPermission, ISNULL(U.IsContentAdmin,0) IsContentAdmin FROM (Select * From Categories Where CategoryTypeID={0} ) T LEFT JOIN UserSectionPermission U on T.CategoryID = U.CategoryID AND U.UserID = {1} AND U.IsContentAdmin is NOT null", Convert.ToInt32(row["SectionTypeID"]), userid);// + row["category_id"].ToString();
+                            DataTable newResultSet = osfcon.getRows(newsql);
+                            if (newResultSet != null)
+                            {
+                                // Create the third-level nodes.
+                                if (newResultSet.Rows.Count > 0)
+                                {
+                                    foreach (DataRow newrow in newResultSet.Rows)
+                                    {
+                                        if (newrow["IsContentAdmin"] != null && newrow["IsContentAdmin"] != DBNull.Value)
+                                        {
+                                            // Create the new node.
+                                            TreeNode childNode = new TreeNode();
+                                            //childNode.Text = "<a style='text-decoration:none; color:#000;' href='PageContent.aspx?page_id=" + newrow["CategoryID"].ToString() + "'>" + newrow["Description"].ToString() + "</a>";
+                                            childNode.Text = newrow["Description"].ToString();
+                                            childNode.Value = newrow["CategoryID"].ToString();
+                                            childNode.Checked = Convert.ToBoolean(newrow["IsContentAdmin"]);
+                                            childNode.ShowCheckBox = true;
+
+                                            ParentNode.ChildNodes.Add(childNode);
+                                        }
 
                                     }
                                 }
                             }
                         }
+
                     }
+
+
                 }
             }
         }

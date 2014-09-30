@@ -125,7 +125,7 @@ public partial class Admin_AdminChapterDirectivesTopic : System.Web.UI.Page
                     {
                         DisplayAlert("Content Saved Successfully.");
                         txtAuthor.Text = "";
-                        txtDate.Text = DateTime.Today.ToString("dd/MM/yyyy");
+                        txtDate.Text = DateTime.Today.ToString("mm/dd/yyyy");
                         txtTitle.Text = "";
                         txtContent.Text = "";
                         ddlCategoryListL1.SelectedIndex = 0;

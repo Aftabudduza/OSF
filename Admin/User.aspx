@@ -1,5 +1,5 @@
-﻿<%@ Page Title="OSF:User" Language="C#" MasterPageFile="~/MasterPages/Main.master" AutoEventWireup="true"
-    CodeFile="User.aspx.cs" Inherits="Admin_User" %>
+﻿<%@ Page Title="OSF:User" Language="C#" MasterPageFile="~/MasterPages/Main.master"
+    AutoEventWireup="true" CodeFile="User.aspx.cs" Inherits="Admin_User" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -38,6 +38,32 @@
     <script type="text/javascript">
         $(function () {
             $("[id*=LinksTreeView] input[type=checkbox]").bind("click", function () {
+                var table = $(this).closest("table");
+                if (table.next().length > 0 && table.next()[0].tagName == "DIV") {
+                    //Is Parent CheckBox
+                    var childDiv = table.next();
+                    var isChecked = $(this).is(":checked");
+                    $("input[type=checkbox]", childDiv).each(function () {
+                        if (isChecked) {
+                            $(this).attr("checked", "checked");
+                        } else {
+                            $(this).removeAttr("checked");
+                        }
+                    });
+                } else {
+                    //Is Child CheckBox
+                    var parentDIV = $(this).closest("DIV");
+                    if ($("input[type=checkbox]", parentDIV).length == $("input[type=checkbox]:checked", parentDIV).length) {
+                        $("input[type=checkbox]", parentDIV.prev()).attr("checked", "checked");
+                    } else {
+                        $("input[type=checkbox]", parentDIV.prev()).removeAttr("checked");
+                    }
+                }
+            });
+        })
+
+        $(function () {
+            $("[id*=treeViewCatConPerm] input[type=checkbox]").bind("click", function () {
                 var table = $(this).closest("table");
                 if (table.next().length > 0 && table.next()[0].tagName == "DIV") {
                     //Is Parent CheckBox
@@ -233,8 +259,8 @@
                                         <td align="center" colspan="4">
                                             <asp:Button CssClass="ButtonOSF" Style="margin: 15px 20px 0 0;" ID="btnAddUser" runat="server"
                                                 Text="New User" OnClick="btnAddUser_Click" />
-                                            <asp:Button CssClass="ButtonOSF" ID="btnSearch" Style="margin: 15px 20px 0 0;" runat="server"
-                                                OnClick="btnSearch_Click" Text="Search" />
+                                            <asp:Button CssClass="ButtonOSF" ID="btnSearch" Style="margin: 15px 20px 0 0; height: 26px;"
+                                                runat="server" OnClick="btnSearch_Click" Text="Search" />
                                         </td>
                                     </tr>
                                     <tr>
@@ -335,7 +361,7 @@
             CancelControlID="btnCancel">
         </asp:ModalPopupExtender>
         <asp:Panel ID="pnlpopup" runat="server" CssClass="pnlpopupclass" BackColor="White"
-            Style="display: block;">
+            Style="display: none;">
             <div class="clsDiv1">
                 <h3>
                     User Details</h3>
@@ -825,7 +851,7 @@
             CancelControlID="btnCancel">
         </asp:ModalPopupExtender>
         <asp:Panel ID="pnlpopupPermission" CssClass="pnlpopupclass" runat="server" BackColor="White"
-            Style="display: none;">
+            Style="display: block;">
             <div class="clsDiv1">
                 <asp:Label ID="lblUserNamePermission" runat="server" CssClass="form_header" Text=""></asp:Label>
                 <div class="clsPopUp">
@@ -1063,19 +1089,28 @@
                                                 </tr>--%>
                                             <tr class="bg">
                                                 <td align="center" colspan="9">
-                                                    <b>Details Permissions</b>
-                                                </td>
-                                            </tr>
-                                            <tr class="bg">
-                                                <td align="center" colspan="9">
                                                     &nbsp;
                                                 </td>
                                             </tr>
                                             <tr class="bg">
-                                                <td align="right" colspan="3" style="vertical-align: top;">
-                                                    &nbsp;
+                                                <td align="right" colspan="4" style="vertical-align: top; text-align: left;">
+                                                    <b>Category Content Admin Permissions</b>&nbsp;
                                                 </td>
-                                                <td align="left" colspan="6">
+                                                <td align="left" colspan="5">
+                                                    <b>Category Content View Permissions</b>&nbsp;
+                                                </td>
+                                            </tr>
+                                            <tr class="bg">
+                                                <td align="right" colspan="1" style="vertical-align: top; text-align: left;">
+                                                &nbsp;
+                                                </td>
+                                                <td align="right" colspan="4" style="vertical-align: top; text-align: left;">
+                                                    &nbsp;
+                                                    <asp:TreeView ID="treeViewCatConPerm" runat="server" EnableClientScript="true" Font-Name="Arial"
+                                                        ForeColor="Black" PopulateNodesFromClient="true">
+                                                    </asp:TreeView>
+                                                </td>
+                                                <td align="left" colspan="4">
                                                     <asp:TreeView ID="LinksTreeView" runat="server" EnableClientScript="true" Font-Name="Arial"
                                                         ForeColor="Black" OnTreeNodeCheckChanged="LinksTreeView_TreeNodeCheckChanged"
                                                         PopulateNodesFromClient="true">

@@ -80,7 +80,7 @@ public partial class Admin_adminBulletinBoard : System.Web.UI.Page
 
                     lblError.Text = "Content Saved Successfully";
                     txtAuthor.Text = "";
-                    txtDate.Text = DateTime.Today.ToString("dd/MMM/yyyy");
+                    txtDate.Text = DateTime.Today.ToString("mm/dd/yyyy");
                     txtTitle.Text = "";
                     txtContent.Text = "";
                 }

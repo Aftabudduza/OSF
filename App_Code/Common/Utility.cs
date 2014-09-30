@@ -106,7 +106,7 @@ public static class Utility
                 </tr>
 
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("mm/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
         }
         else
             htmlData = "No Data Found";
@@ -177,7 +177,7 @@ public static class Utility
                 </tr>
 
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("dd/MM/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("mm/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
         }
         else
             htmlData = "No Data Found";
@@ -267,6 +267,34 @@ public static class Utility
             lastError = ex.Message;
             disconnect();
             return false;
+        }
+        return true;
+    }
+
+    public static bool QueryExecuteExceptionHandled(string query)
+    {
+        SqlCommand cmd;
+
+
+        try
+        {
+            connect();
+            cmd = new SqlCommand(query, conn);
+            cmd.ExecuteScalar();
+            cmd.Dispose();
+            disconnect();
+        }
+        catch (SqlException ex)
+        {
+            lastError = translateException(ex);
+            disconnect();
+            throw ex;
+        }
+        catch (Exception ex)
+        {
+            lastError = ex.Message;
+            disconnect();
+            throw ex;
         }
         return true;
     }

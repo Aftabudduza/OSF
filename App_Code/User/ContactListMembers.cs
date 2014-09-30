@@ -4,7 +4,7 @@ using System.Data;
 using System.Collections;
 using System.Data.SqlClient;
 
-public class BasicData
+public class ContactListMembers
 {
     // If 'connectionString' is set by the constructor or externally, then the connection will be
     // opened and closed with each operation. If 'conn' is set, then the connection stays open.
@@ -17,12 +17,11 @@ public class BasicData
     public ArrayList colInfo;
 
     // A variable for each column in the table.
+    public int ContactListID;
+    public int UserID;
     public int BasicDataID;
-    public string Name;
-    public int ParentID;
-    public int UserDefinedID;
-    public string HomePage;
-    public string EmailPage;
+    public bool IsSelected;
+
     #region User Variables
     // Add your variables to this object here. Adding them here ensures
     // that they will be retained when the object is re-generated.
@@ -62,22 +61,20 @@ public class BasicData
 
     #region Constructors
     /// <summary></summary>
-    public BasicData()
+    public ContactListMembers()
     {
         blank();
         colInfo = new ArrayList();
-        colInfo.Add(new ColumnInfo("BasicDataID", "int", 11, false, false));
-        colInfo.Add(new ColumnInfo("Name", "string", 50, true, true));
-        colInfo.Add(new ColumnInfo("ParentID", "int", 11, true, true));
-        colInfo.Add(new ColumnInfo("HomePage", "string", 500, true, true));
-        colInfo.Add(new ColumnInfo("EmailPage", "string", 500, true, true));
-
+        colInfo.Add(new ColumnInfo("ContactListID", "int", 11, false, false));
+        colInfo.Add(new ColumnInfo("UserID", "int", 11, true, true));
+        colInfo.Add(new ColumnInfo("BasicDataID", "int", 11, true, true));
+        colInfo.Add(new ColumnInfo("IsSelected", "bool", 1, true, true));
         colInfo.Sort();
     }
 
     /// <summary></summary>
     /// <param name="_Conn">Database connection object to be used in further operations</param>
-    public BasicData(SqlConnection _conn)
+    public ContactListMembers(SqlConnection _conn)
         : this()
     {
         conn = _conn;
@@ -85,7 +82,7 @@ public class BasicData
 
     /// <summary></summary>
     /// <param name="_ConnectionString">Database connection string to be used in further operations</param>
-    public BasicData(string _connectionString)
+    public ContactListMembers(string _connectionString)
         : this()
     {
         connectionString = _connectionString;
@@ -93,50 +90,49 @@ public class BasicData
 
     /// <summary>Construct and get a record</summary>
     /// <param name="_Conn">Database connection object to be used in further operations</param>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    public BasicData(SqlConnection _conn, int _BasicDataID)
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    public ContactListMembers(SqlConnection _conn, int _ContactListID)
         : this()
     {
         conn = _conn;
-        getRecord(_BasicDataID);
+        getRecord(_ContactListID);
     }
 
     /// <summary>Construct and get a record</summary>
     /// <param name="_ConnectionString">Database connection string to be used in further operations</param>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    public BasicData(string _connectionString, int _BasicDataID)
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    public ContactListMembers(string _connectionString, int _ContactListID)
         : this()
     {
         connectionString = _connectionString;
-        getRecord(_BasicDataID);
+        getRecord(_ContactListID);
     }
     #endregion
 
     #region Methods
-    /// <summary>Clear the local column variables associated with a BasicData table record</summary>
+    /// <summary>Clear the local column variables associated with a ContactListMembers table record</summary>
     public void blank()
     {
+        ContactListID = 0;
+        UserID = 0;
         BasicDataID = 0;
-        Name = "";
-        ParentID = 0;
+        IsSelected = true;
         valid = false;
-        HomePage = "";
-        EmailPage = "";
     }
 
-    /// <summary>Get a DataRow from the BasicData table using the primary key</summary>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    /// <returns>A DataRow from the BasicData table</returns>
-    public DataRow getRow(int _BasicDataID)
+    /// <summary>Get a DataRow from the ContactListMembers table using the primary key</summary>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    /// <returns>A DataRow from the ContactListMembers table</returns>
+    public DataRow getRow(int _ContactListID)
     {
-        return getRow("*", _BasicDataID);
+        return getRow("*", _ContactListID);
     }
 
-    /// <summary>Get a DataRow from the BasicData table using the primary key, specifying only selected columns</summary>
-    /// <param name="ColumnList">A list of column names in the BasicData table separated by commas</param>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    /// <returns>A DataRow from the BasicData table</returns>
-    public DataRow getRow(string columnList, int _BasicDataID)
+    /// <summary>Get a DataRow from the ContactListMembers table using the primary key, specifying only selected columns</summary>
+    /// <param name="ColumnList">A list of column names in the ContactListMembers table separated by commas</param>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    /// <returns>A DataRow from the ContactListMembers table</returns>
+    public DataRow getRow(string columnList, int _ContactListID)
     {
         SqlCommand cmd;
         SqlDataAdapter da;
@@ -145,8 +141,8 @@ public class BasicData
         try
         {
             connect();
-            cmd = new SqlCommand("SELECT " + columnList + " FROM \"BasicData\" WHERE BasicDataID = @BasicDataID", conn);
-            cmd.Parameters.AddWithValue("@BasicDataID", _BasicDataID);
+            cmd = new SqlCommand("SELECT " + columnList + " FROM \"ContactListMembers\" WHERE ContactListID = @ContactListID", conn);
+            cmd.Parameters.AddWithValue("@ContactListID", _ContactListID);
             da = new SqlDataAdapter(cmd);
             da.Fill(dt);
             da.Dispose();
@@ -167,11 +163,11 @@ public class BasicData
         return null;
     }
 
-    /// <summary>Get a DataRow from the BasicData table using the primary key, specifying only selected columns</summary>
-    /// <param name="ColumnList">An array of column names in the BasicData</param>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    /// <returns>A DataRow from the BasicData table</returns>
-    public DataRow getRow(string[] columnList, int _BasicDataID)
+    /// <summary>Get a DataRow from the ContactListMembers table using the primary key, specifying only selected columns</summary>
+    /// <param name="ColumnList">An array of column names in the ContactListMembers</param>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    /// <returns>A DataRow from the ContactListMembers table</returns>
+    public DataRow getRow(string[] columnList, int _ContactListID)
     {
         string cl = "";
 
@@ -180,14 +176,14 @@ public class BasicData
             if (!cl.Equals("")) cl += ", ";
             cl += p;
         }
-        return getRow(cl, _BasicDataID);
+        return getRow(cl, _ContactListID);
     }
 
-    /// <summary>Get a DataRow from the BasicData table using the primary key, specifying only selected columns</summary>
-    /// <param name="ColumnList">An ArrayList of Strings representing column names in the BasicData</param>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
-    /// <returns>A DataRow from the BasicData table</returns>
-    public DataRow getRow(ArrayList columnList, int _BasicDataID)
+    /// <summary>Get a DataRow from the ContactListMembers table using the primary key, specifying only selected columns</summary>
+    /// <param name="ColumnList">An ArrayList of Strings representing column names in the ContactListMembers</param>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
+    /// <returns>A DataRow from the ContactListMembers table</returns>
+    public DataRow getRow(ArrayList columnList, int _ContactListID)
     {
         String cl = "";
 
@@ -196,44 +192,41 @@ public class BasicData
             if (!cl.Equals("")) cl += ", ";
             cl += p;
         }
-        return getRow(cl, _BasicDataID);
+        return getRow(cl, _ContactListID);
     }
 
-    /// <summary>Get a record from the BasicData table and populate the local variables</summary>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
+    /// <summary>Get a record from the ContactListMembers table and populate the local variables</summary>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>Nulls in the data record will not be reflected in local variables</remarks>
-    public bool getRecord(int _BasicDataID)
+    public bool getRecord(int _ContactListID)
     {
-        DataRow dr = getRow(_BasicDataID);
+        DataRow dr = getRow(_ContactListID);
 
         valid = false;
         if (dr != null)
         {
+            ContactListID = (dr["ContactListID"] == DBNull.Value ? (int)0 : (int)dr["ContactListID"]);
+            UserID = (dr["UserID"] == DBNull.Value ? (int)0 : (int)dr["UserID"]);
             BasicDataID = (dr["BasicDataID"] == DBNull.Value ? (int)0 : (int)dr["BasicDataID"]);
-            Name = (dr["Name"] == DBNull.Value ? (string)"" : (string)dr["Name"]);
-            ParentID = (dr["ParentID"] == DBNull.Value ? (int)0 : (int)dr["ParentID"]);
-
-            HomePage = (dr["HomePage"] == DBNull.Value ? (string)"" : (string)dr["HomePage"]);
-
-            EmailPage = (dr["EmailPage"] == DBNull.Value ? (string)"" : (string)dr["EmailPage"]);
+            IsSelected = (dr["IsSelected"] == DBNull.Value ? true : (bool)dr["IsSelected"]);
             valid = true;
         }
         return valid;
     }
 
-    /// <summary>Delete a row from the BasicData table</summary>
-    /// <param name="_BasicDataID">A primary key column in the BasicData table</param>
+    /// <summary>Delete a row from the ContactListMembers table</summary>
+    /// <param name="_ContactListID">A primary key column in the ContactListMembers table</param>
     /// <returns>'True', if successful</returns>
-    public bool delete(int _BasicDataID)
+    public bool delete(int _ContactListID)
     {
         SqlCommand cmd;
 
         try
         {
             connect();
-            cmd = new SqlCommand("DELETE FROM \"BasicData\" WHERE BasicDataID = @BasicDataID", conn);
-            cmd.Parameters.AddWithValue("@BasicDataID", _BasicDataID);
+            cmd = new SqlCommand("DELETE FROM \"ContactListMembers\" WHERE ContactListID = @ContactListID", conn);
+            cmd.Parameters.AddWithValue("@ContactListID", _ContactListID);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
@@ -254,8 +247,8 @@ public class BasicData
         return true;
     }
 
-    /// <summary>Delete a row from the BasicData table</summary>
-    /// <param name="Row">The DataRow to be deletedfrom the BasicData table</param>
+    /// <summary>Delete a row from the ContactListMembers table</summary>
+    /// <param name="Row">The DataRow to be deletedfrom the ContactListMembers table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool delete(DataRow row)
@@ -265,8 +258,8 @@ public class BasicData
         try
         {
             connect();
-            cmd = new SqlCommand("DELETE FROM \"BasicData\" WHERE BasicDataID = @BasicDataID", conn);
-            cmd.Parameters.AddWithValue("@BasicDataID", row["BasicDataID"]);
+            cmd = new SqlCommand("DELETE FROM \"ContactListMembers\" WHERE ContactListID = @ContactListID", conn);
+            cmd.Parameters.AddWithValue("@ContactListID", row["ContactListID"]);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
@@ -286,7 +279,7 @@ public class BasicData
         return true;
     }
 
-    /// <summary>Delete the current row from the BasicData table</summary>
+    /// <summary>Delete the current row from the ContactListMembers table</summary>
     /// <returns>'True', if successful</returns>
     public bool delete()
     {
@@ -295,14 +288,14 @@ public class BasicData
             lastError = "A valid current record is needed to delete";
             return false;
         }
-        return delete(BasicDataID);
+        return delete(ContactListID);
     }
 
-    /// <summary>Get rows from the BasicData table</summary>
-    /// <param name="ColumnList">A list of column names in the BasicData table separated by commas</param>
+    /// <summary>Get rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">A list of column names in the ContactListMembers table separated by commas</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
     /// <param name="OrderBy">An SQL ORDER BY clause for a SELECT statement</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string columnList, string whereClause, string orderBy)
     {
@@ -315,7 +308,7 @@ public class BasicData
         {
             connect();
             if (!orderBy.Equals("")) ob = " ORDER BY " + ob;
-            cmd = new SqlCommand("SELECT " + columnList + " FROM \"BasicData\" WHERE " + whereClause + ob, conn);
+            cmd = new SqlCommand("SELECT " + columnList + " FROM \"ContactListMembers\" WHERE " + whereClause + ob, conn);
             da = new SqlDataAdapter(cmd);
             da.Fill(dt);
             da.Dispose();
@@ -333,21 +326,21 @@ public class BasicData
         return null;
     }
 
-    /// <summary>Get rows from the BasicData table</summary>
-    /// <param name="ColumnList">A list of column names in the BasicData table separated by commas</param>
+    /// <summary>Get rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">A list of column names in the ContactListMembers table separated by commas</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string columnList, string whereClause)
     {
         return getRows(columnList, whereClause, "");
     }
 
-    /// <summary>Get a rows from the BasicData table</summary>
-    /// <param name="ColumnList">An array of column names in the BasicData</param>
+    /// <summary>Get a rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">An array of column names in the ContactListMembers</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
     /// <param name="OrderBy">An SQL ORDER BY clause for a SELECT statement</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string[] columnList, string whereClause, string orderBy)
     {
@@ -361,21 +354,21 @@ public class BasicData
         return getRows(cl, whereClause, orderBy);
     }
 
-    /// <summary>Get a rows from the BasicData table</summary>
-    /// <param name="ColumnList">An array of column names in the BasicData</param>
+    /// <summary>Get a rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">An array of column names in the ContactListMembers</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string[] columnList, string whereClause)
     {
         return getRows(columnList, whereClause, "");
     }
 
-    /// <summary>Get a rows from the BasicData table</summary>
-    /// <param name="ColumnList">An ArrayList of Strings representing column names in the BasicData</param>
+    /// <summary>Get a rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">An ArrayList of Strings representing column names in the ContactListMembers</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
     /// <param name="OrderBy">An SQL ORDER BY clause for a SELECT statement</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(ArrayList columnList, string whereClause, string orderBy)
     {
@@ -390,10 +383,10 @@ public class BasicData
     }
 
 
-    /// <summary>Get a rows from the BasicData table</summary>
-    /// <param name="ColumnList">An ArrayList of Strings representing column names in the BasicData</param>
+    /// <summary>Get a rows from the ContactListMembers table</summary>
+    /// <param name="ColumnList">An ArrayList of Strings representing column names in the ContactListMembers</param>
     /// <param name="WhereClause">An SQL WHERE clause for a SELECT statement that may return multiple rows</param>
-    /// <returns>A DataTable from the BasicData table</returns>
+    /// <returns>A DataTable from the ContactListMembers table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(ArrayList columnList, string whereClause)
     {
@@ -401,7 +394,7 @@ public class BasicData
     }
 
 
-    /// <summary>Insert a record in the BasicData table from the data stored in the local variables</summary>
+    /// <summary>Insert a record in the ContactListMembers table from the data stored in the local variables</summary>
     /// <returns>'True', if successful</returns>
     public bool insert()
     {
@@ -410,17 +403,29 @@ public class BasicData
         try
         {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"BasicData\" (Name,HomePage, EmailPage,ParentID,UserDefinedID) VALUES (@Name,@HomePage, @EmailPage, @ParentID,@UserDefinedID)", conn);
-            cmd.Parameters.AddWithValue("@Name", Name);
-            cmd.Parameters.AddWithValue("@ParentID", ParentID);
-            cmd.Parameters.AddWithValue("@UserDefinedID", UserDefinedID);
-            cmd.Parameters.AddWithValue("@HomePage", HomePage);
-            cmd.Parameters.AddWithValue("@EmailPage", EmailPage);
+            cmd = new SqlCommand("INSERT INTO \"ContactListMembers\" (UserID, BasicDataID, IsSelected) VALUES (@UserID, @BasicDataID, @IsSelected)", conn);
+            cmd.Parameters.AddWithValue("@UserID", UserID);
+            cmd.Parameters.AddWithValue("@BasicDataID", BasicDataID);
+            cmd.Parameters.AddWithValue("@IsSelected", IsSelected);
             cmd.ExecuteScalar();
             cmd.Dispose();
 
+            // Attempt to load the auto-generated Id. This is not fool-proof.
+            SqlDataAdapter da;
+            DataTable dt = new DataTable();
 
-
+            cmd = new SqlCommand("SELECT TOP 1 ContactListID FROM \"ContactListMembers\" WHERE UserID = @UserIDBasicDataID = @BasicDataIDIsSelected = @IsSelected ORDER BY ContactListID DESC", conn);
+            cmd.Parameters.AddWithValue("@UserID", UserID);
+            cmd.Parameters.AddWithValue("@BasicDataID", BasicDataID);
+            cmd.Parameters.AddWithValue("@IsSelected", IsSelected);
+            da = new SqlDataAdapter(cmd);
+            da.Fill(dt);
+            if (dt.Rows.Count > 0)
+            {
+                ContactListID = (int)dt.Rows[0]["ContactListID"];
+            }
+            dt.Dispose();
+            da.Dispose();
             disconnect();
         }
         catch (SqlException ex)
@@ -438,8 +443,8 @@ public class BasicData
         return true;
     }
 
-    /// <summary>Insert a record in the BasicData table from a DataRow</summary>
-    /// <param name="Row">The DataRow to be inserted in the BasicData table</param>
+    /// <summary>Insert a record in the ContactListMembers table from a DataRow</summary>
+    /// <param name="Row">The DataRow to be inserted in the ContactListMembers table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool insert(DataRow row)
@@ -456,7 +461,7 @@ public class BasicData
             {
                 switch (col.ColumnName.ToLower())
                 {
-                    case "basicdataid":
+                    case "contactlistid":
                         break;
                     default:
                         if (!setList.Equals(""))
@@ -469,13 +474,13 @@ public class BasicData
                         break;
                 }
             }
-            cmd = new SqlCommand("INSERT INTO \"BasicData\" (" + setList + ") VALUES (" + valList + ")", conn);
+            cmd = new SqlCommand("INSERT INTO \"ContactListMembers\" (" + setList + ") VALUES (" + valList + ")", conn);
             // Create the parameters
             foreach (DataColumn col in row.Table.Columns)
             {
                 switch (col.ColumnName.ToLower())
                 {
-                    case "BasicDataID":
+                    case "ContactListID":
                         break;
                     default:
                         cmd.Parameters.AddWithValue("@" + col.ColumnName, row[col.ColumnName]);
@@ -501,27 +506,26 @@ public class BasicData
         return true;
     }
 
-    /// <summary>Update a record in the BasicData table from the data stored in the local variables</summary>
+    /// <summary>Update a record in the ContactListMembers table from the data stored in the local variables</summary>
     /// <returns>'True', if successful</returns>
     /// <remarks>Nulls in the data record will be replaced by blanks and zeros</remarks>
     public bool update()
     {
         SqlCommand cmd;
 
-        //if(!valid)
-        //    {
-        //    lastError = "A valid current record is needed to update";
-        //    return false;
-        //    }
+        if (!valid)
+        {
+            lastError = "A valid current record is needed to update";
+            return false;
+        }
         try
         {
             connect();
-            cmd = new SqlCommand("UPDATE \"BasicData\" SET Name = @Name, HomePage = @HomePage, EmailPage = @EmailPage, ParentID = @ParentID WHERE BasicDataID = @BasicDataID", conn);
+            cmd = new SqlCommand("UPDATE \"ContactListMembers\" SET UserID = @UserID, BasicDataID = @BasicDataID, IsSelected = @IsSelected WHERE ContactListID = @ContactListID", conn);
+            cmd.Parameters.AddWithValue("@ContactListID", ContactListID);
+            cmd.Parameters.AddWithValue("@UserID", UserID);
             cmd.Parameters.AddWithValue("@BasicDataID", BasicDataID);
-            cmd.Parameters.AddWithValue("@Name", Name);
-            cmd.Parameters.AddWithValue("@ParentID", ParentID);
-            cmd.Parameters.AddWithValue("@HomePage", HomePage);
-            cmd.Parameters.AddWithValue("@EmailPage", EmailPage);
+            cmd.Parameters.AddWithValue("@IsSelected", IsSelected);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
@@ -541,8 +545,8 @@ public class BasicData
         return true;
     }
 
-    /// <summary>Update the BasicData table from a DataRow</summary>
-    /// <param name="Row">The DataRow to be updated in the BasicData table</param>
+    /// <summary>Update the ContactListMembers table from a DataRow</summary>
+    /// <param name="Row">The DataRow to be updated in the ContactListMembers table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool update(DataRow row)
@@ -559,7 +563,7 @@ public class BasicData
                 if (!setList.Equals("")) setList += ", ";
                 setList += col.ColumnName + " = @" + col.ColumnName;
             }
-            cmd = new SqlCommand("UPDATE \"BasicData\" SET " + setList + " WHERE BasicDataID = @BasicDataID", conn);
+            cmd = new SqlCommand("UPDATE \"ContactListMembers\" SET " + setList + " WHERE ContactListID = @ContactListID", conn);
             // Create the parameters
             foreach (DataColumn col in row.Table.Columns)
                 cmd.Parameters.AddWithValue("@" + col.ColumnName, row[col.ColumnName]);
@@ -583,13 +587,14 @@ public class BasicData
     }
 
     /// <summary></summary>
-    /// <returns>The column names from BasicData table separated by commas</returns>
+    /// <returns>The column names from ContactListMembers table separated by commas</returns>
     public string ToString()
     {
         string p = "";
+        p += Convert.ToString(ContactListID) + ", ";
+        p += Convert.ToString(UserID) + ", ";
         p += Convert.ToString(BasicDataID) + ", ";
-        p += Name + ", ";
-        p += Convert.ToString(ParentID);
+        p += Convert.ToString(IsSelected);
         return p;
     }
 

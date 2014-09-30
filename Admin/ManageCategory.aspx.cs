@@ -232,7 +232,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
             DateTime defaultDate = Convert.ToDateTime(objCategoryDetails.Rows[0]["DefaultDate"]);
 
-            txtDefaultDate.Text = defaultDate.ToString("MM/dd/yyyy");
+            txtDefaultDate.Text = defaultDate.ToString("mm/dd/yyyy");
 
             txtDefaultContent.Text = objCategoryDetails.Rows[0]["DefaultContent"].ToString();
 

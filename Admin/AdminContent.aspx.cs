@@ -398,7 +398,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                 if (Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]) != null)
                 {
                     if (Convert.ToBoolean(objDataTable.Rows[0]["ShowDate"]) && isNeedtoShowDefaultContent)
-                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("MM/dd/yyyy");
+                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("mm/dd/yyyy");
                 }
 
             }
@@ -435,7 +435,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         {
             txtAuthor.Text = objContent.Author;
 
-            txtDate.Text = objContent.Date.ToString("MM/dd/yyyy");
+            txtDate.Text = objContent.Date.ToString("mm/dd/yyyy");
             txtTitle.Text = objContent.Title;
             txtContent.Text =objContent.Content;
             _categoryID = objContent.CategoryID; 

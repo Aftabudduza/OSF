@@ -1,0 +1,6 @@
+﻿IsContentAdmin Data Tana hoise from these Tables : 
+
+ACCommonCategorymembers
+Chapter2008Categorymembers
+Election2008Categorymembers
+PrivateCategoryMembers

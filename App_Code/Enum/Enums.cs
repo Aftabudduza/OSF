@@ -30,7 +30,10 @@ public enum EnumSectionType
     CommunityNews =24,
     Help=25,
     Link=26,
-    HOTP=27
+    HOTP = 27, 
+    EmailIspMgt=28,
+    ContactList = 29,
+    Prayer = 30
 
 };
 

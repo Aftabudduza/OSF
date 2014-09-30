@@ -4,8 +4,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    
-    <div class="innerDivCat" style="margin: 20px 0 10px 118px;width:80%;">
+    <div class="innerDivCat" style="margin: 20px 0 10px 118px; width: 80%;">
         <h3 class="OFSh3">
             Intranet Administration</h3>
         <div class="news-osf">
@@ -13,23 +12,23 @@
                 <tbody>
                     <tr>
                         <td class="standardText">
-                           <span class="InternetAdministration_headerspan"><strong>Add content</strong></span>
+                            <span class="InternetAdministration_headerspan"><strong>Add content</strong></span>
                         </td>
                         <td class="standardText">
-                           <span class="InternetAdministration_headerspan"> <strong>List</strong></span>
-                        </td>   
-                        <td class="standardText">
-                           <span class="InternetAdministration_headerspan"> <strong>Reports</strong></span>
+                            <span class="InternetAdministration_headerspan"><strong>List</strong></span>
                         </td>
                         <td class="standardText">
-                          <span class="InternetAdministration_headerspan"> <strong>Manage</strong></span>
+                            <span class="InternetAdministration_headerspan"><strong>Reports</strong></span>
+                        </td>
+                        <td class="standardText">
+                            <span class="InternetAdministration_headerspan"><strong>Manage</strong></span>
                         </td>
                     </tr>
                     <tr>
                         <td valign="top">
                             <table cellspacing="10" cellpadding="5" border="0">
                                 <tr>
-                                    <td  class="standardText">
+                                    <td class="standardText">
                                         <%
                                             if (Convert.ToBoolean(Session["IsGlobalContentAdmin"]))
                                             { %>
@@ -77,6 +76,16 @@
                                         <a href="BasicData.aspx?BType=Department&amp" id="DepartmentsLink">Departments List</a>
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td>
+                                        <a href="BasicData.aspx?BType=EmailIspMgt&amp" id="A3">Email Providers</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="BasicData.aspx?BType=ContactList&amp" id="A4">Contact List</a>
+                                    </td>
+                                </tr>
                             </table>
                         </td>
                         <td valign="top">
@@ -112,18 +121,28 @@
                                         <a href="BasicData.aspx?CategoryID=2&amp;ContentScope=1" id="A10">Basic Data</a>
                                     </td>
                                 </tr>
+
+                                                     <%
+                                            if (Convert.ToBoolean(Session["IsGlobalDirectoryAdmin"]))
+                                            { %>
                                 <tr>
-                                    <td>
-                                        <%--<a href="AdminCommunityNewsImage.aspx" id="CommNewsIconLink">Community News Icon</a>--%>
-                                        <a id="A1" href="User.aspx?CategoryID=4&amp;ContentScope=1">Users</a>
+                                    <td class="standardText">
+                   
+                                       <a id="A11" href="User.aspx">Users</a>
+                              
                                     </td>
+                           
                                 </tr>
-                                <tr>
+                                          <% 
+                                            }
+                           
+                                        %>
+                                
+                                                                <tr>
                                     <td class="standardText">
                                         <a href="HomePageControlPanel.aspx" id="HomePageControlPanel">Home Page Control Panel</a>
                                     </td>
                                 </tr>
-          
                                 <tr>
                                     <td>
                                         <a href="UnderDev.aspx" id="Hyperlink3">Reset Password</a>
@@ -137,6 +156,11 @@
                                 <tr>
                                     <td>
                                         <a href="AdminSystemSetting.aspx" id="A2">System Settings</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="AdminContactLists.aspx" id="A8">Congregational Contacts</a>
                                     </td>
                                 </tr>
                             </table>
