@@ -4,7 +4,7 @@
         <ul>
             <li><a href="../Admin/PasswordChange.aspx">Password Maint.</a></li>
             <li>|</li>
-            <li><a href="#">Contacts</a></li>
+            <li><a href="../Admin/AdminContactLists.aspx">Contacts</a></li>
             <li>|</li>
             <li><a href="../Contents/NewsorContents.aspx?SectionTypeID=5">Help</a></li>
             <li>|</li>

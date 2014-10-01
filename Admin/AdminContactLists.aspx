@@ -13,6 +13,7 @@
 {
  float:left;
  margin-top:10px;   
+ text-align:center;
  }
 
 </style>
@@ -24,7 +25,7 @@
         <ContentTemplate>
             <div class="mid-container" style="margin: 20px 0 10px 205px;">
                 <h3 class="OFSh3">
-                    User Search</h3>
+                    Contact Search</h3>
                 <div class="news-osf">
                     <table cellspacing="0" cellpadding="0" border="0">
                         <tbody>
@@ -233,26 +234,42 @@
                             <ItemTemplate>
                                 <%#Eval("LastName")%>
                             </ItemTemplate>
-                            <HeaderStyle Font-Size="12px" Width="250px" HorizontalAlign="Left" />
+                            <HeaderStyle Font-Size="12px" Width="70px" HorizontalAlign="Left" />
                             <ItemStyle HorizontalAlign="Left" />
                         </asp:TemplateField>
                         <asp:TemplateField HeaderText="FirstName" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate>
                                 <%#Eval("FirstName")%>
                             </ItemTemplate>
-                            <HeaderStyle Font-Size="12px" Width="250px" HorizontalAlign="Left" />
+                            <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                             <ItemStyle HorizontalAlign="Left" />
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="HomePhone" ItemStyle-HorizontalAlign="Left">
+
+                                      <asp:TemplateField HeaderText="Ministry Title" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate>
-                                <%#Eval("HomePhone")%>
+                                <%#Eval("MinistryTitle")%>
+                            </ItemTemplate>
+                            <HeaderStyle Font-Size="12px" Width="200px" HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" />
+                        </asp:TemplateField>
+
+                        <asp:TemplateField HeaderText="Phone" ItemStyle-HorizontalAlign="Left">
+                            <ItemTemplate>
+                                <%#Eval("MinistryPhone")%>
                             </ItemTemplate>
                             <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                             <ItemStyle HorizontalAlign="Left" />
                         </asp:TemplateField>
-                        <asp:TemplateField HeaderText="HomeEmail" ItemStyle-HorizontalAlign="Left">
+                        <asp:TemplateField HeaderText="Fax" ItemStyle-HorizontalAlign="Left">
                             <ItemTemplate>
-                                <%#Eval("HomeEmail")%>
+                                <%#Eval("MinistryFax")%>
+                            </ItemTemplate>
+                            <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
+                            <ItemStyle HorizontalAlign="Left" />
+                        </asp:TemplateField>
+                                             <asp:TemplateField HeaderText="Email" ItemStyle-HorizontalAlign="Left">
+                            <ItemTemplate>
+                                <%#Eval("MinistryEmail")%>
                             </ItemTemplate>
                             <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                             <ItemStyle HorizontalAlign="Left" />
@@ -293,7 +310,7 @@
                     <EditRowStyle BackColor="#999999" />
                     <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
                 </asp:GridView>
-                <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <table width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:10px;">
                     <tbody>
                         <tr>
                             <td align="center">

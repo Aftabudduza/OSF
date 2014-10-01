@@ -185,7 +185,7 @@
                                 <tbody>
                                     <tr>
                                         <td class="UserDetailHeader">
-                                            <span id="Span7" style="color: #FF0000">*</span> Category Type :
+                                            <span id="Span7" style="color: #FF0000">*</span> Category Parent :
                                         </td>
                                         <td width="210px" style="float: left">
                                             <asp:DropDownList CssClass="OSFTextBox" ID="ddlSectionType" runat="server" AutoPostBack="true"
@@ -195,7 +195,7 @@
                                     </tr>
                                     <tr>
                                         <td class="UserDetailHeader">
-                                            <span id="Span6" style="color: #FF0000">*</span> Category Description :
+                                            <span id="Span6" style="color: #FF0000">*</span> Category Name :
                                         </td>
                                         <td width="210px" style="float: left">
                                             <asp:TextBox CssClass="OSFTextBox" ID="txtCategoryName" runat="server"></asp:TextBox>

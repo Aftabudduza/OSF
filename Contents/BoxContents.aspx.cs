@@ -204,7 +204,7 @@ public partial class Contents_BoxContents : System.Web.UI.Page
                                                     </table>
                                                 </td>
                                             </tr>               
-                                         ", oddOrEven, j, c.Date.ToString("mm/dd/yyyy"), c.Title.Length >= 20 ? c.Title.Substring(0, 20) + "..." : c.Title + "...", c.ContentID));
+                                         ", oddOrEven, j, c.Date.ToString("MM/dd/yyyy"), c.Title.Length >= 20 ? c.Title.Substring(0, 20) + "..." : c.Title + "...", c.ContentID));
 
         }
         return tbl.ToString();

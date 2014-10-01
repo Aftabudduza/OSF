@@ -9,9 +9,10 @@
         
         .pg-selected
         {
-            color: #000;
+            color: Red;
             font-size: 12px;
             padding: 2px 4px 2px 4px;
+       
         }
         
         table.yui

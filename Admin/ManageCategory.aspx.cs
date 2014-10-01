@@ -158,7 +158,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         if (SectionTypeID <=0)
             sql = string.Format("SELECT CategoryDetails.*, Categories.Description, Categories.SortOrder, Categories.CategoryID CID  FROM Categories LEFT JOIN CategoryDetails ON Categories.CategoryID = CategoryDetails.CategoryID  Order By  Categories.Description");
         else
-            sql = string.Format("SELECT * FROM (SELECT CategoryID CID,Description,SortOrder   FROM Categories WHERE CategoryTypeID={0}) A LEFT JOIN CategoryDetails ON  A.CID = CategoryDetails.CategoryID    Order By A.Description ", SectionTypeID);
+            sql = string.Format("SELECT * FROM (SELECT CategoryID CID,Description,SortOrder, ParentID   FROM Categories WHERE CategoryTypeID={0}) A LEFT JOIN CategoryDetails ON  A.CID = CategoryDetails.CategoryID Order By A.Description ", SectionTypeID);
 
         objDataTable = osfcon.getRows(sql);
         if (objDataTable != null)

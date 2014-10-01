@@ -86,13 +86,34 @@
         <!--Container-->
         <div class="container">
             <div class="wrapper">
-                <div class="left-sidebar"  id="dynamicLeftDiv" runat="server">
+                <div class="left-sidebar" id="dynamicLeftDiv" runat="server">
                 </div>
                 <div class="mid-container" style="padding: 0 14px 0 20px;">
                     <div id="dynamicMidDiv" runat="server">
                     </div>
                 </div>
-                <div class="right-sidebar" id="dynamicRightDiv" style="float:left;" runat="server">
+
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <a  href="#" id="CommunityNewsLink">
+                            <img style="border-width: 0px;" src="Images/Img_10e.jpg" id="CommunityIconImage"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <br>
+                        <a href="#" id="Hyperlink2">Community
+                            News Archive</a>
+                        <br>
+                    </td>
+                </tr>
+            </tbody>
+                <div class="right-sidebar" id="dynamicRightDiv" style="float: left;" runat="server">
                 </div>
             </div>
         </div>

@@ -41,6 +41,8 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                     int sectiontypeID = Convert.ToInt32(catDt.Rows[0]["CategoryTypeID"]);
                     Session["SectionTypeIDAC"] = sectiontypeID;
                     ddlSectionType.SelectedValue = sectiontypeID.ToString();
+                    this.LoadComboCategoryListWithSelectedIndex(Convert.ToInt32(ddlSectionType.SelectedValue.ToString()),cObj.CategoryID);
+           
                 }
 
 
@@ -255,7 +257,15 @@ public partial class Admin_AdminContent : System.Web.UI.Page
     }
     protected void ddlCategoryList_SelectedIndexChanged(object sender, EventArgs e)
     {
-        if (ddlCategoryList.SelectedValue != "-1")
+        CheckPostPermission();
+    }
+
+    #endregion
+
+    #region Method
+    private void CheckPostPermission()
+    {
+              if (ddlCategoryList.SelectedValue != "-1")
         {
             int CategoryID = Convert.ToInt32(ddlCategoryList.SelectedValue.ToString());
             DesignLabeslAndOthers(CategoryID);
@@ -273,9 +283,6 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         }
     }
 
-    #endregion
-
-    #region Method
     private void CheckAdminPermission()
     {
         Users objUser = (Users)Session["User"];
@@ -344,6 +351,36 @@ public partial class Admin_AdminContent : System.Web.UI.Page
             // ddlCategoryList.SelectedValue = "-1";
 
             ddlCategoryList.SelectedValue = Request["CategoryID"].ToString();
+        }
+        catch (Exception ex)
+        { }
+    }
+
+    private void LoadComboCategoryListWithSelectedIndex(int sectionTypeID, int catID)
+    {
+        ddlCategoryList.Items.Clear();
+
+
+        Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
+        try
+        {
+            DataTable dtCategory = osfcon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID ={0} Order by Description", sectionTypeID));
+
+            ddlCategoryList.AppendDataBoundItems = true;
+            ddlCategoryList.Items.Add(new ListItem("--Select Category--", "-1"));
+            int i = 0, index =0;
+            foreach (DataRow dr in dtCategory.Rows)
+            {
+                i++;
+
+                this.ddlCategoryList.Items.Add(new ListItem(dr["Description"].ToString(), dr["CategoryID"].ToString()));
+                if (dr["CategoryID"].ToString() == catID.ToString())
+                    index = i;
+
+            }
+             ddlCategoryList.SelectedIndex = index;
+            ddlCategoryList.SelectedValue = catID.ToString();
+            CheckPostPermission();
         }
         catch (Exception ex)
         { }
