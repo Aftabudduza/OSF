@@ -50,10 +50,10 @@
             </div>
         </div>
         <div class="right-15p-sidebar">
-            <div class="colomn">
+   <%--         <div class="colomn">
                 <img src="images/community-news.jpg" alt="Community-News">
                 <a href="#" class="community-news-link">Community News Archive</a>
-            </div>
+            </div>--%>
             <div class="colomn">
                 <h3>
                     Search</h3>
