@@ -10,6 +10,24 @@
             float: left;
         }
     </style>
+        <script src="../Scripts/tinymce/tinymce.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        tinymce.init({
+            selector: "textarea",
+            encoding: "xml",
+            external_plugins: { "nanospell": "/Scripts/tinymce/nanospell/plugin.js" },
+            nanospell_server: "asp.net",
+            plugins: [
+        "advlist autolink lists link image charmap print preview anchor",
+        "searchreplace visualblocks code fullscreen",
+        "insertdatetime media table contextmenu paste"
+    ],
+            toolbar: "insertlayer,moveforward,movebackward,absolute,insertimage,fontselect,forecolor,backcolor,fontsizeselect,insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+        });
+
+
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
