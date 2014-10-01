@@ -110,7 +110,7 @@
                                 <td>
                                     <asp:TextBox CssClass="OSFTextBox" ID="txtDate" runat="server"></asp:TextBox>
                                     <asp:CompareValidator ID="CompareValidator2" runat="server" Operator="DataTypeCheck"
-                                    Type="Date" ControlToValidate="txtDate" ErrorMessage="Date format mm/dd/yyyy" />
+                                    Type="Date" ControlToValidate="txtDate" ErrorMessage="Date format MM/dd/yyyy" />
                                 </td>
                             </tr>
                             <tr>

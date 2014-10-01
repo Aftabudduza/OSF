@@ -120,7 +120,7 @@ public partial class Admin_UnderDev : System.Web.UI.Page
                                                     </table>
                                                 </td>
                                             </tr>               
-                                         ", oddOrEven, j, c.Date.ToString("mm/dd/yyyy"), c.Title));
+                                         ", oddOrEven, j, c.Date.ToString("MM/dd/yyyy"), c.Title));
 
         }
         return tbl.ToString();

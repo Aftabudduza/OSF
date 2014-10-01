@@ -667,7 +667,7 @@ public partial class Admin_User : System.Web.UI.Page
         uObj.JobID = Convert.ToInt32(ddlPosition.SelectedValue.ToString());
         uObj.DepartmentID = Convert.ToInt32(ddlDepartment.SelectedValue.ToString());
         uObj.LocationID  = Convert.ToInt32(ddlLocation.SelectedValue.ToString());
-
+        uObj.CreatedDate = DateTime.UtcNow;
         if (!string.IsNullOrEmpty(this.uplProduct.FileName))
         {
             //read the file in

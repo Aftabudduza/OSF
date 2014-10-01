@@ -132,13 +132,13 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
         }
         else
         {
-            int catID = Convert.ToInt32(Request["SectionTypeID"]);
+            int sectionTypeID = Convert.ToInt32(Request["SectionTypeID"]);
 
-            EnumSectionType enumDisplayStatus = ((EnumSectionType)catID);
+            EnumSectionType enumDisplayStatus = ((EnumSectionType)sectionTypeID);
             string stringValue = enumDisplayStatus.ToString();
 
             lblRcentTitle.Text = string.Format("Recent {0}s",stringValue);
-            cObjs = contents.getRecordsWithPermission(catID, fromdate, todate, Convert.ToInt32(Session["UserID"]));
+            cObjs = contents.getRecordsWithPermission(sectionTypeID, fromdate, todate, Convert.ToInt32(Session["UserID"]));
         }
 
 
@@ -163,7 +163,7 @@ public partial class Contents_NewsorContents : System.Web.UI.Page
                                                             <p> <strong>Description:</strong> {3} ... </p> 
                                                        </div>
                                                  </td>
-                                              </tr>", cO.Date.ToString("mm/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length <= 280 ? cO.Content : cO.Content.Substring(0,279), cO.ContentID));
+                                              </tr>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length <= 280 ? cO.Content : cO.Content.Substring(0,279), cO.ContentID));
             }
 
             tbl.Append("</table>");

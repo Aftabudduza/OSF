@@ -106,7 +106,7 @@ public static class Utility
                 </tr>
 
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("mm/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("MM/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
         }
         else
             htmlData = "No Data Found";
@@ -177,7 +177,7 @@ public static class Utility
                 </tr>
 
 
-			</tbody></table>      ", c0.Title, c0.Date.ToString("mm/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
+			</tbody></table>      ", c0.Title, c0.Date.ToString("MM/dd/yyyy"), c0.Author, c0.Content, c0.ContentID, isBox ? 1 : 0, c0.CategoryID, c0.URL);
         }
         else
             htmlData = "No Data Found";

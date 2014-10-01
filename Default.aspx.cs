@@ -95,7 +95,7 @@ public partial class _Default : System.Web.UI.Page
                         <p> <strong>From:</strong>{2}</p> 
                         <p> <strong>Description:</strong> {3}  </p>
 
-                                    </div>", cO.Date.ToString("mm/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length > 200 ? (cO.Content.Substring(0, 199) + "...") : (cO.Content + "..."), cO.ContentID));
+                                    </div>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.Author, cO.Content.Length > 200 ? (cO.Content.Substring(0, 199) + "...") : (cO.Content + "..."), cO.ContentID));
                         }
                     }
                     tbl.Append("</div>");
@@ -135,7 +135,7 @@ public partial class _Default : System.Web.UI.Page
                         if (cO.Date <= Convert.ToDateTime("1 Jan 1980"))
                             dateS = "";
                         else
-                            dateS = cO.Date.ToString("mm/dd/yyyy");
+                            dateS = cO.Date.ToString("MM/dd/yyyy");
 
                         if (count <= 5)
                         {
@@ -185,7 +185,7 @@ public partial class _Default : System.Web.UI.Page
                         count++;
                         if (count <= 5)
                         {
-                            tbl.Append(string.Format(@" <li><span>{0}</span><a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", cO.Date.ToString("mm/dd/yyyy"), cO.Title, cO.ContentID));
+                            tbl.Append(string.Format(@" <li><span>{0}</span><a onclick='GetPopupContentDefaultPage({2})' href='#'>{1}</a></li>", cO.Date.ToString("MM/dd/yyyy"), cO.Title, cO.ContentID));
                         }
                     }
                     tbl.Append(string.Format(@"  </ul>

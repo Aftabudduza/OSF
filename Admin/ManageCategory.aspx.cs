@@ -22,7 +22,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         if (!IsPostBack)
         {
             LoadComboCategoryList();
-            this.FillGrid(0);
+          //  this.FillGrid(0);
             Session["LevelId"] = "0";
             // ControlsAppearence(false);
         }
@@ -156,9 +156,9 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
         string sql = "";
         if (SectionTypeID <=0)
-            sql = string.Format("SELECT CategoryDetails.*, Categories.Description, Categories.SortOrder, Categories.CategoryID CID  FROM Categories LEFT JOIN CategoryDetails ON Categories.CategoryID = CategoryDetails.CategoryID  Order By Categories.CATEGORYID ASC, Categories.SortOrder ASC");
+            sql = string.Format("SELECT CategoryDetails.*, Categories.Description, Categories.SortOrder, Categories.CategoryID CID  FROM Categories LEFT JOIN CategoryDetails ON Categories.CategoryID = CategoryDetails.CategoryID  Order By  Categories.Description");
         else
-            sql = string.Format("SELECT * FROM (SELECT CategoryID CID,Description,SortOrder   FROM Categories WHERE CategoryTypeID={0}) A LEFT JOIN CategoryDetails ON  A.CID = CategoryDetails.CategoryID    Order By A.CID ASC", SectionTypeID);
+            sql = string.Format("SELECT * FROM (SELECT CategoryID CID,Description,SortOrder   FROM Categories WHERE CategoryTypeID={0}) A LEFT JOIN CategoryDetails ON  A.CID = CategoryDetails.CategoryID    Order By A.Description ", SectionTypeID);
 
         objDataTable = osfcon.getRows(sql);
         if (objDataTable != null)
@@ -177,7 +177,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         try
         {
 
-            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType WHERE IsCategory = 1");
+            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType WHERE IsCategory = 1 order by description");
 
 
             ddlSectionType.AppendDataBoundItems = true;
@@ -205,40 +205,59 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
         if (objCategoryDetails.Rows.Count > 0)
         {
-            ddlSectionType.SelectedValue = objCategory.Rows[0]["CategoryTypeID"].ToString();
-            txtCategoryName.Text = objCategory.Rows[0]["Description"].ToString();
-            txtOrderSeq.Text = objCategory.Rows[0]["SortOrder"].ToString();
+            if (objCategory.Rows[0]["CategoryTypeID"] != null)
+                ddlSectionType.SelectedValue = objCategory.Rows[0]["CategoryTypeID"].ToString();
 
+            if (objCategory.Rows[0]["Description"] != null)
+                txtCategoryName.Text = objCategory.Rows[0]["Description"].ToString();
 
-            txtTitleTitle.Text = objCategoryDetails.Rows[0]["TitleTitle"].ToString();
+            if (objCategory.Rows[0]["SortOrder"] != null)
+                txtOrderSeq.Text = objCategory.Rows[0]["SortOrder"].ToString();
 
-            txtAuthorTitle.Text = objCategoryDetails.Rows[0]["AuthorTitle"].ToString();
+            if (objCategoryDetails.Rows[0]["TitleTitle"] != null)
+                txtTitleTitle.Text = objCategoryDetails.Rows[0]["TitleTitle"].ToString();
 
-            txtDateTitle.Text = objCategoryDetails.Rows[0]["DateTitle"].ToString();
+            if (objCategoryDetails.Rows[0]["AuthorTitle"] != null)
+                txtAuthorTitle.Text = objCategoryDetails.Rows[0]["AuthorTitle"].ToString();
 
-            txtContentTitle.Text = objCategoryDetails.Rows[0]["ContentTitle"].ToString();
+            if (objCategoryDetails.Rows[0]["DateTitle"] != null)
+                txtDateTitle.Text = objCategoryDetails.Rows[0]["DateTitle"].ToString();
 
-            CheckBoxShowTitle.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowTitle"]);
+            if (objCategoryDetails.Rows[0]["ContentTitle"] != null)
+                txtContentTitle.Text = objCategoryDetails.Rows[0]["ContentTitle"].ToString();
 
-            CheckBoxShowAuthor.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowAuthor"]);
+            if (objCategoryDetails.Rows[0]["ShowTitle"] != null)
+                CheckBoxShowTitle.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowTitle"]);
 
-            CheckBoxShowDate.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowDate"]);
+            if (objCategoryDetails.Rows[0]["ShowAuthor"] != null)
+                CheckBoxShowAuthor.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowAuthor"]);
 
-            CheckBoxShowContent.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowContent"]);
+            if (objCategoryDetails.Rows[0]["ShowDate"] != null)
+                CheckBoxShowDate.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowDate"]);
 
-            txtDefaultTitle.Text = objCategoryDetails.Rows[0]["DefaultTitle"].ToString();
+            if (objCategoryDetails.Rows[0]["ShowContent"] != null)
+                CheckBoxShowContent.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["ShowContent"]);
 
-            txtDefaultAuthor.Text = objCategoryDetails.Rows[0]["DefaultAuthor"].ToString();
+            if (objCategoryDetails.Rows[0]["DefaultTitle"] != null)
+                txtDefaultTitle.Text = objCategoryDetails.Rows[0]["DefaultTitle"].ToString();
 
-            DateTime defaultDate = Convert.ToDateTime(objCategoryDetails.Rows[0]["DefaultDate"]);
+            if (objCategoryDetails.Rows[0]["DefaultAuthor"] != null)
+                txtDefaultAuthor.Text = objCategoryDetails.Rows[0]["DefaultAuthor"].ToString();
 
-            txtDefaultDate.Text = defaultDate.ToString("mm/dd/yyyy");
+            if (objCategoryDetails.Rows[0]["DefaultDate"] != null)
+            {
+                DateTime defaultDate = Convert.ToDateTime(objCategoryDetails.Rows[0]["DefaultDate"]);
 
-            txtDefaultContent.Text = objCategoryDetails.Rows[0]["DefaultContent"].ToString();
+                txtDefaultDate.Text = defaultDate.ToString("MM/dd/yyyy");
+            }
+            if (objCategoryDetails.Rows[0]["DefaultContent"] != null)
+                txtDefaultContent.Text = objCategoryDetails.Rows[0]["DefaultContent"].ToString();
 
-            CheckBoxIsQuickLaunch.Checked = Convert.ToBoolean(objCategoryDetails.Rows[0]["IsQuickLaunch"]);
+            if (objCategory.Rows[0]["IsActive"] != null)
+                chkIsActive.Checked = Convert.ToBoolean(objCategory.Rows[0]["IsActive"]);
 
-            txtItemsPerPage.Text = objCategoryDetails.Rows[0]["ItemsPerPage"].ToString();
+            if (objCategoryDetails.Rows[0]["ItemsPerPage"] != null)
+                txtItemsPerPage.Text = objCategoryDetails.Rows[0]["ItemsPerPage"].ToString();
         }
 
 
@@ -276,7 +295,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
         txtDefaultContent.Text = "";
 
-        CheckBoxIsQuickLaunch.Checked = false;
+        chkIsActive.Checked = false;
 
         txtItemsPerPage.Text = "0";
 
@@ -311,7 +330,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
         txtDefaultContent.Visible = show;
 
-        CheckBoxIsQuickLaunch.Visible = show;
+        chkIsActive.Visible = show;
 
         txtItemsPerPage.Visible = show;
 
@@ -405,6 +424,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
         cat.CreatedBy = Convert.ToInt32(Session["UserID"]);
         cat.CreatedDate = DateTime.Today;
         cat.ModifiedDate = DateTime.Today;
+        cat.IsActive = chkIsActive.Checked;
         return cat;
     }
 
@@ -435,7 +455,7 @@ public partial class Admin_ManageCategory : System.Web.UI.Page
 
         obj.DefaultContent = txtDefaultContent.Text;
 
-        obj.IsQuickLaunch = CheckBoxIsQuickLaunch.Checked;
+        obj.IsQuickLaunch = chkIsActive.Checked;
 
         obj.ItemsPerPage = Convert.ToInt32(txtItemsPerPage.Text == "" ? "0" : txtItemsPerPage.Text);
 

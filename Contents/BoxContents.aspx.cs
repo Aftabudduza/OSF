@@ -138,11 +138,39 @@ public partial class Contents_BoxContents : System.Web.UI.Page
     }
     private string GenerateBoxData(int catID)
     {
+        int sectionTypeID = 0;
+        if(Request["SectionTypeID"] != null)
+        sectionTypeID = Convert.ToInt32(Request["SectionTypeID"]);
 
         List<ContentObj> contents = new List<ContentObj>();
         ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
-        contents = cObj.getRecordsbyCategoryID(catID);
+        if (sectionTypeID == (int)EnumSectionType.AreaChapter)
+        {
+            int chapter = 0;
+            Users userdt = null;
+            if (Session["User"] != null)
+                userdt = (Users)Session["User"];
 
+            if (userdt != null )
+                chapter = userdt.Chapter;
+            contents = cObj.getRecordsbyCategoryIDANDChapter(catID, chapter);
+
+        }
+        else
+        {
+            // contents = cObj.getRecordsbyCategoryID(catID);
+            if (Session["UserID"] != null && Request["SectionTypeID"] != null)
+            {
+         
+                   int sectionTypeIDTemp = Convert.ToInt32(Request["SectionTypeID"]);
+
+                   contents = cObj.getRecordsWithPermission(sectionTypeIDTemp, Convert.ToInt32(Session["UserID"]));
+            }
+            else
+            {
+                Response.Redirect("../Admin/Logout.aspx");
+            }
+        }
 
         System.Text.StringBuilder tbl = new System.Text.StringBuilder();
         int j = 0;

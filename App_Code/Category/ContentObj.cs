@@ -431,6 +431,19 @@ public class ContentObj
             }
         return contentsList;
     }
+
+    public List<ContentObj> getRecordsbyCategoryIDANDChapter(int categoryID, int chapterID)
+    {
+        List<ContentObj> contentsList = new List<ContentObj>();
+        DataTable dt = osfcon.getRows(string.Format("SELECT * FROM Categories cc JOIN Content c On cc.CategoryID = c.CategoryID AND cc.CategoryID= {0} AND c.IsActive=1 AND c.Chapter={1} Order by c.Date DESC", categoryID,chapterID));
+        if (dt != null && dt.Rows.Count > 0)
+            foreach (DataRow dr in dt.Rows)
+            {
+                contentsList.Add(this.MakeRowToObject(dr));
+            }
+        return contentsList;
+    }
+
     public ContentObj getRecordFromID(int ContentID)
     {
         ContentObj content = new ContentObj();
@@ -633,7 +646,7 @@ public class ContentObj
         try
             {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"Content\" (Author, Date, Title, Content,  Extension, URL, CategoryID, ContentTypeID,  CreatedBy, CreatedOn,RootThreadID) VALUES (@Author, @Date, @Title, @Content, @Extension, @URL, @CategoryID, @ContentTypeID, @CreatedBy, @CreatedOn, @RootThreadID)", conn);
+            cmd = new SqlCommand("INSERT INTO \"Content\" (Author, Date, Title, Content,  Extension, URL, CategoryID, ContentTypeID,  CreatedBy, CreatedOn,RootThreadID,Chapter) VALUES (@Author, @Date, @Title, @Content, @Extension, @URL, @CategoryID, @ContentTypeID, @CreatedBy, @CreatedOn, @RootThreadID, @Chapter)", conn);
             cmd.Parameters.AddWithValue("@Author", Author);
             cmd.Parameters.AddWithValue("@Date", Date);
             cmd.Parameters.AddWithValue("@Title", Title);
@@ -646,9 +659,9 @@ public class ContentObj
             cmd.Parameters.AddWithValue("@CreatedBy", CreatedBy);
             cmd.Parameters.AddWithValue("@CreatedOn", CreatedOn);
             cmd.Parameters.AddWithValue("@RootThreadID", RootThreadID);
+            cmd.Parameters.AddWithValue("@Chapter", Chapter);
             cmd.ExecuteScalar();
             cmd.Dispose();
-
  
             disconnect();
             }

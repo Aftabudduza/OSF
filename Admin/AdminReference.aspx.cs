@@ -128,7 +128,7 @@ public partial class Admin_AdminReference : System.Web.UI.Page
                     {
                         DisplayAlert("Content Saved Successfully.");
                         txtAuthor.Text = "";
-                        txtDate.Text = DateTime.Today.ToString("mm/dd/yyyy");
+                        txtDate.Text = DateTime.Today.ToString("MM/dd/yyyy");
                         txtTitle.Text = "";
                         txtContent.Text = "";
                         ddlCategoryListL1.SelectedIndex = 0;

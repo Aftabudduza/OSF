@@ -8,6 +8,14 @@
         alert(4);
     }
 </script>
+<style type="text/css" >
+.gridPaging
+{
+ float:left;
+ margin-top:10px;   
+ }
+
+</style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:ToolkitScriptManager ID="ScriptManager1" runat="server">
@@ -271,7 +279,7 @@
                     <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
                     <PagerSettings FirstPageText="First" LastPageText="Last" Mode="NumericFirstLast"
                         NextPageText="Next" PreviousPageText="Previous" />
-                    <PagerStyle CssClass="form-actions tag" ForeColor="#000" HorizontalAlign="Center" />
+                    <PagerStyle CssClass="form-actions tag gridPaging" ForeColor="#000" HorizontalAlign="Center" />
                     <EmptyDataTemplate>
                         <div>
                             <div style="height: 20px">

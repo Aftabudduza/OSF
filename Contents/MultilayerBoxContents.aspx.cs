@@ -191,7 +191,7 @@ public partial class Contents_MultilayerBoxContents : System.Web.UI.Page
                                                     </table>
                                               </td>
                                             </tr>  
-                                         ", oddOrEven, j, c.Date.ToString("mm/dd/yyyy"), c.Title.Length >= 25 ? c.Title.Substring(0, 25) + "..." : c.Title + "...", c.ContentID));
+                                         ", oddOrEven, j, c.Date.ToString("MM/dd/yyyy"), c.Title.Length >= 25 ? c.Title.Substring(0, 25) + "..." : c.Title + "...", c.ContentID));
 
             }
 

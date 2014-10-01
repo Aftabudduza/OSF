@@ -25,7 +25,7 @@
                         AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4"
                         CaptionAlign="Left" ForeColor="#333333" PagerSettings-FirstPageText="First" PagerSettings-LastPageText="Last"
                         PagerSettings-NextPageText="Next" PagerSettings-Mode="NumericFirstLast" PagerSettings-PreviousPageText="Previous"
-                        GridLines="None" PageSize="4" SelectedIndex="0" OnPageIndexChanging="gvCategory_PageIndexChanging">
+                        GridLines="None" PageSize="10" SelectedIndex="0" OnPageIndexChanging="gvCategory_PageIndexChanging">
                         <RowStyle BackColor="#F7F6F3" ForeColor="#D24D8A" Font-Size="Small" Font-Bold="false"
                             CssClass="grid" />
                         <Columns>
@@ -36,13 +36,13 @@
                                 <HeaderStyle Font-Size="12px" Width="100px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Sort Order" ItemStyle-HorizontalAlign="Center">
+               <%--             <asp:TemplateField HeaderText="Sort Order" ItemStyle-HorizontalAlign="Center">
                                 <ItemTemplate>
                                     <%#Eval("SortOrder")%>
                                 </ItemTemplate>
                                 <HeaderStyle Font-Size="12px" Width="60px" HorizontalAlign="Left" />
                                 <ItemStyle HorizontalAlign="Left" />
-                            </asp:TemplateField>
+                            </asp:TemplateField>--%>
                             <asp:TemplateField HeaderText="Title of Title" ItemStyle-HorizontalAlign="Left">
                                 <ItemTemplate>
                                     <%#Eval("TitleTitle")%>
@@ -313,7 +313,9 @@
                                         </td>
                                         <td width="210px" style="float: left">
                                             <asp:TextBox runat="server" ID="txtDefaultDate" CssClass="OSFTextBox" Width="175"
-                                                Text=""></asp:TextBox><img style="margin-left: 5px; margin-top: 0;" id="test" src="../App_Themes/images/calender.jpg"
+                                                Text=""></asp:TextBox>
+                                                
+                                                <img style="margin-left: 5px; margin-top: 0;" id="test" src="../App_Themes/images/calender.jpg"
                                                     width="25px" height="30px" />
                                             <asp:CalendarExtender ID="CalendarExtender1" runat="server" PopupButtonID="test"
                                                 TargetControlID="txtDefaultDate">
@@ -343,7 +345,8 @@
                                         <td class="UserDetailHeader">
                                         </td>
                                         <td width="210px" style="float: left">
-                                            <asp:CheckBox ID="CheckBoxIsQuickLaunch" runat="server" Text="IsQuickLaunch" />
+                                            <%--<asp:CheckBox ID="CheckBoxIsQuickLaunch" runat="server" Text="IsQuickLaunch" />--%>
+                                            <asp:CheckBox ID="chkIsActive" runat="server" Text="Is Active" />
                                         </td>
                                         <td class="UserDetailHeader">
                                             <asp:Label ID="lblItemsPerPage" runat="server" Text="Items Per Page :"></asp:Label>

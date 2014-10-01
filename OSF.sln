@@ -22,7 +22,7 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "trunk", ".", "{A971ED75-076
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "2519"
+		VWDPort = "2493"
 		VWDVirtualPath = "/"
 	EndProjectSection
 	ProjectSection(SvnOrigin) = preProject

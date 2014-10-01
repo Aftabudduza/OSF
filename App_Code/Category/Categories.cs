@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Collections.Generic;
 
 public class Categories
-    {
+{
     // If 'connectionString' is set by the constructor or externally, then the connection will be
     // opened and closed with each operation. If 'conn' is set, then the connection stays open.
     public SqlConnection conn = null;
@@ -38,16 +38,17 @@ public class Categories
     public int Modifiedby;
     public DateTime ModifiedDate;
     public int RID;
+    public bool IsActive;
 
-#region User Variables
+    #region User Variables
     // Add your variables to this object here. Adding them here ensures
     // that they will be retained when the object is re-generated.
-#endregion
+    #endregion
 
-#region Column Info
+    #region Column Info
     // This class maintains information about each column in the table.
     public class ColumnInfo : IComparable
-        {
+    {
         public string columnName;
         public string dataType;
         public int length;
@@ -55,31 +56,31 @@ public class Categories
         public bool allowUpdate;
 
         public ColumnInfo(string _ColumnName, string _DataType, int _Length, bool _AllowInsert, bool _AllowUpdate)
-            {
+        {
             columnName = _ColumnName;
             dataType = _DataType;
             length = _Length;
             allowInsert = _AllowInsert;
             allowUpdate = _AllowUpdate;
-            }
+        }
 
         public int CompareTo(Object obj)
+        {
+            if (obj.GetType() == this.GetType())
             {
-            if(obj.GetType() == this.GetType())
-                {
                 ColumnInfo ci = (ColumnInfo)obj;
                 return this.columnName.CompareTo(ci.columnName);
-                }
+            }
             string s = (string)obj;
             return this.columnName.CompareTo(s);
-            }
         }
-#endregion
+    }
+    #endregion
 
-#region Constructors
+    #region Constructors
     /// <summary></summary>
     public Categories()
-        {
+    {
         blank();
         colInfo = new ArrayList();
         colInfo.Add(new ColumnInfo("CategoryID", "int", 11, false, false));
@@ -101,46 +102,52 @@ public class Categories
         colInfo.Add(new ColumnInfo("CreatedDate", "DateTime", 19, true, true));
         colInfo.Add(new ColumnInfo("Modifiedby", "int", 11, true, true));
         colInfo.Add(new ColumnInfo("ModifiedDate", "DateTime", 19, true, true));
+        colInfo.Add(new ColumnInfo("IsActive", "bool", 1, true, true));
+        
         colInfo.Sort();
-        }
+    }
 
     /// <summary></summary>
     /// <param name="_Conn">Database connection object to be used in further operations</param>
-    public Categories(SqlConnection _conn) : this()
-        {
+    public Categories(SqlConnection _conn)
+        : this()
+    {
         conn = _conn;
-        }
+    }
 
     /// <summary></summary>
     /// <param name="_ConnectionString">Database connection string to be used in further operations</param>
-    public Categories(string _connectionString) : this()
-        {
+    public Categories(string _connectionString)
+        : this()
+    {
         connectionString = _connectionString;
-        }
+    }
 
     /// <summary>Construct and get a record</summary>
     /// <param name="_Conn">Database connection object to be used in further operations</param>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
-    public Categories(SqlConnection _conn, int _CategoryID) : this()
-        {
+    public Categories(SqlConnection _conn, int _CategoryID)
+        : this()
+    {
         conn = _conn;
         getRecord(_CategoryID);
-        }
+    }
 
     /// <summary>Construct and get a record</summary>
     /// <param name="_ConnectionString">Database connection string to be used in further operations</param>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
-    public Categories(string _connectionString, int _CategoryID) : this()
-        {
+    public Categories(string _connectionString, int _CategoryID)
+        : this()
+    {
         connectionString = _connectionString;
         getRecord(_CategoryID);
-        }
-#endregion
+    }
+    #endregion
 
-#region Methods
+    #region Methods
     /// <summary>Clear the local column variables associated with a Categories table record</summary>
     public void blank()
-        {
+    {
         CategoryID = 0;
         Description = "";
         IsLeaf = false;
@@ -162,28 +169,29 @@ public class Categories
         ModifiedDate = new DateTime(0);
         valid = false;
         RID = 0;
-        }
+        IsActive = true;
+    }
 
     /// <summary>Get a DataRow from the Categories table using the primary key</summary>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>A DataRow from the Categories table</returns>
     public DataRow getRow(int _CategoryID)
-        {
+    {
         return getRow("*", _CategoryID);
-        }
+    }
 
     /// <summary>Get a DataRow from the Categories table using the primary key, specifying only selected columns</summary>
     /// <param name="ColumnList">A list of column names in the Categories table separated by commas</param>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>A DataRow from the Categories table</returns>
     public DataRow getRow(string columnList, int _CategoryID)
-        {
+    {
         SqlCommand cmd;
         SqlDataAdapter da;
         DataTable dt = new DataTable();
 
         try
-            {
+        {
             connect();
             cmd = new SqlCommand("SELECT " + columnList + " FROM \"Categories\" WHERE CategoryID = @CategoryID", conn);
             cmd.Parameters.AddWithValue("@CategoryID", _CategoryID);
@@ -192,52 +200,52 @@ public class Categories
             da.Dispose();
             disconnect();
             valid = true;
-            if(dt.Rows.Count > 0) return dt.Rows[0];
+            if (dt.Rows.Count > 0) return dt.Rows[0];
             lastError = "No record found";
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
-            }
+        }
         valid = false;
         return null;
-        }
+    }
 
     /// <summary>Get a DataRow from the Categories table using the primary key, specifying only selected columns</summary>
     /// <param name="ColumnList">An array of column names in the Categories</param>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>A DataRow from the Categories table</returns>
     public DataRow getRow(string[] columnList, int _CategoryID)
-        {
+    {
         string cl = "";
 
-        foreach(string p in columnList)
-            {
-            if(!cl.Equals("")) cl += ", ";
+        foreach (string p in columnList)
+        {
+            if (!cl.Equals("")) cl += ", ";
             cl += p;
-            }
-        return getRow(cl, _CategoryID);
         }
+        return getRow(cl, _CategoryID);
+    }
 
     /// <summary>Get a DataRow from the Categories table using the primary key, specifying only selected columns</summary>
     /// <param name="ColumnList">An ArrayList of Strings representing column names in the Categories</param>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>A DataRow from the Categories table</returns>
     public DataRow getRow(ArrayList columnList, int _CategoryID)
-        {
+    {
         String cl = "";
 
-        foreach(string p in columnList)
-            {
-            if(!cl.Equals("")) cl += ", ";
+        foreach (string p in columnList)
+        {
+            if (!cl.Equals("")) cl += ", ";
             cl += p;
-            }
-        return getRow(cl, _CategoryID);
         }
+        return getRow(cl, _CategoryID);
+    }
 
     /// <summary>Get a record from the Categories table and populate the local variables</summary>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
@@ -247,7 +255,7 @@ public class Categories
     public Categories MakeObjectFromRow(DataRow dr)
     {
         Categories cobj = new Categories();
-        
+
         if (dr != null)
         {
             cobj.CategoryID = (dr["CategoryID"] == DBNull.Value ? (int)0 : (int)dr["CategoryID"]);
@@ -269,18 +277,20 @@ public class Categories
             cobj.CreatedDate = (dr["CreatedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedDate"]);
             cobj.Modifiedby = (dr["Modifiedby"] == DBNull.Value ? (int)0 : (int)dr["Modifiedby"]);
             cobj.ModifiedDate = (dr["ModifiedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["ModifiedDate"]);
-           
+            cobj.IsActive = (dr["IsActive"] == DBNull.Value ? (bool)false : (bool)dr["IsActive"]);
+            
+
         }
         return cobj;
     }
-    
+
     public bool getRecord(int _CategoryID)
-        {
+    {
         DataRow dr = getRow(_CategoryID);
 
         valid = false;
-        if(dr != null)
-            {
+        if (dr != null)
+        {
             CategoryID = (dr["CategoryID"] == DBNull.Value ? (int)0 : (int)dr["CategoryID"]);
             Description = (dr["Description"] == DBNull.Value ? (string)"" : (string)dr["Description"]);
             IsLeaf = (dr["IsLeaf"] == DBNull.Value ? (bool)false : (bool)dr["IsLeaf"]);
@@ -300,86 +310,87 @@ public class Categories
             CreatedDate = (dr["CreatedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["CreatedDate"]);
             Modifiedby = (dr["Modifiedby"] == DBNull.Value ? (int)0 : (int)dr["Modifiedby"]);
             ModifiedDate = (dr["ModifiedDate"] == DBNull.Value ? (DateTime)new DateTime(0) : (DateTime)dr["ModifiedDate"]);
+            IsActive = (dr["IsActive"] == DBNull.Value ? (bool)false : (bool)dr["IsActive"]);
             valid = true;
-            }
-        return valid;
         }
+        return valid;
+    }
 
     /// <summary>Delete a row from the Categories table</summary>
     /// <param name="_CategoryID">A primary key column in the Categories table</param>
     /// <returns>'True', if successful</returns>
     public bool delete(int _CategoryID)
-        {
+    {
         SqlCommand cmd;
 
         try
-            {
+        {
             connect();
             cmd = new SqlCommand("DELETE FROM \"Categories\" WHERE CategoryID = @CategoryID", conn);
             cmd.Parameters.AddWithValue("@CategoryID", _CategoryID);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             disconnect();
             lastError = translateException(ex);
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             disconnect();
             lastError = ex.Message;
             return false;
-            }
+        }
         blank();
         return true;
-        }
+    }
 
     /// <summary>Delete a row from the Categories table</summary>
     /// <param name="Row">The DataRow to be deletedfrom the Categories table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool delete(DataRow row)
-        {
+    {
         SqlCommand cmd;
 
         try
-            {
+        {
             connect();
             cmd = new SqlCommand("DELETE FROM \"Categories\" WHERE CategoryID = @CategoryID", conn);
             cmd.Parameters.AddWithValue("@CategoryID", row["CategoryID"]);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
             disconnect();
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
             disconnect();
             return false;
-            }
-        return true;
         }
+        return true;
+    }
 
     /// <summary>Delete the current row from the Categories table</summary>
     /// <returns>'True', if successful</returns>
     public bool delete()
+    {
+        if (!valid)
         {
-        if(!valid)
-           {
-           lastError = "A valid current record is needed to delete";
-           return false;
-           }
-        return delete(CategoryID);
+            lastError = "A valid current record is needed to delete";
+            return false;
         }
+        return delete(CategoryID);
+    }
 
     /// <summary>Get rows from the Categories table</summary>
     /// <param name="ColumnList">A list of column names in the Categories table separated by commas</param>
@@ -388,33 +399,33 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string columnList, string whereClause, string orderBy)
-        {
+    {
         SqlCommand cmd;
         SqlDataAdapter da;
         DataTable dt = new DataTable();
         string ob = orderBy;
 
         try
-            {
+        {
             connect();
-            if(!orderBy.Equals("")) ob = " ORDER BY " + ob;
+            if (!orderBy.Equals("")) ob = " ORDER BY " + ob;
             cmd = new SqlCommand("SELECT " + columnList + " FROM \"Categories\" WHERE " + whereClause + ob, conn);
             da = new SqlDataAdapter(cmd);
             da.Fill(dt);
             da.Dispose();
             disconnect();
             return dt;
-            }
-        catch(SqlException ex)
-            {
-            lastError = translateException(ex);
-            }
-        catch(Exception ex)
-            {
-            lastError = ex.Message;
-            }
-        return null;
         }
+        catch (SqlException ex)
+        {
+            lastError = translateException(ex);
+        }
+        catch (Exception ex)
+        {
+            lastError = ex.Message;
+        }
+        return null;
+    }
 
     /// <summary>Get rows from the Categories table</summary>
     /// <param name="ColumnList">A list of column names in the Categories table separated by commas</param>
@@ -422,9 +433,9 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string columnList, string whereClause)
-        {
+    {
         return getRows(columnList, whereClause, "");
-        }
+    }
 
     /// <summary>Get a rows from the Categories table</summary>
     /// <param name="ColumnList">An array of column names in the Categories</param>
@@ -433,16 +444,16 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string[] columnList, string whereClause, string orderBy)
-        {
+    {
         string cl = "";
 
-        foreach(string p in columnList)
-            {
-            if(!cl.Equals("")) cl += ", ";
+        foreach (string p in columnList)
+        {
+            if (!cl.Equals("")) cl += ", ";
             cl += p;
-            }
-        return getRows(cl, whereClause, orderBy);
         }
+        return getRows(cl, whereClause, orderBy);
+    }
 
     /// <summary>Get a rows from the Categories table</summary>
     /// <param name="ColumnList">An array of column names in the Categories</param>
@@ -450,9 +461,9 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(string[] columnList, string whereClause)
-        {
+    {
         return getRows(columnList, whereClause, "");
-        }
+    }
 
     /// <summary>Get a rows from the Categories table</summary>
     /// <param name="ColumnList">An ArrayList of Strings representing column names in the Categories</param>
@@ -461,16 +472,16 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(ArrayList columnList, string whereClause, string orderBy)
-        {
+    {
         string cl = "";
 
-        foreach(string p in columnList)
-            {
-            if(!cl.Equals("")) cl += ", ";
+        foreach (string p in columnList)
+        {
+            if (!cl.Equals("")) cl += ", ";
             cl += p;
-            }
-        return getRows(cl, whereClause, orderBy);
         }
+        return getRows(cl, whereClause, orderBy);
+    }
 
     public List<Categories> GetListByQuery(string query)
     {
@@ -490,24 +501,26 @@ public class Categories
     /// <returns>A DataTable from the Categories table</returns>
     /// <remarks>Use care with web forms since the resulting SELECT statement is not parameterized</remarks>
     public DataTable getRows(ArrayList columnList, string whereClause)
-        {
+    {
         return getRows(columnList, whereClause, "");
-        }
+    }
 
 
     /// <summary>Insert a record in the Categories table from the data stored in the local variables</summary>
     /// <returns>'True', if successful</returns>
     public bool insert()
-        {
+    {
         SqlCommand cmd;
 
         try
-            {
+        {
             connect();
-            cmd = new SqlCommand("INSERT INTO \"Categories\" (Description, IsLeaf, IsGlobal,  ParentID, SortOrder, ContentTypeID_, RefTabOrderID, CategoryTypeID, CreatedBy, CreatedDate) VALUES (@Description, @IsLeaf, @IsGlobal,  @ParentID, @SortOrder, @ContentTypeID_, @RefTabOrderID, @SectionTypeID, @CreatedBy, @CreatedDate)", conn);
+            cmd = new SqlCommand("INSERT INTO \"Categories\" (Description, IsLeaf, IsGlobal,IsActive,  ParentID, SortOrder, ContentTypeID_, RefTabOrderID, CategoryTypeID, CreatedBy, CreatedDate) VALUES (@Description, @IsLeaf, @IsGlobal,@IsActive,  @ParentID, @SortOrder, @ContentTypeID_, @RefTabOrderID, @SectionTypeID, @CreatedBy, @CreatedDate)", conn);
             cmd.Parameters.AddWithValue("@Description", Description);
             cmd.Parameters.AddWithValue("@IsLeaf", IsLeaf);
             cmd.Parameters.AddWithValue("@IsGlobal", IsGlobal);
+            cmd.Parameters.AddWithValue("@IsActive", IsGlobal);
+            
             //cmd.Parameters.AddWithValue("@IsAreaChapter", IsAreaChapter);
             //cmd.Parameters.AddWithValue("@IsCommittee", IsCommittee);
             //cmd.Parameters.AddWithValue("@IsPrivate", IsPrivate);
@@ -540,90 +553,90 @@ public class Categories
             dt.Dispose();
             da.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
             disconnect();
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
             disconnect();
             return false;
-            }
-        return true;
         }
+        return true;
+    }
 
     /// <summary>Insert a record in the Categories table from a DataRow</summary>
     /// <param name="Row">The DataRow to be inserted in the Categories table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool insert(DataRow row)
-        {
+    {
         SqlCommand cmd;
         string setList = "";
         string valList = "";
 
         try
-            {
+        {
             connect();
             // Build the set list
-            foreach(DataColumn col in row.Table.Columns)
+            foreach (DataColumn col in row.Table.Columns)
+            {
+                switch (col.ColumnName.ToLower())
                 {
-                switch(col.ColumnName.ToLower())
-                    {
                     case "categoryid":
                         break;
                     default:
-                        if(!setList.Equals(""))
-                            {
+                        if (!setList.Equals(""))
+                        {
                             setList += ", ";
                             valList += ", ";
-                            }
+                        }
                         setList += col.ColumnName;
                         valList += " @" + col.ColumnName;
                         break;
-                    }
                 }
+            }
             cmd = new SqlCommand("INSERT INTO \"Categories\" (" + setList + ") VALUES (" + valList + ")", conn);
             // Create the parameters
-            foreach(DataColumn col in row.Table.Columns)
+            foreach (DataColumn col in row.Table.Columns)
+            {
+                switch (col.ColumnName.ToLower())
                 {
-                switch(col.ColumnName.ToLower())
-                    {
                     case "CategoryID":
                         break;
                     default:
                         cmd.Parameters.AddWithValue("@" + col.ColumnName, row[col.ColumnName]);
                         break;
-                    }
                 }
+            }
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
             disconnect();
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
             disconnect();
             return false;
-            }
-        return true;
         }
+        return true;
+    }
 
     /// <summary>Update a record in the Categories table from the data stored in the local variables</summary>
     /// <returns>'True', if successful</returns>
     /// <remarks>Nulls in the data record will be replaced by blanks and zeros</remarks>
     public bool update()
-        {
+    {
         SqlCommand cmd;
 
         //if(!valid)
@@ -632,7 +645,7 @@ public class Categories
         //    return false;
         //    }
         try
-            {
+        {
             connect();
             cmd = new SqlCommand("UPDATE \"Categories\" SET Description = @Description, IsLeaf = @IsLeaf, IsGlobal = @IsGlobal, IsAreaChapter = @IsAreaChapter, IsCommittee = @IsCommittee, IsPrivate = @IsPrivate, ParentID = @ParentID, SortOrder = @SortOrder, ContentTypeID_ = @ContentTypeID_, IsChapter2008 = @IsChapter2008, IsACCommon = @IsACCommon, IsElection2008 = @IsElection2008, RefTabOrderID = @RefTabOrderID, CategoryTypeID = @SectionTypeID, CreatedBy = @CreatedBy, CreatedDate = @CreatedDate, Modifiedby = @Modifiedby, ModifiedDate = @ModifiedDate WHERE CategoryID = @CategoryID", conn);
             cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
@@ -654,70 +667,72 @@ public class Categories
             cmd.Parameters.AddWithValue("@CreatedDate", CreatedDate);
             cmd.Parameters.AddWithValue("@Modifiedby", Modifiedby);
             cmd.Parameters.AddWithValue("@ModifiedDate", ModifiedDate);
+            cmd.Parameters.AddWithValue("@IsActive", IsGlobal);
+            
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
             disconnect();
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
             disconnect();
             return false;
-            }
-        return true;
         }
+        return true;
+    }
 
     /// <summary>Update the Categories table from a DataRow</summary>
     /// <param name="Row">The DataRow to be updated in the Categories table</param>
     /// <returns>'True', if successful</returns>
     /// <remarks>The DataRow must contain all primary key columns</remarks>
     public bool update(DataRow row)
-        {
+    {
         SqlCommand cmd;
         String setList = "";
 
         try
-            {
+        {
             connect();
             // Build the set list
-            foreach(DataColumn col in row.Table.Columns)
-                {
-                if(!setList.Equals("")) setList += ", ";
+            foreach (DataColumn col in row.Table.Columns)
+            {
+                if (!setList.Equals("")) setList += ", ";
                 setList += col.ColumnName + " = @" + col.ColumnName;
-                }
+            }
             cmd = new SqlCommand("UPDATE \"Categories\" SET " + setList + " WHERE CategoryID = @CategoryID", conn);
             // Create the parameters
-            foreach(DataColumn col in row.Table.Columns)
+            foreach (DataColumn col in row.Table.Columns)
                 cmd.Parameters.AddWithValue("@" + col.ColumnName, row[col.ColumnName]);
             cmd.ExecuteScalar();
             cmd.Dispose();
             disconnect();
-            }
-        catch(SqlException ex)
-            {
+        }
+        catch (SqlException ex)
+        {
             lastError = translateException(ex);
             disconnect();
             return false;
-            }
-        catch(Exception ex)
-            {
+        }
+        catch (Exception ex)
+        {
             lastError = ex.Message;
             disconnect();
             return false;
-            }
-        return true;
         }
+        return true;
+    }
 
     /// <summary></summary>
     /// <returns>The column names from Categories table separated by commas</returns>
     public string ToString()
-        {
+    {
         string p = "";
         p += Convert.ToString(CategoryID) + ", ";
         p += Description + ", ";
@@ -735,51 +750,53 @@ public class Categories
         p += Convert.ToString(RefTabOrderID) + ", ";
         p += Convert.ToString(SectionTypeID) + ", ";
         p += Convert.ToString(CreatedBy) + ", ";
+        p += Convert.ToString(IsActive) + ", ";
+        
         p += ((CreatedDate == null) ? "<null>" : CreatedDate.ToString()) + ", ";
         p += Convert.ToString(Modifiedby) + ", ";
         p += ((ModifiedDate == null) ? "<null>" : ModifiedDate.ToString());
         return p;
-        }
+    }
 
-#endregion
+    #endregion
 
-#region Private Methods
+    #region Private Methods
     private void connect()
+    {
+        if (connectionString == "")
         {
-        if(connectionString == "")
-            {
-            if(conn == null) throw new Exception("Database not connected");
-            }
+            if (conn == null) throw new Exception("Database not connected");
+        }
         else
-            {
+        {
             conn = new SqlConnection(connectionString);
             conn.Open();
-            }
         }
+    }
 
     private void disconnect()
+    {
+        if (!connectionString.Equals("") && conn != null)
         {
-        if(!connectionString.Equals("") && conn != null)
-           {
             try
-                {
+            {
                 conn.Close();
                 conn.Dispose();
                 conn = null;
-                }
-            catch(Exception ex) {}
             }
+            catch (Exception ex) { }
         }
+    }
 
     private string translateException(SqlException ex)
-        {
+    {
         string p = "";
-        foreach(SqlError er in ex.Errors)
+        foreach (SqlError er in ex.Errors)
             p += er.Message + "\r\n";
         return p;
-        }
-#endregion
+    }
+    #endregion
 
-#region User Code
-#endregion
+    #region User Code
+    #endregion
 }

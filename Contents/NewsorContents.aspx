@@ -39,7 +39,7 @@
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <%--<asp:TextBoxWatermarkExtender TextBtoxWatermarkExtender ID="TBWE2" runat="server"    TargetControlID="txtFromDate"    WatermarkText="mm/dd/yyyy"    WatermarkCssClass="watermarked" />--%>
+    <%--<asp:TextBoxWatermarkExtender TextBtoxWatermarkExtender ID="TBWE2" runat="server"    TargetControlID="txtFromDate"    WatermarkText="MM/dd/yyyy"    WatermarkCssClass="watermarked" />--%>
     <div class="container">
         <asp:ToolkitScriptManager ID="ScriptManager1" CombineScripts="true" runat="server">
         </asp:ToolkitScriptManager>

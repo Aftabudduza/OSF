@@ -19,16 +19,32 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         if (!IsPostBack && Request.QueryString["Method"] != null && Request.QueryString["Method"] == "EditContent")
         {
             CheckAdminPermission();
-            LoadComboCategoryList();
-            ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
+            btnSubmit.Visible = false;
 
             if (Request.QueryString["ID"] != null)
             {
+                LoadComboCategoryTypeList();
+               // LoadComboCategoryList();
+                ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
+
+
                 int contentid = Convert.ToInt32(Request.QueryString["ID"]);
                 cObj = cObj.getRecordFromID(contentid);
                 DesignLabeslAndOthers(cObj.CategoryID);
                 SetDataOnEdit(cObj);
-                ddlCategoryList.SelectedValue =  cObj.CategoryID.ToString();
+
+            
+
+                DataTable catDt =osfcon.getRows(string.Format("SELECT * FROM Categories WHERE CategoryID={0}",cObj.CategoryID));
+                if (catDt != null && catDt.Rows.Count > 0)
+                {
+                    int sectiontypeID = Convert.ToInt32(catDt.Rows[0]["CategoryTypeID"]);
+                    Session["SectionTypeIDAC"] = sectiontypeID;
+                    ddlSectionType.SelectedValue = sectiontypeID.ToString();
+                }
+
+
+                //ddlCategoryList.SelectedValue =  cObj.CategoryID.ToString();
             }
         }
         else if (!IsPostBack && Request.QueryString["Method"] != null && Request.QueryString["Method"] == "DeleteContent")
@@ -58,7 +74,20 @@ public partial class Admin_AdminContent : System.Web.UI.Page
             if (!IsPostBack)
             {
                 Session["FileName"] = null;
-                LoadComboCategoryList();
+                LoadComboCategoryTypeList();
+
+                ContentObj cObj = new ContentObj(osfcon.CONNECTIONSTRING);
+                int contentid = Convert.ToInt32(Request.QueryString["ID"]);
+                cObj = cObj.getRecordFromID(contentid);
+  
+                DataTable catDt = osfcon.getRows(string.Format("SELECT * FROM Categories WHERE CategoryID={0}", cObj.CategoryID));
+                if (catDt != null && catDt.Rows.Count > 0)
+                {
+                    int sectiontypeID = Convert.ToInt32(catDt.Rows[0]["CategoryTypeID"]);
+                    Session["SectionTypeIDAC"] = sectiontypeID;
+                    ddlSectionType.SelectedValue = sectiontypeID.ToString();
+                }
+
 
             }
         }
@@ -230,6 +259,16 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         {
             int CategoryID = Convert.ToInt32(ddlCategoryList.SelectedValue.ToString());
             DesignLabeslAndOthers(CategoryID);
+            DataTable TempPerm = osfcon.getRows(string.Format("SELECT * FROM UserSectionPermission WHERE UserID ={0} AND CategoryID={1} AND IsContentAdmin = 1 AND IsContentAdmin is not null",Convert.ToInt32(Session["UserID"]), CategoryID));
+            if (!(TempPerm != null && TempPerm.Rows.Count > 0))
+            {
+                DisplayAlert("Your are not permitted to post in this category");
+                btnSubmit.Visible = false;
+            
+            }
+            else
+                btnSubmit.Visible = true;
+
 
         }
     }
@@ -278,10 +317,15 @@ public partial class Admin_AdminContent : System.Web.UI.Page
             _message += "Please enter content" + Environment.NewLine;
         }
 
+        if ((txtDate.Text == ""))
+        {
+            _message += "Please enter Date" + Environment.NewLine;
+        }
+
         return _message;
     }
 
-    private void LoadComboCategoryList()
+    private void LoadComboCategoryList(int sectionTypeID)
     {
         ddlCategoryList.Items.Clear();
 
@@ -289,9 +333,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         Categories objCategories = new Categories(osfcon.CONNECTIONSTRING);
         try
         {
-            //DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "' AND IsLeaf = '" + 0 + "' ");
-         //   DataTable objDataTable = objCategories.getRows("*", "ParentID = '" + 0 + "'");
-            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID <> {0} AND CategoryTypeID <> {1}", (int)EnumSectionType.Discusstion, (int)EnumSectionType.ChapterDirectives));
+            DataTable objDataTable = osfcon.getRows(string.Format("SELECT * FROM Categories Where ParentID=0 AND CategoryTypeID ={0} Order by Description", sectionTypeID));
 
             ddlCategoryList.AppendDataBoundItems = true;
             ddlCategoryList.Items.Add(new ListItem("--Select Category--", "-1"));
@@ -310,7 +352,36 @@ public partial class Admin_AdminContent : System.Web.UI.Page
     private void SetData(ContentObj objContent)
     {
         try
+
         {
+            //SEt Chapter ID when area chapter
+
+ 
+            int sectionTypeID = 0;
+            if (ddlSectionType.SelectedValue != "-1")
+            {
+                sectionTypeID = Convert.ToInt32(ddlSectionType.SelectedValue.ToString());
+
+            }
+
+
+            if (sectionTypeID == (int)EnumSectionType.AreaChapter)
+            {
+                //    objContent.Chapter = 
+
+                if (Session["User"] != null)
+                {
+                    Users u = (Users)Session["User"];
+                    objContent.Chapter = u.Chapter;
+
+                }
+                else
+                {
+                    Response.Redirect("Logout.aspx");
+                }
+
+
+            }
             objContent.Author = txtAuthor.Text;
             objContent.Date = Convert.ToDateTime(txtDate.Text);
             objContent.Title = txtTitle.Text;
@@ -398,7 +469,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
                 if (Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]) != null)
                 {
                     if (Convert.ToBoolean(objDataTable.Rows[0]["ShowDate"]) && isNeedtoShowDefaultContent)
-                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("mm/dd/yyyy");
+                        txtDate.Text = Convert.ToDateTime(objDataTable.Rows[0]["DefaultDate"]).ToString("MM/dd/yyyy");
                 }
 
             }
@@ -435,7 +506,7 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         {
             txtAuthor.Text = objContent.Author;
 
-            txtDate.Text = objContent.Date.ToString("mm/dd/yyyy");
+            txtDate.Text = objContent.Date.ToString("MM/dd/yyyy");
             txtTitle.Text = objContent.Title;
             txtContent.Text =objContent.Content;
             _categoryID = objContent.CategoryID; 
@@ -450,6 +521,35 @@ public partial class Admin_AdminContent : System.Web.UI.Page
         }
     }
 
+    private void LoadComboCategoryTypeList()
+    {
+        ddlSectionType.Items.Clear();
+
+
+        SectionType objSectionType = new SectionType(osfcon.CONNECTIONSTRING);
+        try
+        {
+
+            DataTable objDataTable = osfcon.getRows("SELECT * FROM SectionType WHERE IsCategory = 1 Order by Description");
+
+
+            ddlSectionType.AppendDataBoundItems = true;
+            ddlSectionType.Items.Add(new ListItem("--Category Type--", "-1"));
+            foreach (DataRow dr in objDataTable.Rows)
+            {
+                this.ddlSectionType.Items.Add(new ListItem(dr["Description"].ToString(), dr["SectionTypeID"].ToString()));
+            }
+            //ddlSectionType.SelectedValue = "-1";
+
+
+        }
+        catch (Exception ex)
+        { }
+    }
     #endregion
 
+    protected void ddlSectionType_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.LoadComboCategoryList(Convert.ToInt32(ddlSectionType.SelectedValue.ToString()));
+    }
 }
